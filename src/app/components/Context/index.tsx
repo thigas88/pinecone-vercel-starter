@@ -17,12 +17,27 @@ export const Context: React.FC<ContextProps> = ({ className, selected }) => {
   const [splittingMethod, setSplittingMethod] = useState("markdown");
   const [chunkSize, setChunkSize] = useState(256);
   const [overlap, setOverlap] = useState(1);
+  const [url, setUrl] = useState('');
+  const [urlTitle, setUrlTitle] = useState('');
 
   // Scroll to selected card
   useEffect(() => {
     const element = selected && document.getElementById(selected[0]);
     element?.scrollIntoView({ behavior: "smooth" });
   }, [selected]);
+
+  const AddUrl = () => {
+    if( url ){
+      setEntries([...entries, {
+        url: url,
+        title: urlTitle,
+        loading: false,
+        seeded: false
+      }]);
+    }    
+    setUrl('')
+    setUrlTitle('')
+  }
 
   const DropdownLabel: React.FC<
     React.PropsWithChildren<{ htmlFor: string }>
@@ -57,6 +72,29 @@ export const Context: React.FC<ContextProps> = ({ className, selected }) => {
       <div className="flex flex-col items-start sticky top-0 w-full">
         <div className="flex flex-col items-start lg:flex-row w-full lg:flex-wrap p-2">
           {buttons}
+        </div>
+        <div className="flex-grow w-full px-4">
+        <input className="mb-5 w-full bg-transparent placeholder:text-slate-400 text-slate-200 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow" 
+            type="text"
+            placeholder="Title URL"
+            value={urlTitle}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setUrlTitle(e.target.value)} />
+         
+          <input className="w-full bg-transparent placeholder:text-slate-400 text-slate-200 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"  
+            type="text"
+            placeholder="URL link"
+            value={url}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)} />
+          <Button
+            className="w-full my-2 uppercase active:scale-[98%] transition-transform duration-100"
+            style={{
+              backgroundColor: "#4f6574",
+              color: "white",
+            }}
+            onClick={() => AddUrl()}
+          >
+            Add URL
+          </Button>
         </div>
         <div className="flex-grow w-full px-4">
           <Button
