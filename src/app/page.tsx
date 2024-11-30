@@ -16,8 +16,15 @@ const Page: React.FC = () => {
   const [isModalOpen, setModalOpen] = useState(false);
 
   const { messages, input, handleInputChange, handleSubmit } = useChat({
-    onFinish: async () => {
+    onFinish: async (message) => {
       setGotMessages(true);
+      console.log('Finished streaming message:', message);
+    },
+    onError: error => {
+      console.error('An error occurred:', error);
+    },
+    onResponse: response => {
+      console.log('Received HTTP response from server:', response);
     },
   });
 

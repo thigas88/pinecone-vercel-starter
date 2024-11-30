@@ -1,12 +1,12 @@
-import { Configuration, OpenAIApi } from 'openai-edge'
+import OpenAI from 'openai';
 import { Message, OpenAIStream, StreamingTextResponse } from 'ai'
 import { getContext } from '@/utils/context'
 
 // Create an OpenAI API client (that's edge friendly!)
-const config = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY
+const openai = new OpenAI({
+  apiKey: "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", // process.env.OPENAI_API_KEY,
+  baseURL: "https://api-inference.huggingface.co/v1/" // process.env.OPENAI_CUSTOM_BASE_URL
 })
-const openai = new OpenAIApi(config)
 
 // IMPORTANT! Set the runtime to edge
 export const runtime = 'edge'
@@ -26,33 +26,47 @@ export async function POST(req: Request) {
     const prompt = [
       {
         role: 'system',
-        content: `AI assistant is a brand new, powerful, human-like artificial intelligence.
-      The traits of AI include expert knowledge, helpfulness, cleverness, and articulateness.
-      AI is a well-behaved and well-mannered individual.
-      AI is always friendly, kind, and inspiring, and he is eager to provide vivid and thoughtful responses to the user.
-      AI has the sum of all knowledge in their brain, and is able to accurately answer nearly any question about any topic in conversation.
-      AI assistant is a big fan of Pinecone and Vercel.
+        content: `Você é assistente de IA é uma inteligência artificial, poderoso e semelhante a um humano.
+      Você tem conhecimento especializado, utilidade, inteligência e bem articulado sobre a Universidade Federal dos Vales do Jequinhonha e Mucuri (UFVJM).
+      Você é um indivíduo bem-comportado e bem-educado.
+      Seja sempre amigável, gentil e inspirador, e está ansioso para fornecer respostas vívidas e atenciosas ao usuário.
+      Todo o conhecimento em seu cérebro e é capaz de responder com precisão a quase qualquer pergunta sobre qualquer tópico em uma conversa.
       START CONTEXT BLOCK
       ${context}
       END OF CONTEXT BLOCK
-      AI assistant will take into account any CONTEXT BLOCK that is provided in a conversation.
-      If the context does not provide the answer to question, the AI assistant will say, "I'm sorry, but I don't know the answer to that question".
-      AI assistant will not apologize for previous responses, but instead will indicated new information was gained.
-      AI assistant will not invent anything that is not drawn directly from the context.
-      `,
+      Você devará considerar qualquer BLOCO DE CONTEXTO (CONTEXT BLOCK) fornecido em uma conversa.
+      Se o contexto não fornecer a resposta à pergunta, você dirá: "Sinto muito, mas não sei a resposta para essa pergunta".
+      Você não se desculpará por respostas anteriores, mas indicará que novas informações foram obtidas.
+      Não invente nada que não seja extraído diretamente do contexto.`,
       },
     ]
 
+    let out = "";
+
     // Ask OpenAI for a streaming chat completion given the prompt
-    const response = await openai.createChatCompletion({
-      model: 'gpt-3.5-turbo',
+    const response  = await openai.chat.completions.create({
+      model: 'Qwen/Qwen2.5-72B-Instruct',  // || 'gpt-3.5-turbo'
       stream: true,
+      max_tokens: 2048,
       messages: [...prompt, ...messages.filter((message: Message) => message.role === 'user')]
     })
+
+
     // Convert the response into a friendly text-stream
     const stream = OpenAIStream(response)
     // Respond with the stream
     return new StreamingTextResponse(stream)
+
+    // for await (const chunk of response ) {
+    //   if (chunk.choices && chunk.choices.length > 0) {
+    //     const newContent = chunk.choices[0].delta.content;
+    //     out += newContent;
+    //     console.log(newContent);
+    //   }  
+    // }
+
+    // return out;
+
   } catch (e) {
     throw (e)
   }
