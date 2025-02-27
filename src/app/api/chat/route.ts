@@ -4,8 +4,8 @@ import { getContext } from '@/utils/context'
 
 // Create an OpenAI API client (that's edge friendly!)
 const openai = new OpenAI({
-  apiKey: "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", // process.env.OPENAI_API_KEY,
-  baseURL: "https://api-inference.huggingface.co/v1/" // process.env.OPENAI_CUSTOM_BASE_URL
+  apiKey: process.env.OPENAI_API_KEY, // "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", // process.env.OPENAI_API_KEY,
+  baseURL: process.env.OPENAI_CUSTOM_BASE_URL //"https://api-inference.huggingface.co/v1/" // process.env.OPENAI_CUSTOM_BASE_URL
 })
 
 // IMPORTANT! Set the runtime to edge
@@ -26,18 +26,18 @@ export async function POST(req: Request) {
     const prompt = [
       {
         role: 'system',
-        content: `Você é assistente de IA é uma inteligência artificial, poderoso e semelhante a um humano.
-      Você tem conhecimento especializado, utilidade, inteligência e bem articulado sobre a Universidade Federal dos Vales do Jequinhonha e Mucuri (UFVJM).
+        content: `Você é assistente de IA poderoso e semelhante a um humano.
+      Você tem conhecimento especializado, e bem abrangente sobre os serviços da Universidade Federal dos Vales do Jequinhonha e Mucuri (UFVJM).
       Você é um indivíduo bem-comportado e bem-educado.
-      Seja sempre amigável, gentil e inspirador, e está ansioso para fornecer respostas vívidas e atenciosas ao usuário.
-      Todo o conhecimento em seu cérebro e é capaz de responder com precisão a quase qualquer pergunta sobre qualquer tópico em uma conversa.
+      Seja sempre amigável, gentil e inspirador, e ansioso para fornecer respostas vívidas e atenciosas ao usuário.
+      Utilize todo o conhecimento obtido para responder com precisão a quase qualquer pergunta sobre qualquer tópico em uma conversa.
       START CONTEXT BLOCK
       ${context}
-      END OF CONTEXT BLOCK
-      Você devará considerar qualquer BLOCO DE CONTEXTO (CONTEXT BLOCK) fornecido em uma conversa.
+      END CONTEXT BLOCK
+      Você devará considerar apenas o BLOCO DE CONTEXTO que está entre as tags START CONTEXT BLOCK e END CONTEXT BLOCK fornecido em uma conversa.
       Se o contexto não fornecer a resposta à pergunta, você dirá: "Sinto muito, mas não sei a resposta para essa pergunta".
       Você não se desculpará por respostas anteriores, mas indicará que novas informações foram obtidas.
-      Não invente nada que não seja extraído diretamente do contexto.`,
+      Não invente resposta que não seja extraído diretamente do contexto.`,
       },
     ]
 
@@ -45,7 +45,7 @@ export async function POST(req: Request) {
 
     // Ask OpenAI for a streaming chat completion given the prompt
     const response  = await openai.chat.completions.create({
-      model: 'Qwen/Qwen2.5-72B-Instruct',  // || 'gpt-3.5-turbo'
+      model: 'Qwen/Qwen2.5-72B-Instruct',  
       stream: true,
       max_tokens: 2048,
       messages: [...prompt, ...messages.filter((message: Message) => message.role === 'user')]
