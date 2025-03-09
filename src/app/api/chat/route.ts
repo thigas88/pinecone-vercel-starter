@@ -90,7 +90,7 @@ export async function POST(req: Request) {
         baseURL: process.env.OPENAI_CUSTOM_BASE_URL
       },
       temperature: 0.8,
-      model: 'Qwen/Qwen2.5-72B-Instruct',  
+      model: process.env.MODEL_NAME, //'Qwen/Qwen2.5-72B-Instruct',  
       streaming: true,
     })
 
