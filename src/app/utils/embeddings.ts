@@ -28,57 +28,46 @@
 
 // CohereEmbeddings
 
-import { CohereEmbeddings } from "@langchain/cohere";
+// import { CohereEmbeddings } from "@langchain/cohere";
 
-const embeddings = new CohereEmbeddings({
-  model: "embed-multilingual-v3.0",
-});
-
-
-export async function getEmbeddings(input: string) {
-  try {
-    console.log('fazendo embeddings: ' + input)
-    const embedding  = await embeddings.embedDocuments([input.replace(/\n/g, ' ')]);
-    return embedding[0] as number[]
-
-  } catch (e) {
-    console.log("Error calling OpenAI embedding API: ", e);
-    throw new Error(`Error calling OpenAI embedding API: ${e}`);
-  }
-}
-
-
-
-/// HuggingFaceTransformersEmbeddings
-
-// import { HuggingFaceTransformersEmbeddings } from "@langchain/community/embeddings/huggingface_transformers";
+// const embeddings = new CohereEmbeddings({
+//   model: "embed-multilingual-v3.0",
+// });
 
 
 // export async function getEmbeddings(input: string) {
-
-//   const { HuggingFaceTransformersEmbeddings } = await import("@langchain/community/embeddings/huggingface_transformers");
-
-//   const model = new HuggingFaceTransformersEmbeddings({
-//     model: "sentence-transformers/all-MiniLM-L6-v2",
-//   });
-
 //   try {
-//     //console.log('fazendo embeddings: ' + input)
-//     const embedding = await model.embedDocuments([input.replace(/\n/g, ' ')])
-//     return embedding
+//     console.log('fazendo embeddings: ' + input)
+//     const embedding  = await embeddings.embedDocuments([input.replace(/\n/g, ' ')]);
+//     return embedding[0] as number[]
 
 //   } catch (e) {
-//     console.log("Error calling HuggingFaceTransformersEmbeddings embedding : ", e);
-//     throw new Error(`Error calling HuggingFaceTransformersEmbeddings embedding : ${e}`);
+//     console.log("Error calling OpenAI embedding API: ", e);
+//     throw new Error(`Error calling OpenAI embedding API: ${e}`);
 //   }
 // }
 
 
-// /* Embed queries */
-// const res = await model.embedQuery(
-//   "What would be a good company name for a company that makes colorful socks?"
-// );
-// console.log({ res });
-// /* Embed documents */
-// const documentRes = await model.embedDocuments(["Hello world", "Bye bye"]);
-// console.log({ documentRes });
+
+// HuggingFaceTransformersEmbeddings
+
+import { HuggingFaceInferenceEmbeddings } from "@langchain/community/embeddings/hf";
+
+
+export async function getEmbeddings(input: string) {
+
+  const model = new HuggingFaceInferenceEmbeddings({
+    apiKey: process.env.HUGGINGFACE_API_KEY,
+  });
+
+  try {
+    //console.log('fazendo embeddings: ' + input)
+    const embedding = await model.embedDocuments([input.replace(/\n/g, ' ')])
+    return embedding[0] as number[]
+
+  } catch (e) {
+    console.log("Error calling HuggingFaceTransformersEmbeddings embedding : ", e);
+    throw new Error(`Error calling HuggingFaceTransformersEmbeddings embedding : ${e}`);
+  }
+}
+

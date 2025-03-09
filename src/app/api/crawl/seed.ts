@@ -41,7 +41,7 @@ async function seed(url: string, limit: number, indexName: string, cloudName: Se
     if (!indexExists) {
       await pinecone.createIndex({
         name: indexName,
-        dimension: 1024,
+        dimension: 768,
         waitUntilReady: true,
         spec: { 
           serverless: { 
