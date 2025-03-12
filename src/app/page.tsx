@@ -59,19 +59,6 @@ const Page: React.FC = () => {
     <div className="flex flex-col justify-between h-screen bg-gray-800 p-2 mx-auto max-w-full">
       <Header className="my-5" />
 
-
-      <button
-        onClick={() => {
-          window.open(
-            "https://github.com/pinecone-io/pinecone-vercel-starter",
-            "_blank"
-          );
-        }}
-        className="fixed right-12 top-4 md:right-12 md:top-6 text-xl text-white github-button"
-      >
-        {/* <AiFillGithub /> */}
-      </button>
-
       <button
         onClick={() => setModalOpen(true)}
         className="fixed right-4 top-4 md:right-6 md:top-6 text-xl text-white animate-pulse-once info-button"

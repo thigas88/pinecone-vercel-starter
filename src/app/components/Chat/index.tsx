@@ -2,7 +2,7 @@
 
 import React, { FormEvent, ChangeEvent } from "react";
 import Messages from "./Messages";
-import { Message } from "ai/react";
+import { Message } from "ai";
 
 interface Chat {
   input: string;
