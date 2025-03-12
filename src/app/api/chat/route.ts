@@ -1,16 +1,18 @@
 import OpenAI from 'openai';
-import { Message, LangChainAdapter } from 'ai'
+import { Message, LangChainAdapter, streamText, 
+  generateText,
+  wrapLanguageModel,
+  extractReasoningMiddleware,
+} from 'ai'
+import { groq, createGroq } from '@ai-sdk/groq';
+import { deepseek } from '@ai-sdk/deepseek';
 import { getContext } from '@/utils/context'
-import { PromptTemplate } from '@langchain/core/prompts'
+import { PromptTemplate, ChatPromptTemplate } from '@langchain/core/prompts'
 import { ChatOpenAI } from '@langchain/openai'
 import { NextResponse, type NextRequest } from 'next/server'
+import { google, createGoogleGenerativeAI} from '@ai-sdk/google';
 
 
-// Create an OpenAI API client (that's edge friendly!)
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY, // "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", // process.env.OPENAI_API_KEY,
-  baseURL: process.env.OPENAI_CUSTOM_BASE_URL //"https://api-inference.huggingface.co/v1/" // process.env.OPENAI_CUSTOM_BASE_URL
-})
 
 // IMPORTANT! Set the runtime to edge
 export const runtime = 'edge'
@@ -21,7 +23,7 @@ const formatMessage = (message: Message) => {
 
 const TEMPLATE = `Você é assistente de IA poderoso e semelhante a um humano.
       Você tem conhecimento especializado, e bem abrangente sobre os serviços da Universidade Federal dos Vales do Jequinhonha e Mucuri (UFVJM).
-      Você é um indivíduo bem-comportado e bem-educado.
+      Você é um indivíduo bem-comportado e bem-educado. Você deve responder, prioritariamente, perguntas relacionadas à UFVJM e no idioma Português do Brasil.
       Seja sempre amigável, gentil e inspirador, e ansioso para fornecer respostas vívidas e atenciosas ao usuário.
       Utilize todo o conhecimento obtido para responder com precisão a quase qualquer pergunta sobre qualquer tópico em uma conversa.
        Você devará considerar apenas o contexto o fornecido em uma conversa.
@@ -48,7 +50,9 @@ export async function POST(req: Request) {
 
     const formattedPreviousMessages = messages.slice(0, -1).map(formatMessage)
     const currentMessageContent = messages[messages.length - 1].content
-    const prompt2 = PromptTemplate.fromTemplate(TEMPLATE)
+   
+    // const prompt2 = PromptTemplate.fromTemplate(TEMPLATE)
+    const prompt2 = ChatPromptTemplate.fromTemplate(TEMPLATE)
 
 
     const prompt = [
@@ -69,40 +73,73 @@ export async function POST(req: Request) {
       },
     ]
 
-
-    // // Ask OpenAI for a streaming chat completion given the prompt
-    // const response  = await openai.chat.completions.create({
-    //   model: 'Qwen/Qwen2.5-72B-Instruct',  
-    //   stream: true,
-    //   max_tokens: 2048,
-    //   top_p: 0.7,
-    //   messages: [...prompt, ...messages.filter((message: Message) => message.role === 'user')]
-    // })
+    const formattedChatPrompt = await prompt2.invoke({
+      chat_history: context,
+      input: currentMessageContent,
+    });
 
     console.log('ultima mensagem', lastMessage);
 
-    console.log('contexto', context);
+    // console.log('contexto', context);
 
 
-    const model = new ChatOpenAI({
+    // const model = new ChatOpenAI({
+    //   apiKey: process.env.OPENAI_API_KEY,
+    //   configuration:{
+    //     baseURL: process.env.OPENAI_CUSTOM_BASE_URL
+    //   },
+    //   temperature: 0.8,
+    //   model: process.env.MODEL_NAME, 
+    //   streaming: true,
+    // })
+
+    // const chain = prompt2.pipe(model)
+
+    // const stream = await chain.stream({
+    //   chat_history: context, //formattedPreviousMessages.join('\n'),
+    //   input: currentMessageContent,
+    // })
+
+    // const stream = await model.stream(formattedChatPrompt.toString());
+    // return LangChainAdapter.toDataStreamResponse(stream)
+
+
+    // new AI-SDK version 4    
+
+    // middleware to extract reasoning tokens
+    // const enhancedModel = wrapLanguageModel({
+    //   model: groq('gemma2-9b-it'),
+    //   middleware: extractReasoningMiddleware({ tagName: 'think' }),
+    // });
+
+      // Groq API
+    const modelGroq = createGroq({
+      baseURL: process.env.OPENAI_CUSTOM_BASE_URL,
       apiKey: process.env.OPENAI_API_KEY,
-      configuration:{
-        baseURL: process.env.OPENAI_CUSTOM_BASE_URL
-      },
-      temperature: 0.8,
-      model: process.env.MODEL_NAME, //'Qwen/Qwen2.5-72B-Instruct',  
-      streaming: true,
-    })
+    });
 
-    const chain = prompt2.pipe(model)
+    const result = streamText({
+      model: modelGroq('deepseek-r1-distill-llama-70b'),
+      prompt: formattedChatPrompt.toString(),
+    });
 
-    const stream = await chain.stream({
-      chat_history: context, //formattedPreviousMessages.join('\n'),
-      input: currentMessageContent,
-    })
+    // return result.toDataStreamResponse();
 
-    return LangChainAdapter.toDataStreamResponse(stream)
 
+
+    // Google AI API
+    // const modelGoogle = createGoogleGenerativeAI({
+    //   apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
+    // });
+
+    // const result = streamText({
+    //   model: modelGoogle('gemini-1.5-pro-latest'),
+    //   prompt: formattedChatPrompt.toString(),
+    // });
+
+    console.log(result);
+
+    return result.toDataStreamResponse();
 
 
   } catch (e) {

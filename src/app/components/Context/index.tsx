@@ -121,6 +121,7 @@ export const Context: React.FC<ContextProps> = ({ className, selected }) => {
               onChange={(e) => setSplittingMethod(e.target.value)}
             >
               <option value="recursive">Recursive Text Splitting</option>
+              <option value="semantic">Semantic Text Splitting</option>
               <option value="markdown">Markdown Splitting</option>
             </select>
           </div>
