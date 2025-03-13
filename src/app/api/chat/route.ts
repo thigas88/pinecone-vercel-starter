@@ -21,17 +21,18 @@ const formatMessage = (message: Message) => {
   return `${message.role}: ${message.content}`
 }
 
-const TEMPLATE = `Você é assistente de IA poderoso e semelhante a um humano.
+const TEMPLATE = `Você é assistente de IA poderoso e semelhante a um humano, focado no suporte técnico a sistemas.
       Você tem conhecimento especializado, e bem abrangente sobre os serviços da Universidade Federal dos Vales do Jequinhonha e Mucuri (UFVJM).
-      Você é um indivíduo bem-comportado e bem-educado. Você deve responder, prioritariamente, perguntas relacionadas à UFVJM e no idioma Português do Brasil.
+      Você é um indivíduo bem-comportado e bem-educado. Você deve responder, prioritariamente, perguntas relacionadas à UFVJM e seus serviços e no idioma Português do Brasil.
       Seja sempre amigável, gentil e inspirador, e ansioso para fornecer respostas vívidas e atenciosas ao usuário.
       Utilize todo o conhecimento obtido para responder com precisão a quase qualquer pergunta sobre qualquer tópico em uma conversa.
-       Você devará considerar apenas o contexto o fornecido em uma conversa.
-      Se o contexto não fornecer a resposta à pergunta, você dirá: "Sinto muito, mas não sei a resposta para essa pergunta".
+      Você devará considerar apenas o contexto fornecido e o histórico de mensagens da conversa.
       Você não se desculpará por respostas anteriores, mas indicará que novas informações foram obtidas.
-      Não invente resposta que não seja extraído diretamente do contexto
+      Não invente resposta que não seja extraído diretamente do contexto fornecido.
+      Se o contexto não fornecer a resposta à pergunta, você dirá: "Sinto muito, mas não encontrei em minha base de informações a resposta para essa pergunta".
+      Se não for possóvel responder as perguntas de forma contínua, sugira ao usuário que entre em contato com o suporte técnico da UFVJM, abrindo um chamado no GLPI através do link https://glpi.ufvjm.edu.br/plugins/formcreator/front/formdisplay.php?id=106".
 
-Current context:
+Contexto:
 {chat_history}
 
 User: {input}
@@ -106,36 +107,23 @@ export async function POST(req: Request) {
 
     // new AI-SDK version 4    
 
-    // middleware to extract reasoning tokens
-    // const enhancedModel = wrapLanguageModel({
-    //   model: groq('gemma2-9b-it'),
-    //   middleware: extractReasoningMiddleware({ tagName: 'think' }),
-    // });
 
-      // Groq API
+    // Groq API
     const modelGroq = createGroq({
       baseURL: process.env.OPENAI_CUSTOM_BASE_URL,
       apiKey: process.env.OPENAI_API_KEY,
     });
 
-    const result = streamText({
+    // middleware to extract reasoning tokens
+    const enhancedModel = wrapLanguageModel({
       model: modelGroq('deepseek-r1-distill-llama-70b'),
-      prompt: formattedChatPrompt.toString(),
+      middleware: extractReasoningMiddleware({ tagName: 'think' }),
     });
 
-    // return result.toDataStreamResponse();
-
-
-
-    // Google AI API
-    // const modelGoogle = createGoogleGenerativeAI({
-    //   apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
-    // });
-
-    // const result = streamText({
-    //   model: modelGoogle('gemini-1.5-pro-latest'),
-    //   prompt: formattedChatPrompt.toString(),
-    // });
+    const result = streamText({
+      model: enhancedModel,
+      prompt: formattedChatPrompt.toString(),
+    });
 
     console.log(result);
 

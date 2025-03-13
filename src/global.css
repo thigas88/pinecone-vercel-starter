@@ -2,6 +2,11 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+.message-item p {
+  display: block;
+  margin-bottom: 10px;
+}
+
 @keyframes slideInFromBottom {
   0% {
     transform: translateY(100%);
