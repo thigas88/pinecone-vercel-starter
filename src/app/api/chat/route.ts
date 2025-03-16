@@ -21,16 +21,18 @@ const formatMessage = (message: Message) => {
   return `${message.role}: ${message.content}`
 }
 
-const TEMPLATE = `Você é assistente de IA poderoso e semelhante a um humano, focado no suporte técnico a sistemas.
-      Você tem conhecimento especializado, e bem abrangente sobre os serviços da Universidade Federal dos Vales do Jequinhonha e Mucuri (UFVJM).
+const TEMPLATE = `Você é assistente de IA poderoso e semelhante a um humano, focado no suporte técnico e tem conhecimento especializado, e bem abrangente sobre os serviços da Universidade Federal dos Vales do Jequinhonha e Mucuri (UFVJM).
       Você é um indivíduo bem-comportado e bem-educado. Você deve responder, prioritariamente, perguntas relacionadas à UFVJM e seus serviços e no idioma Português do Brasil.
       Seja sempre amigável, gentil e inspirador, e ansioso para fornecer respostas vívidas e atenciosas ao usuário.
-      Utilize todo o conhecimento obtido para responder com precisão a quase qualquer pergunta sobre qualquer tópico em uma conversa.
+      Você deve responder com precisão e detalhamento, e nunca deve fornecer respostas falsas ou enganosas.
+      Utilize todo o conhecimento obtido para responder com precisão a quase qualquer pergunta sobre qualquer tópico em uma conversa, considerando o contexto fornecido.
       Você devará considerar apenas o contexto fornecido e o histórico de mensagens da conversa.
+      Se você vir uma REFERENCE_URL no contexto fornecido, use a referência dessa URL em sua resposta como uma referência de link ao lado das informações relevantes em um formato de link numerado, por exemplo ([número de referência](link))
       Você não se desculpará por respostas anteriores, mas indicará que novas informações foram obtidas.
       Não invente resposta que não seja extraído diretamente do contexto fornecido.
       Se o contexto não fornecer a resposta à pergunta, você dirá: "Sinto muito, mas não encontrei em minha base de informações a resposta para essa pergunta".
       Se não for possóvel responder as perguntas de forma contínua, sugira ao usuário que entre em contato com o suporte técnico da UFVJM, abrindo um chamado no GLPI através do link https://glpi.ufvjm.edu.br/plugins/formcreator/front/formdisplay.php?id=106".
+      Se o usuário te responder com uma saudação ou agradecimento, responda que está aqui para ajudá-lo e caso tenha mais alguma dúvida sobre os sistemas institucionais da UFVJM, pode perguntar.
 
 Contexto:
 {chat_history}
@@ -42,6 +44,10 @@ export async function POST(req: Request) {
   try {
 
     const { messages } = await req.json()
+
+    // @todo Implementar a lógica de verificação de contexto baseado em categoria de 
+    // conteúdos: ecampus, sei, conta institucional, etc.
+    // Isso é necessário para evitar que o LLM dê informações cruzadas.
 
     // Get the last message
     const lastMessage = messages[messages.length - 1]
@@ -66,7 +72,7 @@ export async function POST(req: Request) {
       Utilize todo o conhecimento obtido para responder com precisão a quase qualquer pergunta sobre qualquer tópico em uma conversa.
       START CONTEXT BLOCK
       ${context}
-      END CONTEXT BLOCK
+      END OF CONTEXT BLOCK
       Você devará considerar apenas o BLOCO DE CONTEXTO que está entre as tags START CONTEXT BLOCK e END CONTEXT BLOCK fornecido em uma conversa.
       Se o contexto não fornecer a resposta à pergunta, você dirá: "Sinto muito, mas não sei a resposta para essa pergunta".
       Você não se desculpará por respostas anteriores, mas indicará que novas informações foram obtidas.
@@ -80,33 +86,10 @@ export async function POST(req: Request) {
     });
 
     console.log('ultima mensagem', lastMessage);
-
-    // console.log('contexto', context);
-
-
-    // const model = new ChatOpenAI({
-    //   apiKey: process.env.OPENAI_API_KEY,
-    //   configuration:{
-    //     baseURL: process.env.OPENAI_CUSTOM_BASE_URL
-    //   },
-    //   temperature: 0.8,
-    //   model: process.env.MODEL_NAME, 
-    //   streaming: true,
-    // })
-
-    // const chain = prompt2.pipe(model)
-
-    // const stream = await chain.stream({
-    //   chat_history: context, //formattedPreviousMessages.join('\n'),
-    //   input: currentMessageContent,
-    // })
-
-    // const stream = await model.stream(formattedChatPrompt.toString());
-    // return LangChainAdapter.toDataStreamResponse(stream)
+    console.log('contexto: ', context);
 
 
     // new AI-SDK version 4    
-
 
     // Groq API
     const modelGroq = createGroq({
@@ -125,15 +108,11 @@ export async function POST(req: Request) {
       prompt: formattedChatPrompt.toString(),
     });
 
-    console.log(result);
-
     return result.toDataStreamResponse();
-
 
   } catch (e) {
     // throw (e)
     console.log(e)
-
     return NextResponse.json({ error: 'An error occurred' }, { status: 500 })
   }
 }

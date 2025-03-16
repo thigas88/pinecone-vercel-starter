@@ -49,30 +49,6 @@
 
 
 
-// HuggingFaceTransformersEmbeddings
-
-// import { HuggingFaceInferenceEmbeddings } from "@langchain/community/embeddings/hf";
-
-
-// export async function getEmbeddings(input: string) {
-
-//   const model = new HuggingFaceInferenceEmbeddings({
-//     apiKey: process.env.HUGGINGFACE_API_KEY,
-//   });
-
-//   try {
-//     console.log('fazendo embeddings: ' + input)
-//     const embedding = await model.embedDocuments([input.replace(/\n/g, ' ')])
-//     return embedding[0] as number[]
-
-//   } catch (e) {
-//     console.log("Error calling HuggingFaceTransformersEmbeddings embedding : ", e);
-//     throw new Error(`Error calling HuggingFaceTransformersEmbeddings embedding : ${e}`);
-//   }
-// }
-
-
-
 import { NomicEmbeddings } from "@langchain/nomic";
 
 
@@ -84,7 +60,7 @@ export async function getEmbeddings(input: string) {
   });
 
   try {
-    console.log('fazendo embeddings: ' + input)
+    // console.log('fazendo embeddings: ' + input)
     const embedding = await model.embedDocuments([input.replace(/\n/g, ' ')])
     return embedding[0] as number[]
 

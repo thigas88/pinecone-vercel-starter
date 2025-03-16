@@ -5,6 +5,10 @@ import { chunkedUpsert } from '../../utils/chunkedUpsert'
 import md5 from "md5";
 import { Crawler, Page } from "./crawler";
 import { truncateStringByBytes } from "@/utils/truncateString"
+import { Corpus } from "tiny-tfidf";
+// https://github.com/kerryrodden/tiny-tfidf
+
+
 
 interface SeedOptions {
   splittingMethod: string
@@ -12,7 +16,25 @@ interface SeedOptions {
   chunkOverlap: number
 }
 
+// Interface para representar palavras-chave e suas pontuações
+interface Keyword {
+  word: string;
+  score: number;
+}
+
 type DocumentSplitter = RecursiveCharacterTextSplitter | MarkdownTextSplitter
+
+
+// Lista de stopwords em português do Brasil
+const stopwords: string[] = [
+  "a", "à", "ao", "aos", "as", "às", "com", "como", "da", "das", "de", "dela", "dele", "deles", "delas", "do", "dos",
+  "e", "é", "em", "entre", "era", "essa", "esse", "esta", "está", "estar", "estão", "eu", "foi", "for", "foram",
+  "havia", "isso", "isto", "já", "lá", "mas", "me", "mesmo", "muito", "na", "não", "nas", "nem", "no", "nos", "nós",
+  "o", "os", "ou", "para", "pela", "pelas", "pelo", "pelos", "por", "porque", "quando", "que", "quem", "se", "sem",
+  "ser", "seu", "sua", "são", "também", "tem", "tendo", "ter", "teu", "teve", "tinha", "tive", "tu", "um", "uma", "você",
+  "vocês", "já", "dele", "nela", "nele", "destes", "daqueles", "aquelas", "aquilo"
+];
+
 
 async function seed(url: string, limit: number, indexName: string, cloudName: ServerlessSpecCloudEnum, regionName: string, options: SeedOptions) {
   try {
@@ -86,7 +108,8 @@ async function embedDocument(doc: Document): Promise<PineconeRecord> {
         chunk: doc.pageContent, // The chunk of text that the vector represents
         text: doc.metadata.text as string, // The text of the document
         url: doc.metadata.url as string, // The URL where the document was found
-        hash: doc.metadata.hash as string // The hash of the document content
+        hash: doc.metadata.hash as string, // The hash of the document content
+        keywords: doc.metadata.keywords as [], // The keywords associated with the document
       }
     } as PineconeRecord;
   } catch (error) {
@@ -112,19 +135,42 @@ async function prepareDocument(page: Page, splitter: DocumentSplitter): Promise<
   ]);
 
   // Map over the documents and add a hash to their metadata
-  return docs.map((doc: Document) => {
+  const processedDocs =  docs.map((doc: Document) => {
+
+    const docKeywords: Keyword[] = []
+    // Extract keywords from doc.pageContent using langchain
+    const textId = md5(doc.pageContent)
+    const corpus = new Corpus(
+      [textId],
+      [doc.pageContent],
+      false,
+      stopwords
+    )
+
+    const corpusTerms: [] = corpus.getTopTermsForDocument(textId);
+
+    corpusTerms.forEach((term) => {
+      docKeywords.push({
+        word: (term[0] as unknown as string) || '',
+        score: (term[1] as unknown as number) || 0
+      })
+    })
+
+    console.log("Palavras-chave do chunk "+ md5(doc.pageContent) +":", docKeywords as Keyword[]);
+
     return {
       pageContent: doc.pageContent,
       metadata: {
         ...doc.metadata,
         // Create a hash of the document content
-        hash: md5(doc.pageContent)
+        hash: md5(doc.pageContent),
+        keywords: JSON.stringify(docKeywords)
       },
     };
   });
+
+  return processedDocs;
 }
-
-
 
 
 export default seed;

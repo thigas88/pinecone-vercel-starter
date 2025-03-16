@@ -1,5 +1,8 @@
 import { Pinecone, type ScoredPineconeRecord } from "@pinecone-database/pinecone";
 
+// Obtain a client for Pinecone
+const pinecone = new Pinecone();
+
 export type Metadata = {
   url: string,
   text: string,
@@ -10,7 +13,7 @@ export type Metadata = {
 // The function `getMatchesFromEmbeddings` is used to retrieve matches for the given embeddings
 const getMatchesFromEmbeddings = async (embeddings: number[], topK: number, namespace: string): Promise<ScoredPineconeRecord<Metadata>[]> => {
   // Obtain a client for Pinecone
-  const pinecone = new Pinecone();
+  // const pinecone = new Pinecone();
 
   const indexName: string = process.env.PINECONE_INDEX || '';
   if (indexName === '') {
@@ -47,44 +50,58 @@ const getMatchesFromEmbeddings = async (embeddings: number[], topK: number, name
 export { getMatchesFromEmbeddings }
 
 
-// The function `getMatchesFromText` is used to retrieve matches for the given text
-const getMatchesFromText = async (text: string, topK: number, namespace: string): Promise<ScoredPineconeRecord<Metadata>[]> => {
-  // Obtain a client for Pinecone
-  const pinecone = new Pinecone();
+export async function resetIndex(indexName: string) {
+  await deleteIndex(indexName);
+  await createIndexIfNecessary(indexName);
+}
 
-  const indexName: string = process.env.PINECONE_INDEX || '';
-  if (indexName === '') {
-    throw new Error('PINECONE_INDEX environment variable not set')
-  }
+async function deleteIndex(indexName: string) {
+  await pinecone.deleteIndex(indexName);
+}
 
-  // Retrieve the list of indexes to check if expected index exists
-  const indexes = (await pinecone.listIndexes())?.indexes;
-  if (!indexes || indexes.filter(i => i.name === indexName).length !== 1) {
-    throw new Error(`Index ${indexName} does not exist`)
-  }
+export async function createIndexIfNecessary(indexName: string, dimension: number = 1024) {
+  await pinecone.createIndex({
+    name: indexName,
+    dimension: dimension,
+    spec: {
+      serverless: {
+        cloud: 'aws',
+        region: 'us-east-1',
+      }
+    },
+    waitUntilReady: true,
+    suppressConflicts: true
+  });
+}
 
-  // Get the Pinecone index
-  const index = pinecone!.Index<Metadata>(indexName);
-
-  // Get the namespace
-  const pineconeNamespace = index.namespace(namespace ?? '')
-
+export async function pineconeIndexHasVectors(indexName: string): Promise<boolean> {
   try {
-    // Query the index with the defined request
-    
+    const targetIndex = pinecone.index(indexName)
 
-    const queryResult = await pineconeNamespace.query({
-      vector: text,
-      topK,
-      includeMetadata: true,
-    })
+    const stats = await targetIndex.describeIndexStats();
 
-    return queryResult.matches || []
-  } catch (e) {
-    // Log the error and throw it
-    console.log("Error querying embeddings: ", e)
-    throw new Error(`Error querying embeddings: ${e}`)
+    return (stats.totalRecordCount && stats.totalRecordCount > 0) ? true : false;
+  } catch (error) {
+    console.error('Error checking Pinecone index:', error);
+    return false;
   }
 }
 
-export { getMatchesFromText }
+export async function pineconeIndexExists(indexName: string): Promise<boolean> {
+  try {
+    const { indexes } = await pinecone.listIndexes();
+
+    // Check if index already exists
+    const indexNames = (indexes && indexes.length ? indexes.map(index => index.name) : []);
+
+    if (!indexNames.includes(indexName)) {
+      return false;
+    }
+
+    return true
+
+  } catch (error) {
+    console.error('Error checking Pinecone index:', error);
+    return false;
+  }
+}
