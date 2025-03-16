@@ -1,3 +1,5 @@
+import { Analytics } from "@vercel/analytics/react"
+
 export const metadata = {
   title: "Pinecone - Vercel AI SDK Example",
   description: "Pinecone - Vercel AI SDK Example",
@@ -12,6 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <Analytics/>
       <body>{children}</body>
     </html>
   );
