@@ -5,8 +5,8 @@ import { chunkedUpsert } from '../../utils/chunkedUpsert'
 import md5 from "md5";
 import { Crawler, Page } from "./crawler";
 import { truncateStringByBytes } from "@/utils/truncateString"
-import { Corpus } from "tiny-tfidf";
-// https://github.com/kerryrodden/tiny-tfidf
+// @ts-ignore
+import { Corpus } from "tiny-tfidf";// https://github.com/kerryrodden/tiny-tfidf
 
 
 
