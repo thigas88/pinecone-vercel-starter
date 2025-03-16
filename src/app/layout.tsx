@@ -1,8 +1,8 @@
 import { Analytics } from "@vercel/analytics/react"
 
 export const metadata = {
-  title: "Pinecone - Vercel AI SDK Example",
-  description: "Pinecone - Vercel AI SDK Example",
+  title: "Suporte AI - STI",
+  description: "Assistente de Suporte AI para os serviços e sistemas da STI/UFVJM.",
 };
 
 import "../global.css";

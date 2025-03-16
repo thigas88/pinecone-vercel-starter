@@ -1,8 +1,8 @@
-import OpenAI from 'openai';
 import { Message, LangChainAdapter, streamText, 
   generateText,
   wrapLanguageModel,
   extractReasoningMiddleware,
+  LanguageModelV1,
 } from 'ai'
 import { groq, createGroq } from '@ai-sdk/groq';
 import { deepseek } from '@ai-sdk/deepseek';
@@ -11,7 +11,7 @@ import { PromptTemplate, ChatPromptTemplate } from '@langchain/core/prompts'
 import { ChatOpenAI } from '@langchain/openai'
 import { NextResponse, type NextRequest } from 'next/server'
 import { google, createGoogleGenerativeAI} from '@ai-sdk/google';
-
+import { getModel } from '@/utils/provider';
 
 
 // IMPORTANT! Set the runtime to edge
@@ -27,7 +27,8 @@ const TEMPLATE = `Você é assistente de IA poderoso e semelhante a um humano, f
       Você deve responder com precisão e detalhamento, e nunca deve fornecer respostas falsas ou enganosas.
       Utilize todo o conhecimento obtido para responder com precisão a quase qualquer pergunta sobre qualquer tópico em uma conversa, considerando o contexto fornecido.
       Você devará considerar apenas o contexto fornecido e o histórico de mensagens da conversa.
-      Se você vir uma REFERENCE_URL no contexto fornecido, use a referência dessa URL em sua resposta como uma referência de link ao lado das informações relevantes em um formato de link numerado, por exemplo ([número de referência](link))
+      Se você vir URL de referência no contexto fornecido, use a referência dessa URL em sua resposta como uma referência de link ao lado das informações relevantes em um formato de link numerado, por exemplo ([número de referência](link))
+      Todos os links que você gerar devem ser abertos em uma nova janela.
       Você não se desculpará por respostas anteriores, mas indicará que novas informações foram obtidas.
       Não invente resposta que não seja extraído diretamente do contexto fornecido.
       Se o contexto não fornecer a resposta à pergunta, você dirá: "Sinto muito, mas não encontrei em minha base de informações a resposta para essa pergunta".
@@ -39,6 +40,45 @@ Contexto:
 
 User: {input}
 AI:`
+
+// const getModel = async () => {
+
+//   const modelProvider = process.env.MODEL_PROVIDER || 'groq'
+
+//   switch (modelProvider) {
+//     case 'groq':
+//       // Groq API
+//       const modelGroq = createGroq({
+//         baseURL: process.env.OPENAI_CUSTOM_BASE_URL,
+//         apiKey: process.env.OPENAI_API_KEY,
+//       });
+
+//       // middleware to extract reasoning tokens
+//       const enhancedModel = wrapLanguageModel({
+//         model: modelGroq('deepseek-r1-distill-llama-70b'),
+//         middleware: extractReasoningMiddleware({ tagName: 'think' }),
+//       });
+
+//       return enhancedModel;
+//     case 'huggingface':
+//     case 'openai':
+//     case 'cohere':
+//     case 'mistral':
+
+//     case 'google':
+//       // Google AI API
+//       const modelGoogle = createGoogleGenerativeAI({
+//         apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
+//       });
+    
+//       return modelGoogle(process.env.MODEL_NAME || 'gemini-1.5-pro-latest')
+
+//       default:
+//         throw new Error(`Model provider ${modelProvider} is not supported`)
+//   }
+
+  
+// }
 
 export async function POST(req: Request) {
   try {
@@ -57,30 +97,9 @@ export async function POST(req: Request) {
 
     const formattedPreviousMessages = messages.slice(0, -1).map(formatMessage)
     const currentMessageContent = messages[messages.length - 1].content
-   
-    // const prompt2 = PromptTemplate.fromTemplate(TEMPLATE)
-    const prompt2 = ChatPromptTemplate.fromTemplate(TEMPLATE)
+    const prompt = ChatPromptTemplate.fromTemplate(TEMPLATE)
 
-
-    const prompt = [
-      {
-        role: 'system',
-        content: `Você é assistente de IA poderoso e semelhante a um humano.
-      Você tem conhecimento especializado, e bem abrangente sobre os serviços da Universidade Federal dos Vales do Jequinhonha e Mucuri (UFVJM).
-      Você é um indivíduo bem-comportado e bem-educado.
-      Seja sempre amigável, gentil e inspirador, e ansioso para fornecer respostas vívidas e atenciosas ao usuário.
-      Utilize todo o conhecimento obtido para responder com precisão a quase qualquer pergunta sobre qualquer tópico em uma conversa.
-      START CONTEXT BLOCK
-      ${context}
-      END OF CONTEXT BLOCK
-      Você devará considerar apenas o BLOCO DE CONTEXTO que está entre as tags START CONTEXT BLOCK e END CONTEXT BLOCK fornecido em uma conversa.
-      Se o contexto não fornecer a resposta à pergunta, você dirá: "Sinto muito, mas não sei a resposta para essa pergunta".
-      Você não se desculpará por respostas anteriores, mas indicará que novas informações foram obtidas.
-      Não invente resposta que não seja extraído diretamente do contexto.`,
-      },
-    ]
-
-    const formattedChatPrompt = await prompt2.invoke({
+    const formattedChatPrompt = await prompt.invoke({
       chat_history: context,
       input: currentMessageContent,
     });
@@ -88,31 +107,20 @@ export async function POST(req: Request) {
     console.log('ultima mensagem', lastMessage);
     console.log('contexto: ', context);
 
-
-    // new AI-SDK version 4    
-
-    // Groq API
-    const modelGroq = createGroq({
-      baseURL: process.env.OPENAI_CUSTOM_BASE_URL,
-      apiKey: process.env.OPENAI_API_KEY,
-    });
-
-    // middleware to extract reasoning tokens
-    const enhancedModel = wrapLanguageModel({
-      model: modelGroq('deepseek-r1-distill-llama-70b'),
-      middleware: extractReasoningMiddleware({ tagName: 'think' }),
-    });
+    const model = await getModel()
 
     const result = streamText({
-      model: enhancedModel,
-      prompt: formattedChatPrompt.toString(),
+      model: model,
+      prompt: formattedChatPrompt.toString()
     });
+
+    console.log('resultado: ', result)
 
     return result.toDataStreamResponse();
 
   } catch (e) {
     // throw (e)
     console.log(e)
-    return NextResponse.json({ error: 'An error occurred' }, { status: 500 })
+    return NextResponse.json({ error: 'An error occurred: ' + e }, { status: 500 })
   }
 }
