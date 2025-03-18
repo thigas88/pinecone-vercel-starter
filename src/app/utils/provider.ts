@@ -15,14 +15,14 @@ import { cohere } from '@ai-sdk/cohere';
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
 import { createOllama } from 'ollama-ai-provider';
 
-// imports for embeddings
+// imports for embeddings from langchain
 import { NomicEmbeddings } from "@langchain/nomic";
 import { GoogleGenerativeAIEmbeddings } from "@langchain/google-genai";
 import { TaskType } from "@google/generative-ai";
 import { HuggingFaceInferenceEmbeddings } from "@langchain/community/embeddings/hf";
 import { CohereEmbeddings } from "@langchain/cohere";
 import { MistralAIEmbeddings } from "@langchain/mistralai";
-
+import { OllamaEmbeddings } from "@langchain/ollama";
 /* 
  Models 
 */
@@ -101,15 +101,15 @@ export async function getModel() {
 }
 
 /* 
- Models embeddings
+ Models embeddings from langchain
 */
 
 const ollamaEmbeddingProvider = async () => {
-  const ollama = createOllama({
-    baseURL: 'https://api.ollama.com'
+  const embeddings = new OllamaEmbeddings({
+    baseUrl: process.env.OLLAMA_BASE_URL || 'https://api.ollama.com',
+    model: process.env.MODEL_EMBEDDINGS_NAME || 'nomic-embed-text',
   });
-  
-  return ollama.embedding(process.env.MODEL_EMBEDDINGS_NAME || 'nomic-embed-text');
+  return embeddings;
 }
 
 

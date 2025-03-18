@@ -1,5 +1,8 @@
-import { getModelEmbedding } from "./provider";
+/**
+ * Implements embeddings from langchain.
+ */
 
+import { getModelEmbedding } from "./provider";
 
 export async function getEmbeddings(input: string) {
 
