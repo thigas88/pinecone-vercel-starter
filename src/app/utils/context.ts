@@ -8,8 +8,26 @@ export type Metadata = {
   chunk: string,
 }
 
+
+/**
+ * Formata os resultados da busca
+ */
+function formatResults(results: ScoredPineconeRecord<Metadata>[]) {
+  return results.map(result => {
+    const { metadata } = result;
+    let formattedContent = metadata?.chunk;
+    
+    // Adicionar URL de referência se disponível
+    if (metadata?.url) {
+      formattedContent += `\n[Referência: ${metadata.url}]`;
+    }
+    
+    return formattedContent;
+  }).join("\n\n");
+}
+
 // The function `getContext` is used to retrieve the context of a given message
-export const getContext = async (message: string, namespace: string, maxTokens = 5000, 
+export const getContext = async (message: string, category: string, namespace: string = '', maxTokens = 5000, 
   minScore = 0.6, getOnlyText = true, topK = 8): Promise<string | ScoredPineconeRecord[]> => {
 
   try {
@@ -31,11 +49,12 @@ export const getContext = async (message: string, namespace: string, maxTokens =
 
     let docs = matches ? qualifyingDocs.map(match => (match.metadata as Metadata).chunk) : [];
 
-    console.log('chunks mais relevantes com score maior que '+ minScore +': ')
-    qualifyingDocs.map((match) => {
-      const metadata = match.metadata as Metadata;
-      console.log( `CHUNCK ID: ${match.id} SCORE: ${match.score}`);
-    });
+    // console.log('chunks mais relevantes com score maior que '+ minScore +': ')
+    // qualifyingDocs.map((match) => {
+    //   console.log( `CHUNCK ID: ${match.id} SCORE: ${match.score}`);
+    // });
+
+    //return formatResults(qualifyingDocs).substring(0, maxTokens);
 
     // Join all the chunks of text together, truncate to the maximum number of tokens, and return the result
     return docs.join("\n").substring(0, maxTokens);

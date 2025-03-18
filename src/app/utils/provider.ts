@@ -30,7 +30,7 @@ import { OllamaEmbeddings } from "@langchain/ollama";
 const ollamaProvider = async () => {
   // ollama API
   const ollama = createOllama({
-    baseURL: 'https://api.ollama.com',Y
+    baseURL: 'https://api.ollama.com'
   });
 
   return ollama(process.env.MODEL_NAME || 'phi4');
