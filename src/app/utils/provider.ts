@@ -7,10 +7,13 @@ import {
   extractReasoningMiddleware,
   LanguageModelV1,
 } from "ai";
+
+// import models from ai-sdk
 import { groq, createGroq } from "@ai-sdk/groq";
 import { google, createGoogleGenerativeAI } from "@ai-sdk/google";
 import { cohere } from '@ai-sdk/cohere';
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
+import { createOllama } from 'ollama-ai-provider';
 
 // imports for embeddings
 import { NomicEmbeddings } from "@langchain/nomic";
@@ -23,6 +26,15 @@ import { MistralAIEmbeddings } from "@langchain/mistralai";
 /* 
  Models 
 */
+
+const ollamaProvider = async () => {
+  // ollama API
+  const ollama = createOllama({
+    baseURL: 'https://api.ollama.com',Y
+  });
+
+  return ollama(process.env.MODEL_NAME || 'phi4');
+};
 
 const oprouterProvider = async () => {
   // OpenRouter API
@@ -63,6 +75,8 @@ export async function getModel() {
   console.log('modelProvider: ', modelProvider)
 
   switch (modelProvider) {
+    case "ollama":
+      return await ollamaProvider();
     case "groq":
       return await groqProvider();
     case "huggingface":
@@ -89,6 +103,15 @@ export async function getModel() {
 /* 
  Models embeddings
 */
+
+const ollamaEmbeddingProvider = async () => {
+  const ollama = createOllama({
+    baseURL: 'https://api.ollama.com'
+  });
+  
+  return ollama.embedding(process.env.MODEL_EMBEDDINGS_NAME || 'nomic-embed-text');
+}
+
 
 const nomicEmbeddingProvider = async () => {
   const embeddings = new NomicEmbeddings({
@@ -133,6 +156,8 @@ export async function getModelEmbedding() {
   const modelEmbeddingProvider = process.env.MODEL_EMBEDDINGS_PROVIDER || "nomic";
 
   switch (modelEmbeddingProvider) {
+    case "ollama":
+      return await ollamaEmbeddingProvider();
     case "nomic":
       return await nomicEmbeddingProvider();
     case "huggingface":
