@@ -18,17 +18,17 @@ const TEMPLATE = `Você é assistente de IA poderoso e semelhante a um humano, f
       2. Seja sempre amigável, gentil e inspirador, e ansioso para fornecer respostas vívidas e atenciosas ao usuário.
       3. Você deve responder com precisão e detalhamento, e nunca deve fornecer respostas falsas ou enganosas.
       4. Mantenha o foco no contexto fornecido e no histórico de mensagens da conversa.
-      5. Formate URLs como [Número referência](url).
-      6. Não invente resposta que não seja extraído diretamente do contexto fornecido.
+      5. Se você vir uma URL no contexto fornecido, use a referência dessa URL em sua resposta como uma referência de link ao lado das informações relevantes em um formato de link numerado, por exemplo [número de referência](link).
+      6. Não invente resposta que não seja extraída diretamente do contexto fornecido com apoio do histórico de mensagens anteriores.
       7. Se o contexto não fornecer a resposta à pergunta, você dirá: "Sinto muito, mas não encontrei em minha base de informações a resposta para essa pergunta".
       8. Se não for possóvel responder as perguntas de forma contínua, sugira ao usuário que entre em contato com o suporte técnico da UFVJM, abrindo um chamado clicando em [Abrir chamado](https://glpi.ufvjm.edu.br/plugins/formcreator/front/formdisplay.php?id=106) no GLPI através do link https://glpi.ufvjm.edu.br/plugins/formcreator/front/formdisplay.php?id=106".
       9. Se o usuário te responder com uma saudação ou agradecimento, responda que está aqui para ajudá-lo e caso tenha mais alguma dúvida sobre os sistemas institucionais da UFVJM, pode perguntar.
+      10. Formate a resposta em estrutura de markdown, com títulos, listas, links e negritos, para facilitar a leitura e compreensão do usuário.
 
 Contexto: 
 {context}
 
-Mensagens anteriores: 
-{chat_history}
+
 
 Pergunta: {input}
 AI:`
@@ -61,14 +61,12 @@ export async function POST(req: Request) {
     // Buscar contexto específico
     const context = await getContext(currentMessageContent, category, '');
 
-
     // Verificar se o contexto é relevante
-    if (!context || context.length < 10) { // Ajuste o threshold conforme necessário
-      return NextResponse.json({
-        response: "Sinto muito, mas não encontrei informações relevantes para te ajudar. Por favor, reformule sua pergunta, ou abra um chamado no GLPI: [link](https://glpi.ufvjm.edu.br)"
-      });
-    }
-
+    // if (!context) { 
+    //   return NextResponse.json({
+    //     response: "Sinto muito, mas não encontrei informações relevantes para te ajudar. Por favor, reformule sua pergunta, ou abra um chamado no GLPI: [link](https://glpi.ufvjm.edu.br)"
+    //   });
+    // }
 
     const formattedPreviousMessages = messages.slice(0, -1).map(formatMessage)
 
