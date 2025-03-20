@@ -12,7 +12,7 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.metrics import classification_report, accuracy_score
 import io
 
@@ -111,8 +111,17 @@ async def train_model(file: UploadFile = File(...)):
                 'tfidf__max_features': [None, 5000],
                 'tfidf__ngram_range': [(1, 1), (1, 2)],
                 'classifier': [LogisticRegression()],
-                'classifier__C': [0.1, 1.0, 10.0],
+                'classifier__solver': ['liblinear', 'lbfgs'],
+                'classifier__penalty': ['l2'],
                 'classifier__max_iter': [1000]
+            },
+            {
+                'tfidf__max_features': [None, 5000],
+                'tfidf__ngram_range': [(1, 1), (1, 2)],
+                'classifier': [GradientBoostingClassifier()],
+                'classifier__n_estimators': [100, 200],
+                'classifier__learning_rate': [0.01, 0.1, 0.2],
+                'classifier__max_depth': [3, 5, 7]
             }
         ]
         
