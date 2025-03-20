@@ -12,6 +12,7 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
+from sklearn.calibration import CalibratedClassifierCV
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.metrics import classification_report, accuracy_score
 import io
@@ -26,6 +27,12 @@ app = FastAPI(
 MODEL_PATH = 'model/'
 MODEL_FILE = os.path.join(MODEL_PATH, 'classifier.pkl')
 
+CATEGORY_MODEL_FILE = os.path.join(MODEL_PATH, 'category_classifier.pkl')
+SUPPORT_MODEL_FILE = os.path.join(MODEL_PATH, 'support_classifier.pkl')
+
+# Categorias esperadas
+CATEGORIES = ['assinatura', 'ecampus', 'pag', 'sei', 'revista', 'wifi', 'mautic', 'metabase', 'evoto', 'outros']
+
 # Garantir que o diretório para salvar o modelo existe
 os.makedirs(MODEL_PATH, exist_ok=True)
 
@@ -37,25 +44,30 @@ class QuestionRequest(BaseModel):
 class ClassificationResponse(BaseModel):
     pergunta: str
     categoria: str
-    probabilidades: Optional[Dict[str, float]] = None
+    suporte_tecnico: bool
+    probabilidades_categoria: Optional[Dict[str, float]] = None
+    probabilidade_suporte: Optional[float] = None
 
 # Modelo de dados para resposta de treinamento
 class TrainingResponse(BaseModel):
     message: str
-    accuracy: float
-    classification_report: Dict[str, Any]
-    best_params: Dict[str, Any]
+    accuracy_categoria: float
+    accuracy_suporte: float
+    classification_report_categoria: Dict[str, Any]
+    classification_report_suporte: Dict[str, Any]
+    best_params_categoria: Dict[str, Any]
+    best_params_suporte: Dict[str, Any]
 
 @app.post("/train", response_model=TrainingResponse)
 async def train_model(file: UploadFile = File(...)):
     """
-    Treina um modelo de classificação usando um arquivo CSV enviado.
+    Treina modelos de classificação para categoria e suporte técnico usando um arquivo CSV enviado.
     
-    O arquivo deve conter pelo menos as colunas 'pergunta' e 'tag'.
+    O arquivo deve conter pelo menos as colunas 'pergunta', 'tag' e 'suporte'.
     
     - **file**: Arquivo CSV com dados de treinamento
     
-    Retorna métricas de desempenho e os melhores parâmetros do modelo.
+    Retorna métricas de desempenho e os melhores parâmetros dos modelos.
     """
     try:
         # Verificar se o arquivo tem extensão válida
@@ -65,28 +77,42 @@ async def train_model(file: UploadFile = File(...)):
         # Ler o arquivo CSV
         contents = await file.read()
         df = pd.read_csv(io.StringIO(contents.decode('utf-8')))
+
+        # Verificar se as colunas necessárias estão presentes
+        required_columns = ['pergunta', 'tag', 'suporte']
+        if not all(col in df.columns for col in required_columns):
+            raise HTTPException(status_code=400, detail=f"O arquivo deve conter as colunas: {required_columns}")
+        
+        # Verificar se a coluna 'suporte' contém apenas valores binários (0 ou 1)
+        if not set(df['suporte'].unique()).issubset({0, 1}):
+            raise HTTPException(status_code=400, detail="A coluna 'suporte' deve conter apenas valores 0 ou 1")
         
         # Verificar se as colunas necessárias estão presentes
         required_columns = ['pergunta', 'tag']
         if not all(col in df.columns for col in required_columns):
             raise HTTPException(status_code=400, detail=f"O arquivo deve conter as colunas: {required_columns}")
         
+        # Filtra apenas as categorias esperadas
+        df = df[df['tag'].isin(CATEGORIES)]
+
         # Separar os dados em features e target
         X = df['pergunta']
-        y = df['tag']
+        y_categoria = df['tag']
+        y_suporte = df['suporte']
         
-        # Dividir os dados em treino e teste
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        # ====================== TREINAMENTO DO MODELO DE CATEGORIAS ====================== #
+
+        # Dividir os dados em treino e teste para categorias
+        X_train_cat, X_test_cat, y_train_cat, y_test_cat = train_test_split(X, y_categoria, test_size=0.2, random_state=42)
         
-        # Criar o pipeline de processamento e classificação
-        # Vamos testar diferentes modelos e parâmetros para encontrar o melhor
-        pipeline = Pipeline([
+        # Criar o pipeline para categoria
+        pipeline_cat = Pipeline([
             ('tfidf', TfidfVectorizer()),
             ('classifier', SVC())
         ])
         
-        # Definir os parâmetros para busca em grade
-        param_grid = [
+        # Parâmetros para o modelo de categoria
+        param_grid_cat = [
             {
                 'tfidf__max_features': [None, 5000, 10000],
                 'tfidf__ngram_range': [(1, 1), (1, 2)],
@@ -96,9 +122,9 @@ async def train_model(file: UploadFile = File(...)):
             {
                 'tfidf__max_features': [None, 5000, 10000],
                 'tfidf__ngram_range': [(1, 1), (1, 2)],
-                'classifier': [SVC(probability=True)],
+                'classifier': [SVC()],
                 'classifier__C': [0.1, 1.0, 10.0],
-                'classifier__kernel': ['linear']
+                'classifier__kernel': ['linear'],
             },
             {
                 'tfidf__max_features': [None, 5000],
@@ -125,27 +151,92 @@ async def train_model(file: UploadFile = File(...)):
             }
         ]
         
-        # Realizar a busca em grade
-        grid_search = GridSearchCV(pipeline, param_grid, cv=5, n_jobs=-1, verbose=1)
-        grid_search.fit(X_train, y_train)
+        # Realizar a busca em grade para o modelo de categoria
+        grid_search_cat = GridSearchCV(pipeline_cat, param_grid_cat, cv=5, n_jobs=-1, verbose=1)
+        grid_search_cat.fit(X_train_cat, y_train_cat)
+
+        # Avaliar o modelo de categoria
+        best_model_cat = grid_search_cat.best_estimator_
         
-        # Avaliar o modelo com os dados de teste
-        best_model = grid_search.best_estimator_
-        y_pred = best_model.predict(X_test)
+        # Se o melhor modelo é um SVC, aplique calibração
+        if isinstance(best_model_cat.named_steps['classifier'], SVC):
+            calibrated_model_cat = Pipeline([
+                ('tfidf', best_model_cat.named_steps['tfidf']),
+                ('classifier', CalibratedClassifierCV(
+                    best_model_cat.named_steps['classifier'],
+                    method='sigmoid',
+                    cv=5
+                ))
+            ])
+            calibrated_model_cat.fit(X_train_cat, y_train_cat)
+            best_model_cat = calibrated_model_cat
         
-        # Calcular métricas de desempenho
-        accuracy = accuracy_score(y_test, y_pred)
-        report = classification_report(y_test, y_pred, output_dict=True)
+        y_pred_cat = best_model_cat.predict(X_test_cat)
+        accuracy_cat = accuracy_score(y_test_cat, y_pred_cat)
+        report_cat = classification_report(y_test_cat, y_pred_cat, output_dict=True)
+
+        print(f"Melhor modelo para categoria: {best_model_cat}")
+        print(f"Melhores parâmetros: {grid_search_cat.best_params_}")
+
+        # Salvar o modelo de categoria
+        with open(CATEGORY_MODEL_FILE, 'wb') as f:
+            pickle.dump(best_model_cat, f)
+
+
+
+        # ====================== TREINAMENTO DO MODELO DE SUPORTE TÉCNICO ====================== #
         
-        # Salvar o modelo treinado
-        with open(MODEL_FILE, 'wb') as f:
-            pickle.dump(best_model, f)
+        # Dividir os dados em treino e teste para suporte
+        X_train_sup, X_test_sup, y_train_sup, y_test_sup = train_test_split(X, y_suporte, test_size=0.2, random_state=42)
+        
+        # Criar o pipeline para suporte técnico
+        pipeline_sup = Pipeline([
+            ('tfidf', TfidfVectorizer()),
+            ('classifier', LogisticRegression())
+        ])
+        
+        # Parâmetros para o modelo de suporte técnico
+        param_grid_sup = [
+            {
+                'tfidf__max_features': [None, 5000, 10000],
+                'tfidf__ngram_range': [(1, 1), (1, 2)],
+                'classifier': [LogisticRegression(max_iter=1000)],
+                'classifier__C': [0.1, 1.0, 10.0],
+                'classifier__class_weight': [None, 'balanced']
+            },
+            {
+                'tfidf__max_features': [None, 5000, 10000],
+                'tfidf__ngram_range': [(1, 1), (1, 2)],
+                'classifier': [RandomForestClassifier()],
+                'classifier__n_estimators': [100, 200],
+                'classifier__max_depth': [None, 10, 20],
+                'classifier__class_weight': [None, 'balanced']
+            }
+        ]
+        
+        # Realizar a busca em grade para o modelo de suporte
+        grid_search_sup = GridSearchCV(pipeline_sup, param_grid_sup, cv=5, n_jobs=-1, verbose=1)
+        grid_search_sup.fit(X_train_sup, y_train_sup)
+        
+        # Avaliar o modelo de suporte
+        best_model_sup = grid_search_sup.best_estimator_
+        y_pred_sup = best_model_sup.predict(X_test_sup)
+        accuracy_sup = accuracy_score(y_test_sup, y_pred_sup)
+        report_sup = classification_report(y_test_sup, y_pred_sup, output_dict=True)
+        
+        # Salvar o modelo de suporte
+        with open(SUPPORT_MODEL_FILE, 'wb') as f:
+            pickle.dump(best_model_sup, f)
+
         
         return {
-            'message': 'Modelo treinado e salvo com sucesso',
-            'accuracy': accuracy,
-            'classification_report': report,
-            'best_params': {k: str(v) for k, v in grid_search.best_params_.items()}
+            'message': 'Modelos treinados e salvos com sucesso',
+            'accuracy_categoria': accuracy_cat,
+            'accuracy_suporte': accuracy_sup,
+            'classification_report_categoria': report_cat,
+            'classification_report_suporte': report_sup,
+            'best_params_categoria': {k: str(v) for k, v in grid_search_cat.best_params_.items()},
+            'best_params_suporte': {k: str(v) for k, v in grid_search_sup.best_params_.items()}
         }
     
     except Exception as e:
@@ -154,38 +245,55 @@ async def train_model(file: UploadFile = File(...)):
 @app.post("/classify", response_model=ClassificationResponse)
 async def classify_question(question_request: QuestionRequest):
     """
-    Classifica uma pergunta usando o modelo treinado.
+    Classifica uma pergunta usando os modelos treinados.
     
     - **pergunta**: Texto da pergunta a ser classificada
     
-    Retorna a categoria prevista e as probabilidades de cada categoria.
+    Retorna a categoria prevista, o status de suporte técnico e as probabilidades correspondentes.
     """
     try:
-        # Verificar se o modelo existe
-        if not os.path.exists(MODEL_FILE):
-            raise HTTPException(status_code=404, detail="Modelo não encontrado. Treine o modelo primeiro.")
+        # Verificar se os modelos existem
+        if not os.path.exists(CATEGORY_MODEL_FILE) or not os.path.exists(SUPPORT_MODEL_FILE):
+            raise HTTPException(status_code=404, detail="Modelos não encontrados. Treine os modelos primeiro.")
         
         question = question_request.pergunta
         
-        # Carregar o modelo treinado
-        with open(MODEL_FILE, 'rb') as f:
-            model = pickle.load(f)
+        # Carregar o modelo de categoria
+        with open(CATEGORY_MODEL_FILE, 'rb') as f:
+            category_model = pickle.load(f)
         
-        # Classificar a pergunta
-        category = model.predict([question])[0]
+        # Carregar o modelo de suporte
+        with open(SUPPORT_MODEL_FILE, 'rb') as f:
+            support_model = pickle.load(f)
         
-        # Obter as probabilidades de classificação (se o modelo suportar)
+        # Classificar a pergunta - categoria
+        category = category_model.predict([question])[0]
+        
+        # Classificar a pergunta - suporte técnico
+        support = support_model.predict([question])[0]
+        support_bool = bool(support)
+        
+        # Obter as probabilidades de classificação para categoria
         try:
-            probabilities = model.predict_proba([question])[0]
-            classes = model.classes_
-            proba_dict = {class_name: float(prob) for class_name, prob in zip(classes, probabilities)}
+            cat_probabilities = category_model.predict_proba([question])[0]
+            cat_classes = category_model.classes_
+            cat_proba_dict = {class_name: float(prob) for class_name, prob in zip(cat_classes, cat_probabilities)}
         except:
-            proba_dict = {}
+            cat_proba_dict = {}
+        
+        # Obter probabilidade de suporte técnico
+        try:
+            # Para modelos binários, geralmente a segunda classe (índice 1) representa a classe positiva (1)
+            support_proba = float(support_model.predict_proba([question])[0][1])
+        except:
+            support_proba = None
         
         return {
             'pergunta': question,
             'categoria': category,
-            'probabilidades': proba_dict
+            'suporte_tecnico': support_bool,
+            'probabilidades_categoria': cat_proba_dict,
+            'probabilidade_suporte': support_proba
         }
     
     except Exception as e:

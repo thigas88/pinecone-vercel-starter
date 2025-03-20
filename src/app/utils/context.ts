@@ -19,7 +19,7 @@ function formatResults(results: ScoredPineconeRecord<Metadata>[]) {
     
     // Adicionar URL de referência se disponível
     if (metadata?.url) {
-      formattedContent += `\n[Referência: ${metadata.url}]`;
+      formattedContent += `\n\n[Referência: ${metadata.url}]\n`;
     }
     
     return formattedContent;
@@ -45,7 +45,13 @@ export const getContext = async (message: string, category: string, namespace: s
       return qualifyingDocs
     }
 
-    let docs = matches ? qualifyingDocs.map(match => (match.metadata as Metadata).chunk) : [];
+    let docs = matches ? qualifyingDocs.map(match => {
+      let txt = (match.metadata as Metadata).chunk
+      if ((match.metadata as Metadata).url) {
+        txt += `\n\n[Referência: ${(match.metadata as Metadata).url}]\n`;
+      }
+      return txt;
+    }) : [];
 
     console.log('chunks mais relevantes com score maior que '+ minScore +': ')
     qualifyingDocs.map((match) => {

@@ -24,27 +24,21 @@ const TEMPLATE = `Você é assistente de IA poderoso e semelhante a um humano, f
       8. Se não for possóvel responder as perguntas de forma contínua, sugira ao usuário que entre em contato com o suporte técnico da UFVJM, abrindo um chamado clicando em [Abrir chamado](https://glpi.ufvjm.edu.br/plugins/formcreator/front/formdisplay.php?id=106) no GLPI através do link https://glpi.ufvjm.edu.br/plugins/formcreator/front/formdisplay.php?id=106".
       9. Se o usuário te responder com uma saudação ou agradecimento, responda que está aqui para ajudá-lo e caso tenha mais alguma dúvida sobre os sistemas institucionais da UFVJM, pode perguntar.
       10. Formate a resposta em estrutura de markdown, com títulos, listas, links e negritos, para facilitar a leitura e compreensão do usuário.
+      11. Refira-se ao contexto fornecido como documentação.
+      12. Se o contexto fornecer uma URL de referência, no formato [Referência: link], inclua na no final da resposta, em formato de link, como fonte de informação.
 
 Contexto: 
 {context}
 
-
-
 Pergunta: {input}
-AI:`
+
+`
 
 
 export async function POST(req: Request) {
   try {
 
     const { messages } = await req.json()
-
-    // @todo Implementar a lógica de verificação de contexto baseado em categoria de 
-    // conteúdos: ecampus, sei, conta institucional, etc.
-    // Isso é necessário para evitar que o LLM dê informações cruzadas.
-    // Também é necessário implementar a lógica de verificação da pergunta realizada pelo usuário
-    // para identificar se é uma pergunta de suporte técnico ou não e se é necessário realizar a busca na base de dados ou abrir um chamado no GLPI.
-
     
     // Get the last message
     const lastMessage = messages[messages.length - 1]
