@@ -5,17 +5,20 @@ import pandas as pd
 import numpy as np
 import pickle
 import os
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any, Optional, Union
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.linear_model import LogisticRegression
-from sklearn.svm import SVC
+from sklearn.svm import SVC, LinearSVC
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.metrics import classification_report, accuracy_score
 import io
+import re
+import string
+import unicodedata # Para remover acentos
 
 app = FastAPI(
     title="API de Classificação de Perguntas",
@@ -47,6 +50,8 @@ class ClassificationResponse(BaseModel):
     suporte_tecnico: bool
     probabilidades_categoria: Optional[Dict[str, float]] = None
     probabilidade_suporte: Optional[float] = None
+    confianca_categoria: Optional[Dict[str, float]] = None
+    confianca_suporte: Optional[Union[Dict[int, float], float]] = None
 
 # Modelo de dados para resposta de treinamento
 class TrainingResponse(BaseModel):
@@ -57,6 +62,49 @@ class TrainingResponse(BaseModel):
     classification_report_suporte: Dict[str, Any]
     best_params_categoria: Dict[str, Any]
     best_params_suporte: Dict[str, Any]
+
+def remove_accents(text):
+        """Remove acentos de um texto."""
+        return ''.join(c for c in unicodedata.normalize('NFD', text)
+                      if unicodedata.category(c) != 'Mn')
+
+def preprocess_text(text: str) -> str:
+    """
+    Realiza pré-processamento básico no texto:
+    1. Converte para minúsculas.
+    2. Remove acentos.
+    3. Remove pontuações.
+    4. Remove espaços extras.
+    """
+    # 1. Minúsculas
+    text = text.lower()
+
+    # 2. Remover acentos
+    # nfkd_form = unicodedata.normalize('NFD', text)
+    # text = "".join([c for c in nfkd_form if not unicodedata.combining(c)])
+    text = remove_accents(text)
+
+    # 3. Remover caracteres especiais
+    text = re.sub(r'[^\w\s]', ' ', text)
+
+    # 4. Remover pontuações
+    # Usar str.maketrans para eficiência
+    translator = str.maketrans('', '', string.punctuation)
+    text = text.translate(translator)
+
+    # 5. Remover espaços extras (no início/fim e múltiplos espaços internos)
+    text = re.sub(r'\s+', ' ', text).strip()
+
+    return text
+
+    # Tokenização
+    tokens = word_tokenize(text)
+    
+    # Remover stopwords e aplicar stemming
+    tokens = [stemmer.stem(word) for word in tokens if word not in stopwords and len(word) > 2]
+    
+    return ' '.join(tokens)
+
 
 @app.post("/train", response_model=TrainingResponse)
 async def train_model(file: UploadFile = File(...)):
@@ -107,7 +155,10 @@ async def train_model(file: UploadFile = File(...)):
         
         # Criar o pipeline para categoria
         pipeline_cat = Pipeline([
-            ('tfidf', TfidfVectorizer()),
+            ('tfidf', TfidfVectorizer(
+                preprocessor=preprocess_text,
+                max_features=10000
+            )),
             ('classifier', SVC())
         ])
         
@@ -122,9 +173,15 @@ async def train_model(file: UploadFile = File(...)):
             {
                 'tfidf__max_features': [None, 5000, 10000],
                 'tfidf__ngram_range': [(1, 1), (1, 2)],
+                'classifier': [LinearSVC()],
+                'classifier__C': [0.1, 1.0, 10.0],
+            },
+            {
+                'tfidf__max_features': [None, 5000, 10000],
+                'tfidf__ngram_range': [(1, 1), (1, 2)],
                 'classifier': [SVC()],
                 'classifier__C': [0.1, 1.0, 10.0],
-                'classifier__kernel': ['linear'],
+                'classifier__kernel': ['sigmoid'],
             },
             {
                 'tfidf__max_features': [None, 5000],
@@ -159,7 +216,7 @@ async def train_model(file: UploadFile = File(...)):
         best_model_cat = grid_search_cat.best_estimator_
         
         # Se o melhor modelo é um SVC, aplique calibração
-        if isinstance(best_model_cat.named_steps['classifier'], SVC):
+        if isinstance(best_model_cat.named_steps['classifier'], SVC) or isinstance(best_model_cat.named_steps['classifier'], LinearSVC):
             calibrated_model_cat = Pipeline([
                 ('tfidf', best_model_cat.named_steps['tfidf']),
                 ('classifier', CalibratedClassifierCV(
@@ -256,7 +313,7 @@ async def classify_question(question_request: QuestionRequest):
         if not os.path.exists(CATEGORY_MODEL_FILE) or not os.path.exists(SUPPORT_MODEL_FILE):
             raise HTTPException(status_code=404, detail="Modelos não encontrados. Treine os modelos primeiro.")
         
-        question = question_request.pergunta
+        question = preprocess_text(question_request.pergunta)
         
         # Carregar o modelo de categoria
         with open(CATEGORY_MODEL_FILE, 'rb') as f:
@@ -287,12 +344,117 @@ async def classify_question(question_request: QuestionRequest):
             support_proba = float(support_model.predict_proba([question])[0][1])
         except:
             support_proba = None
+
+        print(f"Pergunta: {question}")
+        print(f"Categoria: {category}")
+        print(f"Suporte Técnico: {support_bool}")
+        print(f"Probabilidades Categoria: {cat_proba_dict}")
+        print(f"Probabilidade Suporte: {support_proba}")
+
+
+        try:
+            # Primeiro vamos transformar o texto usando o TF-IDF
+            X_cat_transformed = category_model.named_steps['tfidf'].transform([question])
+            
+            # Agora podemos acessar o estimador com os dados transformados
+            if isinstance(category_model.named_steps['classifier'], CalibratedClassifierCV):
+                # Para CalibratedClassifierCV, acessamos o estimador base
+                estimator = category_model.named_steps['classifier'].calibrated_classifiers_[0].estimator
+                
+                # Verificar que tipo de estimador é
+                if isinstance(estimator, LinearSVC) or isinstance(estimator, SVC):
+                    category_decision_scores = estimator.decision_function(X_cat_transformed)
+                else:
+                    # Usar predict_proba para outros tipos de estimadores
+                    category_decision_scores = category_model.predict_proba([question])
+                    category_confidence = {
+                        cls: float(category_decision_scores[0][i]) for i, cls in enumerate(category_model.classes_)
+                    }
+                    # Pular o resto do cálculo de confiança
+                    category_sorted_confidence = dict(sorted(category_confidence.items(), key=lambda x: x[1], reverse=True))
+                    # Ir direto para o return
+                    print(f"Usando probabilidades diretamente: {category_sorted_confidence}")
+            else:
+                # Se não for calibrado, tentar usar decision_function diretamente
+                category_decision_scores = category_model.named_steps['classifier'].decision_function(X_cat_transformed)
+            
+            
+            category_confidence = {}
+            category_classes = category_model.classes_
+
+            print(f"Scores de decisão para categoria: {category_decision_scores}")
+            print(f"Shape dos scores de categoria: {category_decision_scores.shape}")
+            
+    
+            # Para classificador multiclasse, temos um score para cada classe
+            scores = category_decision_scores[0]  # Primeiro elemento é um array de scores
+            category_confidence = {
+                cls: float(scores[i]) for i, cls in enumerate(category_classes)
+            }
+            
+            # Normalizar os scores para obter probabilidades
+            category_max_abs_score = max([abs(score) for score in category_confidence.values()])
+            if category_max_abs_score > 0:  # Evitar divisão por zero
+                category_normalized_confidence = {k: (v / category_max_abs_score + 1) / 2 for k, v in category_confidence.items()}
+            else:
+                # Se todos os scores forem zero, distribuir igualmente
+                category_normalized_confidence = {k: 1.0/len(category_confidence) for k in category_confidence}
+            
+            category_total = sum(category_normalized_confidence.values())
+            category_normalized_confidence = {k: v / category_total for k, v in category_normalized_confidence.items()}
+            
+            # Ordenar por confiança
+            category_sorted_confidence = dict(sorted(category_normalized_confidence.items(), key=lambda x: x[1], reverse=True))
+            
+
+        except Exception as e:
+            print(f"Erro ao obter scores de decisão para categoria: {e}")
+            # Fallback - use as probabilidades se disponíveis
+            category_sorted_confidence = cat_proba_dict
+            print("Usando probabilidades (proba) para categoria como fallback")
+        
+        
+        print(f"Confiança Categoria: {category_sorted_confidence}")
+        
+
+        # Obter probabilidade de suporte técnico - classificador binário
+        # Para classificador binário, o score é um único valor
+        try:
+
+            support_decision_scores = support_model.predict_proba([question])
+            support_confidence = {}
+            support_classes = support_model.classes_
+            print(f"Classes de suporte: {support_classes}")
+            print(f"Scores de decisão para suporte: {support_decision_scores}")
+            print(f"Shape dos scores de suporte: {support_decision_scores.shape}")
+            
+
+            # Para classificador binário, o score é um único valor
+            score_value = support_decision_scores[0]  # Primeiro elemento do array
+            support_confidence = {
+                support_classes[0]: score_value[0],  # Classe negativa
+                support_classes[1]: score_value[1]    # Classe positiva
+            }
+
+            
+            
+        except Exception as e:
+            print(f"Erro ao obter scores de decisão para suporte: {e}")
+            # Fallback - use as probabilidades se disponíveis
+            support_confidence = support_proba
+            print("Usando probabilidades (proba) para suporte como fallback")
+        
+        
+        print(f"Confiança Suporte: {support_confidence}")
+
         
         return {
             'pergunta': question,
             'categoria': category,
             'suporte_tecnico': support_bool,
             'probabilidades_categoria': cat_proba_dict,
+            'confianca_categoria': category_sorted_confidence,
+            'confianca_suporte': support_confidence,
             'probabilidade_suporte': support_proba
         }
     

@@ -50,6 +50,27 @@ Acesse a documentação interativa da API em:
 - Swagger UI: `http://localhost:8000/docs`
 - ReDoc: `http://localhost:8000/redoc`
 
+
+## Docker
+
+```sh
+# Dockerfile
+FROM python:3.9-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
+EXPOSE 8000
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+```
+
+Build a imagem e execute
+
+```sh
+docker build -t meu-modelo .
+docker run -p 8000:8000 meu-modelo
+```
+
 ## Endpoints
 
 ### Verificar Status da API

@@ -14,7 +14,7 @@ export async function getEmbeddings(input: string) {
     return embedding[0] as number[]
 
   } catch (e) {
-    console.log("Error calling NomicEmbeddings embedding : ", e);
+    console.error("Error calling NomicEmbeddings embedding : ", e);
     throw new Error(`Error calling NomicEmbeddings embedding : ${e}`);
   }
 }

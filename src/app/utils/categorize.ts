@@ -3,16 +3,15 @@ import { getModel } from '@/utils/provider';
 import { generateText } from 'ai';
 import { ScoredPineconeRecord } from "@pinecone-database/pinecone";
 
-
-
-type ContentCategory = 'ecampus' | 'sei' | 'conta-institucional' | 'revista' | 'outros';
+type ContentCategory = 'ecampus' | 'sei' | 'conta-institucional' | 'revista' | 'glpi' | 'outros';
 
 export async function categorizeQuery(query: string): Promise<ContentCategory> {
   const classifierPrompt = `
     Classifique a pergunta do usuário em uma das categorias:
-    - ecampus: perguntas sobre cursos, disciplinas, notas
-    - sei: sobre processos administrativos
-    - conta-institucional: emails, acesso
+    - ecampus: perguntas sobre cursos, disciplinas, notas, sistema acadêmico, ecampus
+    - glpi: perguntas sobre chamados, tickets, suporte técnico
+    - sei: sobre processos administrativos, ofícios, documentos adminsitrativos, sei
+    - conta-institucional: emails, acesso, criar conta instituciona, alterar senha da conta institucional
     - revista: revista eletronica, publicar revista, criar revista
     - outros: demais assuntos
 
@@ -20,7 +19,6 @@ export async function categorizeQuery(query: string): Promise<ContentCategory> {
   `;
 
   const model = await getModel()
-
 
   // const { content } = await model.invoke([new HumanMessage(classifierPrompt)]);
 
@@ -36,25 +34,21 @@ export async function categorizeQuery(query: string): Promise<ContentCategory> {
 
 
 
-
-
-
-
 // Função para identificar a categoria da pergunta
 export async function identifyCategory(question: string) {
     // Lista de palavras-chave por categoria
     const categories = {
       ecampus: ['ecampus', 'e-campus', 'nota', 'disciplina', 'matrícula', 'professor', 'aluno', 'turma', 'curso'],
       sei: ['sei', 'processo', 'documento', 'protocolo', 'assinatura eletrônica', 'peticionamento'],
-      contaInstitucional: ['email', 'e-mail', 'conta', 'senha', 'login', 'acesso', 'redefinir', 'institucional'],
+      contaInstitucional: ['email', 'e-mail', 'conta', 'senha', 'login', 'acesso', 'redefinir', 'institucional', 'alterar senha'],
       glpi: ['chamado', 'ticket', 'suporte', 'problema técnico', 'não consigo acessar', 'erro', 'bug'],
-      revista: ['revista', 'publicar', 'criar', 'artigo', 'artigos', 'publicação', 'publicações'],
+      revista: ['revista', 'publicar artigo', 'criar artigo', 'artigo', 'artigos', 'publicação', 'publicações', 'portal revistas'],
     };
     
     question = question.toLowerCase();
     
     // Verificar em qual categoria a pergunta se encaixa melhor
-    let bestMatch = { category: 'geral', count: 0 };
+    let bestMatch = { category: 'outros', count: 0 };
     
     for (const [category, keywords] of Object.entries(categories)) {
       const matches = keywords.filter(keyword => question.includes(keyword.toLowerCase()));
