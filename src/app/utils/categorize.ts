@@ -1,5 +1,5 @@
 
-import { getModel } from '@/utils/provider';
+import { getModel } from '@/app/utils/provider';
 import { generateText } from 'ai';
 import { ScoredPineconeRecord } from "@pinecone-database/pinecone";
 

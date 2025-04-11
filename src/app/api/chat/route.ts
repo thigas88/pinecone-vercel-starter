@@ -1,9 +1,9 @@
 import { Message, streamText } from 'ai'
-import { getContext } from '@/utils/context'
+import { getContext } from '@/app/utils/context'
 import { PromptTemplate, ChatPromptTemplate } from '@langchain/core/prompts'
 import { NextResponse, type NextRequest } from 'next/server'
-import { getModel } from '@/utils/provider';
-import { categorizeQuery, identifyCategory } from '@/utils/categorize';
+import { getModel } from '@/app/utils/provider';
+import { categorizeQuery, identifyCategory } from '@/app/utils/categorize';
 
 
 // IMPORTANT! Set the runtime to edge
@@ -55,6 +55,8 @@ Você é um assistente de suporte técnico especializado nos sistemas e serviço
 
 export async function POST(req: Request) {
   try {
+
+    console.log(req)
 
     const { messages } = await req.json()
     
