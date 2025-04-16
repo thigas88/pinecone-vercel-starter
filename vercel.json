@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "backend/*.py",
+      "use": "@vercel/python",
+      "comment": "Specifies how to build all python files inside backend/"
+    },
+    {
+      "src": "package.json",
+      "use": "@vercel/next",
+      "comment": "Specifies how to build the Next.js application."
+    }
+  ],
+  "routes": [
+    {
+      "src": "/py/api",
+      "dest": "/backend/app.py",
+      "comment": "Route all requests to /py/api to the backend/app.py file. Vercel maps the request to the 'app' function inside the .py file"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1",
+      "comment": "Let @vercel/next handle the rest, including: - /api/auth/* (NextAuth routes) - / (Homepage) - /dashboard, /products, /users (Next.js pages) - Static files in /public. This rule must come AFTER the specific Python API routes."
+    }
+  ]
+}

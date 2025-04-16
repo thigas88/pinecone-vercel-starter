@@ -75,24 +75,7 @@ export async function POST(req: Request) {
     // Buscar contexto específico
     const context = await getContext(currentMessageContent, category, '');
 
-    // Verificar se o contexto é relevante
-    // if (!context) { 
-    //   return NextResponse.json({
-    //     response: "Sinto muito, mas não encontrei informações relevantes para te ajudar. Por favor, reformule sua pergunta, ou abra um chamado no GLPI: [link](https://glpi.ufvjm.edu.br)"
-    //   });
-    // }
-
     const formattedPreviousMessages = messages.slice(0, -1).map(formatMessage)
-
-    // Formatar histórico de mensagens anteriores para contexto
-    // const formatPreviousMessages = (messages: Message[], limit = 3) => {
-    //   const recentMessages = messages.slice(-limit);
-    //   return recentMessages.map(message => `${message.role}: ${message.content}`).join('\n');
-    // };
-
-    // const chatHistory = messages.length > 1 
-    //   ? formatPreviousMessages(messages.slice(0, -1))
-    //   : '';
 
     // Histórico recente à conversa para manter o contexto
     const buildChatHistory = (messages: Message[]) => 

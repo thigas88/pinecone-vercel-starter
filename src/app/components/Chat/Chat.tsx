@@ -160,7 +160,7 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
   return (
     <div className="w-full max-w-2xl flex flex-col ">
       <div className='p-4 border-b'>
-        <p className="font-bold">Chat</p>
+        <p className="font-bold"></p>
       </div>
       <div className="space-y-4 p-4 flex-1 overflow-y-auto">
         {hasMessages ? (
