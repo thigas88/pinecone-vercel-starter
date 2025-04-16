@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pandas
+requests
+numpy
+scikit-learn
+python-multipart
+pydantic
+xgboost
