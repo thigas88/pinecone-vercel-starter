@@ -134,7 +134,7 @@ export async function POST(req: Request) {
 
     const resultDecisao = text;
 
-    return NextResponse.json({ resultDecisao }, { status: 200 })
+    // return NextResponse.json({ resultDecisao }, { status: 200 })
 
     let finalResult;
 
@@ -182,14 +182,15 @@ export async function POST(req: Request) {
         
         const prompt = ChatPromptTemplate.fromTemplate(TEMPLATE_DECISAO)
 
-        const formattedChatPrompt = await prompt.invoke({
-            input: currentMessageContent,
-        });
+        // const formattedChatPrompt = await prompt.invoke({
+        //     input: currentMessageContent,
+        // });
 
         // Chama o LLM novamente, agora com o contexto incluído
         finalResult = streamText({
             model: model,
-            prompt: formattedChatPrompt.toString()
+            //prompt: formattedChatPrompt.toString()
+            messages: mensagens,
         });
 
     }
