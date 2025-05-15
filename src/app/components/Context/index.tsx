@@ -7,10 +7,16 @@ import { clearIndex, crawlDocument } from "./utils";
 import { Button } from "./Button";
 interface ContextProps {
   className: string;
-  selected: string[] | null;
+  // selected: string[] | null;
 }
 
-export const Context: React.FC<ContextProps> = ({ className, selected }) => {
+interface ResultPDF{
+  chunks: number;
+  message: string;
+}
+
+export const Context: React.FC<ContextProps> = ({ className }) => {
+  const selected = null;
   const [entries, setEntries] = useState(urls);
   const [cards, setCards] = useState<ICard[]>([]);
 
@@ -20,11 +26,16 @@ export const Context: React.FC<ContextProps> = ({ className, selected }) => {
   const [url, setUrl] = useState('');
   const [urlTitle, setUrlTitle] = useState('');
 
+  const [file, setFile] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [resultPDF, setResultPDF] = useState<ResultPDF | null>(null);
+  const [error, setError] = useState('');
+
   // Scroll to selected card
-  useEffect(() => {
-    const element = selected && document.getElementById(selected[0]);
-    element?.scrollIntoView({ behavior: "smooth" });
-  }, [selected]);
+  // useEffect(() => {
+  //   const element = selected && document.getElementById(selected[0]);
+  //   element?.scrollIntoView({ behavior: "smooth" });
+  // }, [selected]);
 
   const AddUrl = () => {
     if( url ){
@@ -65,24 +76,62 @@ export const Context: React.FC<ContextProps> = ({ className, selected }) => {
     </div>
   ));
 
+  
+
+  const handleFileChange = async (e: any) => {
+    setIsLoading(true)
+    const selectedFile = e.target.files[0];
+    if (selectedFile && selectedFile.type === 'application/pdf') {
+      setFile(selectedFile);
+      setError('');
+
+      // send to API
+      const formData = new FormData();
+      formData.append('pdf', selectedFile);
+      formData.append('splittingMethod', splittingMethod);
+      formData.append('chunkSize', String(chunkSize));
+      formData.append('overlap', String(overlap))
+      
+
+      const response = await fetch('/api/pdf', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erro: ${response.status}`);
+      }
+
+      const data: ResultPDF = await response.json();
+      setResultPDF(data);
+      setIsLoading(false);
+      setFile(null);
+
+    } else {
+      setFile(null);
+      setIsLoading(false)
+      setError('Por favor, selecione um arquivo PDF válido.');
+    }
+  };
+
   return (
     <div
-      className={`flex flex-col border-2 overflow-y-auto rounded-lg border-gray-500 w-full ${className}`}
+      className={`flex flex-col border-2 overflow-y-auto rounded-lg border-gray-500 w-full ${className} bg-gray-300`}
     >
       <div className="flex flex-col items-start sticky top-0 w-full">
         <div className="flex flex-col items-start lg:flex-row w-full lg:flex-wrap p-2">
           {buttons}
         </div>
         <div className="flex-grow w-full px-4">
-        <input className="mb-5 w-full bg-transparent placeholder:text-slate-400 text-slate-200 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow" 
+        <input className="mb-2 w-full bg-transparent placeholder:text-slate-400 text-slate-200 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow" 
             type="text"
-            placeholder="Title URL"
+            placeholder="Título da URL"
             value={urlTitle}
             onChange={(e: ChangeEvent<HTMLInputElement>) => setUrlTitle(e.target.value)} />
          
           <input className="w-full bg-transparent placeholder:text-slate-400 text-slate-200 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"  
             type="text"
-            placeholder="URL link"
+            placeholder="Link da URL"
             value={url}
             onChange={(e: ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)} />
           <Button
@@ -93,25 +142,34 @@ export const Context: React.FC<ContextProps> = ({ className, selected }) => {
             }}
             onClick={() => AddUrl()}
           >
-            Add URL
+            Adicionar URL
           </Button>
         </div>
+
         <div className="flex-grow w-full px-4">
-          <Button
-            className="w-full my-2 uppercase active:scale-[98%] transition-transform duration-100"
-            style={{
-              backgroundColor: "#4f6574",
-              color: "white",
-            }}
-            onClick={() => clearIndex(setEntries, setCards)}
-          >
-            Clear Index
-          </Button>
+          <h3 className="text-1xl font-bold mb-6">Indexar documento PDF</h3>
+
+            <div className="mb-4">
+              <label className="block mb-2">Selecione um arquivo PDF:</label>
+              <input
+                type="file"
+                accept="application/pdf"
+                onChange={handleFileChange}
+                className="border p-2 w-full"
+              />
+            </div>
+
+            {error && <p className="text-red-500 mb-4">{error}</p>}
+
+            {isLoading && <p>Processando o PDF, por favor aguarde...</p>}
         </div>
+
+        
+
         <div className="flex p-2"></div>
         <div className="text-left w-full flex flex-col rounded-b-lg bg-gray-600 p-3 subpixel-antialiased">
           <DropdownLabel htmlFor="splittingMethod">
-            Splitting Method:
+            Método de Splitting:
           </DropdownLabel>
           <div className="relative w-full">
             <select
@@ -162,7 +220,40 @@ export const Context: React.FC<ContextProps> = ({ className, selected }) => {
           cards.map((card, key) => (
             <Card key={key} card={card} selected={selected} />
           ))}
+
+          {resultPDF && (
+              <div className="flex-grow w-full px-4">
+                <h2 className="text-xl font-bold mb-2">Resultado da Extração</h2>
+                <div className="border p-4 bg-gray-50 rounded">
+                  <h3 className="font-bold mb-2">Número de chunks: {resultPDF.chunks}</h3>
+                  <div className="max-h-96 overflow-y-auto">
+                    {/* {resultPDF.chunks.map((chunk, index) => (
+                      <div key={index} className="mb-4 p-3 border rounded bg-white">
+                        <p className="text-sm font-bold mb-1">Chunk {index + 1}</p>
+                        <p className="whitespace-pre-wrap">{chunk}</p>
+                      </div>
+                    ))} */}
+                  </div>
+                </div>
+              </div>
+            )}
       </div>
+
+      <div className="flex-grow w-full px-4">
+          <hr className="mb-4" />
+          <Button
+            className="w-full my-2 uppercase active:scale-[98%] transition-transform duration-100"
+            style={{
+              backgroundColor: "#4f6574",
+              color: "white",
+            }}
+            onClick={() => clearIndex(setEntries, setCards)}
+          >
+            Limpar Banco de Dados
+          </Button>
+        </div>
+
+
     </div>
   );
 };

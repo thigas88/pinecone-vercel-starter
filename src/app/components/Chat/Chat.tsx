@@ -183,12 +183,12 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
         <div className="flex items-center p-3 pt-0">
             <Button variant="ghost" size="icon">
               <Paperclip className="size-4" />
-              <span className="sr-only">Attach file</span>
+              <span className="sr-only">Anexar Arquivo</span>
             </Button>
 
             <Button variant="ghost" size="icon">
               <Mic className="size-4" />
-              <span className="sr-only">Use Microphone</span>
+              <span className="sr-only">Usar Microfone</span>
             </Button>
 
             <Button
@@ -197,7 +197,7 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
               size="sm"
               className="ml-auto gap-1.5"
             >
-              Send Message
+              Enviar Mensagem
               <CornerDownLeft className="size-3.5" />
             </Button>
           </div>

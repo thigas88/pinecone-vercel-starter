@@ -1,5 +1,15 @@
 import { IUrlEntry } from "./UrlButton";
 import { ICard } from "./Card";
+import { ServerlessSpecCloudEnum } from '@pinecone-database/pinecone'
+
+
+export const pineconeSetup = {
+  indexName: process.env.PINECONE_INDEX!,
+  pineconeApiKey: process.env.PINECONE_API_KEY!,
+  pineconeEnvironment: process.env.PINECONE_ENVIRONMENT!,
+  cloudName: process.env.PINECONE_CLOUD as ServerlessSpecCloudEnum || 'aws', 
+  regionName: process.env.PINECONE_REGION || 'us-west-2',
+}
 
 export async function crawlDocument(
   url: string,
