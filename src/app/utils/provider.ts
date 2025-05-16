@@ -87,8 +87,10 @@ export async function getModel() {
   switch (modelProvider) {
     case "ollama":
       model = await ollamaProvider();
+      break;
     case "groq":
       model = await groqProvider();
+      break;
     case "huggingface":
       // Adicione o provider para huggingface se necessário
       throw new Error(`Model provider ${modelProvider} is not supported yet`);
@@ -103,21 +105,22 @@ export async function getModel() {
       throw new Error(`Model provider ${modelProvider} is not supported yet`);
     case "openrouter":
       model = await oprouterProvider();
+      break;
     case "google":
       model = await googleProvider();
+      break;
     default:
       throw new Error(`Model provider ${modelProvider} is not supported`);
   }
 
   if( process.env.ENABLE_MODEL_CACHE ){
-    const wrappedModel = wrapLanguageModel({
-      model: model,
+    return wrapLanguageModel({
+      model,
       middleware: cacheMiddleware,
     });
 
-    return wrappedModel;
   }else{
-    return model
+    return model;
   }
 
 }
