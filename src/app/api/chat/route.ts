@@ -1,4 +1,4 @@
-import { Message, streamText, generateText, CoreMessage } from 'ai'
+import { Message, streamText, generateText, CoreMessage, UIMessage } from 'ai'
 import { getContext } from '@/app/utils/context'
 import { PromptTemplate, ChatPromptTemplate } from '@langchain/core/prompts'
 import { NextResponse, type NextRequest } from 'next/server'
@@ -88,7 +88,7 @@ export async function POST(req: Request) {
 
     console.log(req)
 
-    const { messages } = await req.json()
+    const { messages }: { messages: UIMessage[] } = await req.json()
     
     // Get the last message
     const lastMessage = messages[messages.length - 1]
@@ -100,22 +100,9 @@ export async function POST(req: Request) {
     const category = await categorizeQuery(currentMessageContent);
     console.log('Categoria identificada:', category);
 
-    // // Identificar a categoria da pergunta
-    // const category2 = await identifyCategory(currentMessageContent);
-    // console.log('Categoria identificada 2:', category2);
-
     const model = await getModel()
 
-
-
-    // const promptDecisao = ChatPromptTemplate.fromTemplate(TEMPLATE_DECISAO)
-    // const formattedChatDecisao = await promptDecisao.invoke({
-    //   input: currentMessageContent,
-    //   context: contextHistory
-    // });
-
-
-    let mensagens: CoreMessage[] = [
+    let mensagensDecisao: CoreMessage[] = [
       { role: 'system', 
         content: TEMPLATE_DECISAO 
       },
@@ -129,7 +116,7 @@ export async function POST(req: Request) {
       model: model,
       system: TEMPLATE_DECISAO,
       // prompt: formattedChatDecisao.toString(),
-      messages: mensagens,
+      messages: mensagensDecisao,
     });
 
     const resultDecisao = text;
@@ -148,28 +135,20 @@ export async function POST(req: Request) {
         const formattedPreviousMessages = messages.slice(0, -1).map(formatMessage)
         contextHistory = formattedPreviousMessages.join('\n');
 
-        // // Histórico recente à conversa para manter o contexto
-        // const buildChatHistory = (messages: Message[]) =>
-        //     messages
-        //         .slice(-4) // Mantém últimas 4 interações
-        //         .map(m => `${m.role.toUpperCase()}: ${m.content}`)
-        //         .join('\n');
-
-        // // Monta o histórico de mensagens
-        // const chat_history = buildChatHistory(messages);
-
         const prompt = ChatPromptTemplate.fromTemplate(TEMPLATE)
 
         const formattedChatPrompt = await prompt.invoke({
             context: context,
-            chat_history: formattedPreviousMessages.join('\n'),
+            //chat_history: formattedPreviousMessages.join('\n'),
             input: currentMessageContent,
         });
 
         // Chama o LLM novamente, agora com o contexto incluído
         finalResult = streamText({
             model: model,
-            prompt: formattedChatPrompt.toString()
+            // prompt: formattedChatPrompt.toString()
+            system: formattedChatPrompt.toString(),
+            messages: messages
         });
 
         console.log('resultado com contexto: ', finalResult);
@@ -190,7 +169,7 @@ export async function POST(req: Request) {
         finalResult = streamText({
             model: model,
             //prompt: formattedChatPrompt.toString()
-            messages: mensagens,
+            messages: mensagensDecisao,
         });
 
     }

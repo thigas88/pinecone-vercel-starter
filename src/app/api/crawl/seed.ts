@@ -7,8 +7,7 @@ import { truncateStringByBytes } from "@/app/utils/truncateString"
 // @ts-ignore
 import { Corpus } from "tiny-tfidf";// https://github.com/kerryrodden/tiny-tfidf
 import md5 from "md5";
-
-
+import { ItemUrl } from "@/app/components/Context/ItemUrl"
 
 
 interface SeedOptions {
@@ -37,7 +36,7 @@ const stopwords: string[] = [
 ];
 
 
-async function seed(url: string, limit: number, indexName: string, cloudName: ServerlessSpecCloudEnum, regionName: string, options: SeedOptions) {
+async function seed(item: ItemUrl, limit: number, indexName: string, cloudName: ServerlessSpecCloudEnum, regionName: string, options: SeedOptions) {
   try {
     // Initialize the Pinecone client
     const pinecone = new Pinecone();
@@ -49,7 +48,7 @@ async function seed(url: string, limit: number, indexName: string, cloudName: Se
     const crawler = new Crawler(5, limit || 100);
 
     // Crawl the given URL and get the pages
-    const pages = await crawler.crawl(url) as Page[];
+    const pages = await crawler.crawl(item.url) as Page[];
 
     // @todo If splittingMethod === 'semantic' need implement a semantic splitter in the future in python  service
 
@@ -58,7 +57,7 @@ async function seed(url: string, limit: number, indexName: string, cloudName: Se
       new RecursiveCharacterTextSplitter({ chunkSize, chunkOverlap }) : new MarkdownTextSplitter({});
 
     // Prepare documents by splitting the pages
-    const documents = await Promise.all(pages.map(page => prepareDocument(page, splitter)));
+    const documents = await Promise.all(pages.map(page => prepareDocument(page, splitter, item)));
 
     // Create Pinecone index if it does not exist
     const indexList: string[] = (await pinecone.listIndexes())?.indexes?.map(index => index.name) || [];
@@ -111,6 +110,9 @@ async function embedDocument(doc: Document): Promise<PineconeRecord> {
         url: doc.metadata.url as string, // The URL where the document was found
         hash: doc.metadata.hash as string, // The hash of the document content
         keywords: doc.metadata.keywords as [], // The keywords associated with the document
+        tags: doc.metadata.tags as string, // The tags associated with the document
+        category: doc.metadata.category as string, // The category of the document
+        title: doc.metadata.title as string // The title of the document
       }
     } as PineconeRecord;
   } catch (error) {
@@ -119,7 +121,7 @@ async function embedDocument(doc: Document): Promise<PineconeRecord> {
   }
 }
 
-async function prepareDocument(page: Page, splitter: DocumentSplitter): Promise<Document[]> {
+async function prepareDocument(page: Page, splitter: DocumentSplitter, item: ItemUrl): Promise<Document[]> {
   // Get the content of the page
   const pageContent = page.content;
 
@@ -130,7 +132,10 @@ async function prepareDocument(page: Page, splitter: DocumentSplitter): Promise<
       metadata: {
         url: page.url,
         // Truncate the text to a maximum byte length
-        text: truncateStringByBytes(pageContent, 36000)
+        text: truncateStringByBytes(pageContent, 36000),
+        tags: item.tags,
+        category: item.category,
+        title: item.title
       },
     }),
   ]);

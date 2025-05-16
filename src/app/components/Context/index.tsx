@@ -1,6 +1,5 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { urls } from "./urls";
-import UrlButton from "./UrlButton";
 import { Card, ICard } from "./Card";
 import { clearIndex, crawlDocument } from "./utils";
 
@@ -25,29 +24,29 @@ export const Context: React.FC<ContextProps> = ({ className }) => {
   const [overlap, setOverlap] = useState(1);
   const [url, setUrl] = useState('');
   const [urlTitle, setUrlTitle] = useState('');
+  const [tags, setTags] = useState('');
+  const [category, setCategory] = useState('');
 
   const [file, setFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [resultPDF, setResultPDF] = useState<ResultPDF | null>(null);
   const [error, setError] = useState('');
 
-  // Scroll to selected card
-  // useEffect(() => {
-  //   const element = selected && document.getElementById(selected[0]);
-  //   element?.scrollIntoView({ behavior: "smooth" });
-  // }, [selected]);
-
   const AddUrl = () => {
     if( url ){
       setEntries([...entries, {
         url: url,
         title: urlTitle,
+        tags: tags,
+        category: category,
         loading: false,
         seeded: false
       }]);
     }    
     setUrl('')
     setUrlTitle('')
+    setTags('')
+    setCategory('')
   }
 
   const DropdownLabel: React.FC<
@@ -58,23 +57,23 @@ export const Context: React.FC<ContextProps> = ({ className }) => {
     </label>
   );
 
-  const buttons = entries.map((entry, key) => (
-    <div className="" key={`${key}-${entry.loading}`}>
-      <UrlButton
-        entry={entry}
-        onClick={() =>
-          crawlDocument(
-            entry.url,
-            setEntries,
-            setCards,
-            splittingMethod,
-            chunkSize,
-            overlap
-          )
-        }
-      />
-    </div>
-  ));
+  // const buttons = entries.map((entry, key) => (
+  //   <div className="" key={`${key}-${entry.loading}`}>
+  //     <UrlButton
+  //       entry={entry}
+  //       onClick={() =>
+  //         crawlDocument(
+  //           entry.url,
+  //           setEntries,
+  //           setCards,
+  //           splittingMethod,
+  //           chunkSize,
+  //           overlap
+  //         )
+  //       }
+  //     />
+  //   </div>
+  // ));
 
   
 
@@ -120,27 +119,53 @@ export const Context: React.FC<ContextProps> = ({ className }) => {
     >
       <div className="flex flex-col items-start sticky top-0 w-full">
         <div className="flex flex-col items-start lg:flex-row w-full lg:flex-wrap p-2">
-          {buttons}
+          {/* {buttons} */}
         </div>
         <div className="flex-grow w-full px-4">
-        <input className="mb-2 w-full bg-transparent placeholder:text-slate-400 text-slate-200 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow" 
+        <input className="mb-2 w-full bg-with placeholder:text-slate-400 text-slate-200 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow" 
             type="text"
             placeholder="Título da URL"
             value={urlTitle}
             onChange={(e: ChangeEvent<HTMLInputElement>) => setUrlTitle(e.target.value)} />
          
-          <input className="w-full bg-transparent placeholder:text-slate-400 text-slate-200 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"  
+          <input className="mb-2 w-full bg-with placeholder:text-slate-400 text-slate-200 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"  
             type="text"
             placeholder="Link da URL"
             value={url}
             onChange={(e: ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)} />
+
+          <input className="mb-2  w-full bg-with placeholder:text-slate-400 text-slate-200 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"  
+            type="text"
+            placeholder="Tags"
+            value={tags}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setTags(e.target.value)} />
+
+          <input className="w-full bg-with placeholder:text-slate-400 text-slate-200 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"  
+            type="text"
+            placeholder="Categoria"
+            value={category}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setCategory(e.target.value)} />
+
           <Button
             className="w-full my-2 uppercase active:scale-[98%] transition-transform duration-100"
             style={{
               backgroundColor: "#4f6574",
               color: "white",
             }}
-            onClick={() => AddUrl()}
+            onClick={() => crawlDocument(
+                              {
+                                url,
+                                title: urlTitle,
+                                tags,
+                                category
+                              },
+                              setCards,
+                              splittingMethod,
+                              chunkSize,
+                              overlap
+                          )
+
+            }
           >
             Adicionar URL
           </Button>
@@ -247,7 +272,7 @@ export const Context: React.FC<ContextProps> = ({ className }) => {
               backgroundColor: "#4f6574",
               color: "white",
             }}
-            onClick={() => clearIndex(setEntries, setCards)}
+            onClick={() => clearIndex(setCards)}
           >
             Limpar Banco de Dados
           </Button>
