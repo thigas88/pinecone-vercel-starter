@@ -141,7 +141,7 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
                 message={message}
                 status={status}
                 className={cn({
-                  "bg-primary text-primary-foreground": message.role === "assistant",
+                  "bg-primary text-primary-foreground": message.role === "user",
                 })}
               />
             ))}

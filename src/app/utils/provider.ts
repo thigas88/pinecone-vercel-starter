@@ -1,12 +1,10 @@
 import {
-  Message,
-  LangChainAdapter,
-  streamText,
-  generateText,
   wrapLanguageModel,
   extractReasoningMiddleware,
-  LanguageModelV1,
 } from "ai";
+
+import { cacheMiddleware } from '@/ai/middleware';
+
 
 // import models from ai-sdk
 import { groq, createGroq } from "@ai-sdk/groq";
@@ -51,7 +49,18 @@ const googleProvider = async () => {
     apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
   });
 
-  return modelGoogle(process.env.MODEL_NAME || "gemini-1.5-pro-latest");
+  const model = modelGoogle(process.env.MODEL_NAME || "gemini-1.5-pro-latest");
+
+  // if( process.env.ENABLE_MODEL_CACHE ){
+  //   const wrappedModel = wrapLanguageModel({
+  //     model: model,
+  //     middleware: cacheMiddleware,
+  //   });
+
+  //   return wrappedModel;
+  // }  
+
+  return model;
 };
 
 const groqProvider = async () => {
@@ -71,14 +80,15 @@ const groqProvider = async () => {
 
 export async function getModel() {
   const modelProvider = process.env.MODEL_PROVIDER || "groq";
+  let model;
 
   console.log('modelProvider: ', modelProvider)
 
   switch (modelProvider) {
     case "ollama":
-      return await ollamaProvider();
+      model = await ollamaProvider();
     case "groq":
-      return await groqProvider();
+      model = await groqProvider();
     case "huggingface":
       // Adicione o provider para huggingface se necessário
       throw new Error(`Model provider ${modelProvider} is not supported yet`);
@@ -92,12 +102,24 @@ export async function getModel() {
       // Adicione o provider para mistral se necessário
       throw new Error(`Model provider ${modelProvider} is not supported yet`);
     case "openrouter":
-      return await oprouterProvider();
+      model = await oprouterProvider();
     case "google":
-      return await googleProvider();
+      model = await googleProvider();
     default:
       throw new Error(`Model provider ${modelProvider} is not supported`);
   }
+
+  if( process.env.ENABLE_MODEL_CACHE ){
+    const wrappedModel = wrapLanguageModel({
+      model: model,
+      middleware: cacheMiddleware,
+    });
+
+    return wrappedModel;
+  }else{
+    return model
+  }
+
 }
 
 /* 
