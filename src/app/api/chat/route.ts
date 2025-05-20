@@ -151,8 +151,6 @@ export async function POST(req: Request) {
             messages: messages
         });
 
-        console.log('resultado com contexto: ', finalResult);
-
     }
      else {
         // Se o LLM não indicou a necessidade de contexto, a resposta dele é a resposta final

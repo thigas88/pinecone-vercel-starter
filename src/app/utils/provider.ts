@@ -1,6 +1,7 @@
 import {
   wrapLanguageModel,
   extractReasoningMiddleware,
+  streamText, tool
 } from "ai";
 
 import { cacheMiddleware } from '@/ai/middleware';

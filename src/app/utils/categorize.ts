@@ -1,18 +1,22 @@
 
 import { getModel } from '@/app/utils/provider';
 import { generateText } from 'ai';
-import { ScoredPineconeRecord } from "@pinecone-database/pinecone";
 
 type ContentCategory = 'ecampus' | 'sei' | 'conta-institucional' | 'revista' | 'glpi' | 'outros';
 
 export async function categorizeQuery(query: string): Promise<ContentCategory> {
   const classifierPrompt = `
     Classifique a pergunta do usuário em uma das categorias:
-    - ecampus: perguntas sobre cursos, disciplinas, notas, sistema acadêmico, ecampus
+    - ecampus: plano de oferta de disciplina, disciplinas, exibir notas, sistema acadêmico, ecampus
     - glpi: perguntas sobre chamados, tickets, suporte técnico
     - sei: sobre processos administrativos, ofícios, documentos adminsitrativos, sei
     - conta-institucional: emails, acesso, criar conta instituciona, alterar senha da conta institucional
-    - revista: revista eletronica, publicar revista, criar revista
+    - revista-eletronica: revista eletronica, publicar revista, criar revista
+    - assinador: assinatura digital, assinatura eletronica, assinar documento, validar assinatura
+    - eduroam: wifi, internet wifi, acesso wifi, acesso a internet
+    - dados-abertos: dados abertos, dados públicos, dados abertos da universidade
+    - pagamento-digital: Pag@UFVJM, pagamento digital, pagamento de boleto, GRU, pix
+    - relatorios-gerenciais: relatórios gerenciais, metabase, 
     - outros: demais assuntos
 
     Pergunta: "${query}"
