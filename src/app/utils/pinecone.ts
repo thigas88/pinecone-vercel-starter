@@ -7,11 +7,14 @@ export type Metadata = {
   url: string,
   text: string,
   chunk: string,
-  hash: string
+  hash: string,
+  title: string,
+  tags: string,
+  category: string
 }
 
 // The function `getMatchesFromEmbeddings` is used to retrieve matches for the given embeddings
-const getMatchesFromEmbeddings = async (embeddings: number[], topK: number, namespace: string): Promise<ScoredPineconeRecord<Metadata>[]> => {
+const getMatchesFromEmbeddings = async (embeddings: number[], topK: number, namespace: string, category: string = ''): Promise<ScoredPineconeRecord<Metadata>[]> => {
   // Obtain a client for Pinecone
   // const pinecone = new Pinecone();
 
@@ -37,8 +40,12 @@ const getMatchesFromEmbeddings = async (embeddings: number[], topK: number, name
     const queryResult = await pineconeNamespace.query({
       vector: embeddings,
       topK,
+      filter: {
+        "category": { "$eq": category }
+      },
       includeMetadata: true,
     })
+
     return queryResult.matches || []
   } catch (e) {
     // Log the error and throw it
