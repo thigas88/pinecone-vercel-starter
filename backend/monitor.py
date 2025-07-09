@@ -6,7 +6,7 @@ import time
 import threading
 import sqlite3
 import logging
-
+import json
 from sklearn.metrics import classification_report, accuracy_score
 from sklearn.metrics import f1_score, precision_score, recall_score
 import datetime
