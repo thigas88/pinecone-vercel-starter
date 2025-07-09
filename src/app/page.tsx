@@ -1,18 +1,16 @@
-// page.tsx
-
 "use client";
 
 import React, { useEffect, useRef, useState, FormEvent } from "react";
-import { Context } from "@/components/Context";
-import Header from "@/components/Header";
-import Chat from "@/components/Chat";
+import { Context } from "@/app/components/Context";
+import Header from "@/app/components/Header";
+import Chat from "@/app/components/Chat/Chat";
 import { useChat } from "ai/react";
-import InstructionModal from "./components/InstructionModal";
+import InstructionModal from "@/app/components/InstructionModal";
 import { AiFillGithub, AiOutlineInfoCircle } from "react-icons/ai";
 
 const Page: React.FC = () => {
   const [gotMessages, setGotMessages] = useState(false);
-  const [context, setContext] = useState<string[] | null>(null);
+  // const [context, setContext] = useState<string[] | null>(null);
   const [isModalOpen, setModalOpen] = useState(false);
 
   const { messages, input, handleInputChange, handleSubmit, status } = useChat({
@@ -33,30 +31,30 @@ const Page: React.FC = () => {
   const handleMessageSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleSubmit(e);
-    setContext(null);
+    // setContext(null);
     setGotMessages(false);
   };
 
-  useEffect(() => {
-    const getContext = async () => {
-      const response = await fetch("/api/context", {
-        method: "POST",
-        body: JSON.stringify({
-          messages,
-        }),
-      });
-      const { context } = await response.json();
-      setContext(context.map((c: any) => c.id));
-    };
-    if (gotMessages && messages.length >= prevMessagesLengthRef.current) {
-      getContext();
-    }
+  // useEffect(() => {
+  //   const getContext = async () => {
+  //     const response = await fetch("/api/context", {
+  //       method: "POST",
+  //       body: JSON.stringify({
+  //         messages,
+  //       }),
+  //     });
+  //     const { context } = await response.json();
+  //     setContext(context.map((c: any) => c.id));
+  //   };
+  //   if (gotMessages && messages.length >= prevMessagesLengthRef.current) {
+  //     getContext();
+  //   }
 
-    prevMessagesLengthRef.current = messages.length;
-  }, [messages, gotMessages]);
+  //   prevMessagesLengthRef.current = messages.length;
+  // }, [messages, gotMessages]);
 
   return (
-    <div className="flex flex-col justify-between h-screen bg-gray-800 p-2 mx-auto max-w-full">
+    <div className="flex flex-col justify-between h-screen p-2 mx-auto max-w-full">
       <Header className="my-5" />
 
       <button
@@ -70,28 +68,17 @@ const Page: React.FC = () => {
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
       />
-      <div className="flex w-full flex-grow overflow-hidden relative">
-        <Chat
+      <div className="flex w-full bg-muted flex-grow overflow-hidden relative">
+        <Chat 
+          messages={messages} 
+          status={status} 
+          handleSubmit={handleMessageSubmit} 
+          handleInputChange={handleInputChange} 
           input={input}
-          handleInputChange={handleInputChange}
-          handleMessageSubmit={handleMessageSubmit}
-          messages={messages}
-          status={status}
-        />
+          id="" />
         <div className="absolute transform translate-x-full transition-transform duration-500 ease-in-out right-0 w-2/3 h-full overflow-y-auto lg:static lg:translate-x-0 lg:w-2/5 lg:mx-2 rounded-lg">
-          <Context className="" selected={context} />
+          {/* <Context className="" /> */}
         </div>
-        <button
-          type="button"
-          className="absolute left-20 transform -translate-x-12 bg-gray-800 text-white rounded-l py-2 px-4 lg:hidden"
-          onClick={(e) => {
-            e.currentTarget.parentElement
-              ?.querySelector(".transform")
-              ?.classList.toggle("translate-x-full");
-          }}
-        >
-          ☰
-        </button>
       </div>
     </div>
   );

@@ -47,3 +47,5 @@ __pycache__/
 question_classifier_api/app.log
 question_classifier_api/__pycache__/app.cpython-312.pyc
 */performance_reports*
+.idx/
+.vscode/

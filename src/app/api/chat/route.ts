@@ -1,9 +1,9 @@
-import { Message, streamText } from 'ai'
-import { getContext } from '@/utils/context'
+import { Message, streamText, generateText, CoreMessage, UIMessage } from 'ai'
+import { getContext } from '@/app/utils/context'
 import { PromptTemplate, ChatPromptTemplate } from '@langchain/core/prompts'
 import { NextResponse, type NextRequest } from 'next/server'
-import { getModel } from '@/utils/provider';
-import { categorizeQuery, identifyCategory } from '@/utils/categorize';
+import { getModel } from '@/app/utils/provider';
+import { categorizeQuery, identifyCategory } from '@/app/utils/categorize';
 
 
 // IMPORTANT! Set the runtime to edge
@@ -12,6 +12,36 @@ export const runtime = 'edge'
 const formatMessage = (message: Message) => {
   return `${message.role}: ${message.content}`
 }
+
+let contextHistory = '';
+
+const TEMPLATE_DECISAO = `
+Você é um assistente de suporte técnico especializado nos sistemas e serviços da Universidade Federal dos Vales do Jequinhonha e Mucuri (UFVJM). Sua função é fornecer informações precisas, claras e úteis em Português do Brasil.
+Primeiro, analise a pergunta do usuário cuidadosamente para determinar se ela requer informações adicionais para ser respondida de forma completa e precisa.
+
+### Comportamento e Tom:
+- Comunique-se de forma profissional, amigável e paciente
+- Use linguagem clara e acessível, evitando jargões técnicos desnecessários
+- Seja **empático, educado e proativo**. Use frases como "Claro, posso ajudar!" ou "Vamos resolver isso juntos!"
+- Mantenha um tom institucional que reflita os valores da UFVJM
+- Se o usuário sair do escopo (ex.: perguntas pessoais), redirecione gentilmente: *"Desculpe, meu foco é auxiliar com os serviços da UFVJM. Como posso ajudar nesse tema?"* 
+
+### Instruções de Ação:
+- Se a análise indicar que a pergunta pode ser respondida adequadamente SEM contexto adicional, forneça a resposta diretamente com base no seu conhecimento geral.
+- Se a análise indicar que a pergunta NECESSITA de contexto adicional para uma resposta completa e precisa, responda apenas com o texto NECESSITA_CONTEXTO. **Neste caso, você não fornecerá uma resposta final ainda.** 
+
+### Exemplo (para o LLM entender o comportamento desejado):
+
+*   **Pergunta do Usuário:** "Qual é a capital da França?"
+    **Ação:** A pergunta pode ser respondida sem contexto adicional.
+    **Resposta Final:** A capital da França é Paris.
+
+*   **Pergunta do Usuário:** "Quem atua como controlador dos dados pessoais no serviço Assina@UFVJM?"
+    **Ação:** A pergunta NECESSITA de contexto adicional sobre a política de privacidade ou termos de uso do serviço Assina@UFVJM.
+    **Resposta Final:** NECESSITA_CONTEXTO.
+
+
+`
 
 const TEMPLATE = `
 Você é um assistente de suporte técnico especializado nos sistemas e serviços da Universidade Federal dos Vales do Jequinhonha e Mucuri (UFVJM). Sua função é fornecer informações precisas, claras e úteis em Português do Brasil.
@@ -56,76 +86,150 @@ Você é um assistente de suporte técnico especializado nos sistemas e serviço
 export async function POST(req: Request) {
   try {
 
-    const { messages } = await req.json()
+    console.log(req)
+
+    const { messages }: { messages: UIMessage[] } = await req.json()
     
     // Get the last message
     const lastMessage = messages[messages.length - 1]
     const currentMessageContent = lastMessage.content
 
+    console.log('Mensagem atual: ', currentMessageContent)
+
     // Classificar a pergunta
     const category = await categorizeQuery(currentMessageContent);
     console.log('Categoria identificada:', category);
 
-    // Identificar a categoria da pergunta
-    const category2 = await identifyCategory(currentMessageContent);
-    console.log('Categoria identificada 2:', category2);
-
-    // Buscar contexto específico
-    const context = await getContext(currentMessageContent, category, '');
-
-    // Verificar se o contexto é relevante
-    // if (!context) { 
-    //   return NextResponse.json({
-    //     response: "Sinto muito, mas não encontrei informações relevantes para te ajudar. Por favor, reformule sua pergunta, ou abra um chamado no GLPI: [link](https://glpi.ufvjm.edu.br)"
-    //   });
-    // }
-
-    const formattedPreviousMessages = messages.slice(0, -1).map(formatMessage)
-
-    // Formatar histórico de mensagens anteriores para contexto
-    // const formatPreviousMessages = (messages: Message[], limit = 3) => {
-    //   const recentMessages = messages.slice(-limit);
-    //   return recentMessages.map(message => `${message.role}: ${message.content}`).join('\n');
-    // };
-
-    // const chatHistory = messages.length > 1 
-    //   ? formatPreviousMessages(messages.slice(0, -1))
-    //   : '';
-
-    // Histórico recente à conversa para manter o contexto
-    const buildChatHistory = (messages: Message[]) => 
-      messages
-        .slice(-4) // Mantém últimas 4 interações
-        .map(m => `${m.role.toUpperCase()}: ${m.content}`)
-        .join('\n');
-    
-    // Monta o histórico de mensagens
-    const chat_history = buildChatHistory(messages);
-
-    
-    const prompt = ChatPromptTemplate.fromTemplate(TEMPLATE)
-
-    const formattedChatPrompt = await prompt.invoke({
-      context: context,
-      chat_history: formattedPreviousMessages.join('\n'),
-      input: currentMessageContent,
-    });
-
-    console.log('Histórico:', chat_history);
-    console.log('Última mensagem:', lastMessage);
-    console.log('Categoria:', category);
-    console.log('Contexto:', context);
-
     const model = await getModel()
 
-    const result = streamText({
+    let mensagensDecisao: CoreMessage[] = [
+      { role: 'system', 
+        content: TEMPLATE_DECISAO 
+      },
+      { role: 'user', 
+        content: currentMessageContent 
+      }
+    ]
+    
+    // Aqui o LLM tomará a decisão se precisa ou não de contexto.
+    const { text } = await generateText({
       model: model,
-      prompt: formattedChatPrompt.toString()
+      system: TEMPLATE_DECISAO,
+      // prompt: formattedChatDecisao.toString(),
+      messages: mensagensDecisao,
     });
 
-    console.log('resultado: ', result)
+    const resultDecisao = text;
 
-    return result.toDataStreamResponse();
+    // return NextResponse.json({ resultDecisao }, { status: 200 })
+
+    let finalResult;
+
+    // Verifica se o LLM decidiu que precisa de contexto
+    if (resultDecisao && resultDecisao.includes("NECESSITA_CONTEXTO")) {
+        console.log("Contexto necessário. Buscando contexto...");
+        // Buscar contexto específico
+        const context = await getContext(currentMessageContent, category, '');
+
+        // Histórico completo de mensagens
+        const formattedPreviousMessages = messages.slice(0, -1).map(formatMessage)
+        contextHistory = formattedPreviousMessages.join('\n');
+
+        const prompt = ChatPromptTemplate.fromTemplate(TEMPLATE)
+
+        const formattedChatPrompt = await prompt.invoke({
+            context: context,
+            //chat_history: formattedPreviousMessages.join('\n'),
+            input: currentMessageContent,
+        });
+
+        // Chama o LLM novamente, agora com o contexto incluído
+        finalResult = streamText({
+            model: model,
+            // prompt: formattedChatPrompt.toString()
+            system: formattedChatPrompt.toString(),
+            messages: messages
+        });
+
+    }
+     else {
+        // Se o LLM não indicou a necessidade de contexto, a resposta dele é a resposta final
+        console.log("Contexto não necessário. Usando a resposta do LLM diretamente.");
+        // Cria um stream a partir da resposta do LLM para manter o formato de retorno
+        
+        const prompt = ChatPromptTemplate.fromTemplate(TEMPLATE_DECISAO)
+
+        // const formattedChatPrompt = await prompt.invoke({
+        //     input: currentMessageContent,
+        // });
+
+        // Chama o LLM novamente, agora com o contexto incluído
+        finalResult = streamText({
+            model: model,
+            //prompt: formattedChatPrompt.toString()
+            messages: mensagensDecisao,
+        });
+
+    }
+
+    return finalResult.toDataStreamResponse();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // // Buscar contexto específico
+    // const context = await getContext(currentMessageContent, category, '');
+
+    // const formattedPreviousMessages = messages.slice(0, -1).map(formatMessage)
+
+    // // Histórico recente à conversa para manter o contexto
+    // const buildChatHistory = (messages: Message[]) => 
+    //   messages
+    //     .slice(-4) // Mantém últimas 4 interações
+    //     .map(m => `${m.role.toUpperCase()}: ${m.content}`)
+    //     .join('\n');
+    
+    // // Monta o histórico de mensagens
+    // const chat_history = buildChatHistory(messages);
+    
+    // const prompt = ChatPromptTemplate.fromTemplate(TEMPLATE)
+
+    // const formattedChatPrompt = await prompt.invoke({
+    //   context: context,
+    //   chat_history: formattedPreviousMessages.join('\n'),
+    //   input: currentMessageContent,
+    // });
+
+    // // console.log('Histórico:', chat_history);
+    // // console.log('Última mensagem:', lastMessage);
+    // // console.log('Categoria:', category);
+    // // console.log('Contexto:', context);
+
+
+    // const result = streamText({
+    //   model: model,
+    //   prompt: formattedChatPrompt.toString()
+    // });
+
+    // console.log('resultado: ', result)
+
+    // return result.toDataStreamResponse();
 
   } catch (e) {
     // throw (e)

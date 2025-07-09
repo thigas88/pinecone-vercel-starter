@@ -1,28 +1,28 @@
+import { NextResponse } from 'next/server';
+import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
+
+// import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
+
 import { getEmbeddings } from "@/app/utils/embeddings";
 import { Document, MarkdownTextSplitter, RecursiveCharacterTextSplitter } from "@pinecone-database/doc-splitter";
 import { Pinecone, PineconeRecord, ServerlessSpecCloudEnum } from "@pinecone-database/pinecone";
 import { chunkedUpsert } from '../../utils/chunkedUpsert'
-import { Crawler, Page } from "./crawler";
 import { truncateStringByBytes } from "@/app/utils/truncateString"
 // @ts-ignore
 import { Corpus } from "tiny-tfidf";// https://github.com/kerryrodden/tiny-tfidf
 import md5 from "md5";
-import { ItemUrl } from "@/app/components/Context/ItemUrl"
+import { pineconeSetup } from "@/app/components/Context/utils";
 
 
-interface SeedOptions {
-  splittingMethod: string
-  chunkSize: number
-  chunkOverlap: number
-}
+
+type DocumentSplitter = RecursiveCharacterTextSplitter | MarkdownTextSplitter
+
 
 // Interface para representar palavras-chave e suas pontuações
 interface Keyword {
   word: string;
   score: number;
 }
-
-type DocumentSplitter = RecursiveCharacterTextSplitter | MarkdownTextSplitter
 
 
 // Lista de stopwords em português do Brasil
@@ -36,47 +36,87 @@ const stopwords: string[] = [
 ];
 
 
-async function seed(item: ItemUrl, limit: number, indexName: string, cloudName: ServerlessSpecCloudEnum, regionName: string, options: SeedOptions) {
+export async function POST(req: Request) {
+
+  
+  // Initialize the Pinecone client
+  const pinecone = new Pinecone();
+
   try {
-    // Initialize the Pinecone client
-    const pinecone = new Pinecone();
 
-    // Destructure the options object
-    const { splittingMethod, chunkSize, chunkOverlap } = options;
 
-    // Create a new Crawler with depth 1 and maximum pages as limit
-    const crawler = new Crawler(5, limit || 100);
+    // Obter o FormData da requisição
+    const formData = await req.formData();
+    const pdfFile = formData.get('pdf');
+    const splittingMethod = formData.get('splittingMethod');
+    const chunkSize = Number(formData.get('chunkSize'));
+    const chunkOverlap = Number(formData.get('overlap'));
+;    
+    if (!pdfFile || !(pdfFile instanceof File)) {
+      return NextResponse.json(
+        { error: 'Nenhum arquivo PDF enviado' },
+        { status: 400 }
+      );
+    }
+    
+    // Verificar se é um PDF
+    if (pdfFile.type !== 'application/pdf') {
+      return NextResponse.json(
+        { error: 'O arquivo enviado não é um PDF válido' },
+        { status: 400 }
+      );
+    }
 
-    // Crawl the given URL and get the pages
-    const pages = await crawler.crawl(item.url) as Page[];
+    // Converter o arquivo para um Blob
+    const fileBlob = new Blob([await pdfFile.arrayBuffer()], { type: 'application/pdf' });
+    
+    // Usar LangChain para carregar e processar o PDF
+    const loader = new WebPDFLoader(fileBlob, {
+      splitPages: false // Mantém o documento como um único documento
+    });
+    
+    const docs = await loader.load();
+    
+    // Verificar se conseguimos extrair algum conteúdo
+    if (!docs || docs.length === 0) {
+      return NextResponse.json(
+        { error: 'Não foi possível extrair texto do PDF' },
+        { status: 400 }
+      );
+    }
 
-    // @todo If splittingMethod === 'semantic' need implement a semantic splitter in the future in python  service
+    // // Criar o text splitter para chunking
+    // const textSplitter = new RecursiveCharacterTextSplitter({
+    //   chunkSize: 1000,
+    //   chunkOverlap: 200,
+    // });
 
     // Choose the appropriate document splitter based on the splitting method
     const splitter: DocumentSplitter = splittingMethod === 'recursive' ?
       new RecursiveCharacterTextSplitter({ chunkSize, chunkOverlap }) : new MarkdownTextSplitter({});
 
     // Prepare documents by splitting the pages
-    const documents = await Promise.all(pages.map(page => prepareDocument(page, splitter, item)));
+    const documents = await prepareDocument(docs[0], splitter);
+
 
     // Create Pinecone index if it does not exist
     const indexList: string[] = (await pinecone.listIndexes())?.indexes?.map(index => index.name) || [];
-    const indexExists = indexList.includes(indexName);
+    const indexExists = indexList.includes(pineconeSetup.indexName);
     if (!indexExists) {
       await pinecone.createIndex({
-        name: indexName,
+        name: pineconeSetup.indexName,
         dimension: 768,
         waitUntilReady: true,
         spec: { 
           serverless: { 
-              cloud: cloudName, 
-              region: regionName
+              cloud: pineconeSetup.cloudName, 
+              region: pineconeSetup.regionName
           }
         } 
       });
     }
 
-    const index = pinecone.Index(indexName)
+    const index = pinecone.Index(pineconeSetup.indexName)
 
     // Get the vector embeddings for the documents
     const vectors = await Promise.all(documents.flat().map(embedDocument));
@@ -84,13 +124,34 @@ async function seed(item: ItemUrl, limit: number, indexName: string, cloudName: 
     // Upsert vectors into the Pinecone index
     await chunkedUpsert(index!, vectors, '', 10);
 
-    // Return the first document
-    return documents[0];
+    // Dividir o texto em chunks
+    // const chunks = await textSplitter.splitText(docs[0].pageContent);
+
+    // console.log('Foi gerado ' + chunks.length + ' chunks');
+
+    // Retornar os chunks
+    return NextResponse.json({ 
+      message: 'PDF processado com sucesso',
+      chunks: vectors.length
+    });
+
+    // const documents = await seed(
+    //   pdf,
+    //   1,
+    //   process.env.PINECONE_INDEX!,
+    //   process.env.PINECONE_CLOUD as ServerlessSpecCloudEnum || 'aws',
+    //   process.env.PINECONE_REGION || 'us-west-2',
+    //   options
+    // )
+    // return NextResponse.json({ success: true, documents })
   } catch (error) {
-    console.error("Error seeding:", error);
-    throw error;
+    console.error('Erro ao processar o PDF:', error);
+    return NextResponse.json({ success: false, error: "Failed extract pdf content" })
   }
+
 }
+
+
 
 async function embedDocument(doc: Document): Promise<PineconeRecord> {
   try {
@@ -107,12 +168,9 @@ async function embedDocument(doc: Document): Promise<PineconeRecord> {
       metadata: { // The metadata includes details about the document
         chunk: doc.pageContent, // The chunk of text that the vector represents
         text: doc.metadata.text as string, // The text of the document
-        url: doc.metadata.url as string, // The URL where the document was found
+        //url: doc.metadata.url as string, // The URL where the document was found
         hash: doc.metadata.hash as string, // The hash of the document content
         keywords: doc.metadata.keywords as [], // The keywords associated with the document
-        tags: doc.metadata.tags as string, // The tags associated with the document
-        category: doc.metadata.category as string, // The category of the document
-        title: doc.metadata.title as string // The title of the document
       }
     } as PineconeRecord;
   } catch (error) {
@@ -121,21 +179,19 @@ async function embedDocument(doc: Document): Promise<PineconeRecord> {
   }
 }
 
-async function prepareDocument(page: Page, splitter: DocumentSplitter, item: ItemUrl): Promise<Document[]> {
+
+async function prepareDocument(page: Document, splitter: DocumentSplitter): Promise<Document[]> {
   // Get the content of the page
-  const pageContent = page.content;
+  const pageContent = page.pageContent;
 
   // Split the documents using the provided splitter
   const docs = await splitter.splitDocuments([
     new Document({
       pageContent,
       metadata: {
-        url: page.url,
+        //url: page.url,
         // Truncate the text to a maximum byte length
-        text: truncateStringByBytes(pageContent, 36000),
-        tags: item.tags,
-        category: item.category,
-        title: item.title
+        text: truncateStringByBytes(pageContent, 36000)
       },
     }),
   ]);
@@ -178,5 +234,3 @@ async function prepareDocument(page: Page, splitter: DocumentSplitter, item: Ite
   return processedDocs;
 }
 
-
-export default seed;

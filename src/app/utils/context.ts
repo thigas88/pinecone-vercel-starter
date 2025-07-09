@@ -28,17 +28,18 @@ function formatResults(results: ScoredPineconeRecord<Metadata>[]) {
 
 // The function `getContext` is used to retrieve the context of a given message
 export const getContext = async (message: string, category: string, namespace: string = '', maxTokens = 5000, 
-  minScore = 0.6, getOnlyText = true, topK = 8): Promise<string | ScoredPineconeRecord[]> => {
+  minScore = 0.4, getOnlyText = true, topK = 8): Promise<string | ScoredPineconeRecord[]> => {
 
   try {
     // Get the embeddings of the input message
     const embedding = await getEmbeddings(message);
 
     // Retrieve the matches for the embeddings from the specified namespace
-    const matches = await getMatchesFromEmbeddings(embedding, topK, namespace);
+    const matches = await getMatchesFromEmbeddings(embedding, topK, namespace, category);
 
     // Filter out the matches that have a score lower than the minimum score
     const qualifyingDocs = matches.filter(m => m.score && m.score > minScore);
+    console.log("Encontrado " + matches.length + " matches")
 
     if (!getOnlyText) {
       // Use a map to deduplicate matches by URL
@@ -54,6 +55,7 @@ export const getContext = async (message: string, category: string, namespace: s
     }) : [];
 
     console.log('chunks mais relevantes com score maior que '+ minScore +': ')
+    console.log(matches);
     qualifyingDocs.map((match) => {
       console.log( `CHUNCK ID: ${match.id} SCORE: ${match.score}`);
     });
