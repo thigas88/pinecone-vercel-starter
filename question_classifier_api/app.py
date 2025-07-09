@@ -19,6 +19,15 @@ import io
 import re
 import string
 import unicodedata # Para remover acentos
+import matplotlib.pyplot as plt
+from collections import deque
+import time
+import threading
+import sqlite3
+import logging
+
+from config import logger
+from monitor import ConceptDriftDetector
 
 app = FastAPI(
     title="API de Classificação de Perguntas",
@@ -104,6 +113,7 @@ def preprocess_text(text: str) -> str:
     tokens = [stemmer.stem(word) for word in tokens if word not in stopwords and len(word) > 2]
     
     return ' '.join(tokens)
+
 
 
 @app.post("/train", response_model=TrainingResponse)
@@ -284,6 +294,34 @@ async def train_model(file: UploadFile = File(...)):
         # Salvar o modelo de suporte
         with open(SUPPORT_MODEL_FILE, 'wb') as f:
             pickle.dump(best_model_sup, f)
+
+
+
+        # Inicializar detector de concept drift
+        drift_detector = ConceptDriftDetector(
+            window_size=100,
+            threshold=0.05,
+            metrics=['accuracy', 'f1_macro', 'precision_macro', 'recall_macro']
+        )
+        drift_detector.initialize_db()
+        
+        # Feedback loop e retreinamento
+        feedback_data = []
+        last_retrain_time = time.time()
+        retrain_interval = 86400  # 24 horas em segundos
+        min_feedback_for_retrain = 50
+        monitoring_active = False
+
+        # Configurar o detector de concept drift com os resultados do conjunto de teste
+        drift_detector.set_reference_performance(y_test_cat, y_pred_cat)
+        
+        # Salvar dados de teste para validação contínua
+        test_data = pd.DataFrame({
+            'text': X_test_cat,
+            'category': y_test_cat
+        })
+        test_data.to_csv('test_data.csv', index=False)
+        
 
         
         return {
