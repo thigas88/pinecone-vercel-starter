@@ -12,7 +12,7 @@ import { Category as ContentCategory } from '@/types/Category';
  */
 export async function categorizeQuery(query: string): Promise<ContentCategory> {
   const classifierPrompt = `
-    Classifique a pergunta do usuário em uma das categorias:
+    Classifique a pergunta do usuário em uma das categorias definidas abaixo:
     - ecampus: plano de oferta de disciplina, disciplinas, exibir notas, sistema acadêmico, ecampus
     - glpi: perguntas sobre chamados, tickets, suporte técnico
     - sei: sobre processos administrativos, ofícios, documentos adminsitrativos, sei, modelos de documentos, peticionamento
@@ -25,6 +25,8 @@ export async function categorizeQuery(query: string): Promise<ContentCategory> {
     - relatoriosgerenciais: gerar relatório, criar relatório, relatórios gerenciais, metabase, 
     - outros: demais assuntos
 
+Responda apenas com o texto da categoria específica, sem repetir o prompt ou outras explicações. Por exemplo: *ecampus*
+
     Pergunta: "${query}"
   `;
 
@@ -32,7 +34,7 @@ export async function categorizeQuery(query: string): Promise<ContentCategory> {
 
   const { text } = await generateText({
     model: model,
-    system: 'Você é um especialista em categorizar perguntas.',
+    system: 'Você é um especialista em categorizar perguntas sobre os sistemas e serviços da UFVJM.',
     prompt: classifierPrompt,
   });
   
