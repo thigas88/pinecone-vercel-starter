@@ -28,7 +28,7 @@ function formatResults(results: ScoredPineconeRecord<Metadata>[]) {
 
 // The function `getContext` is used to retrieve the context of a given message
 export const getContext = async (message: string, category: string, namespace: string = '', maxTokens = 5000, 
-  minScore = 0.4, getOnlyText = true, topK = 8): Promise<string | ScoredPineconeRecord[]> => {
+  minScore = 0.2, getOnlyText = true, topK = 8): Promise<string | ScoredPineconeRecord[]> => {
 
   try {
     // Get the embeddings of the input message

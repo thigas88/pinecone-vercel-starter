@@ -86,13 +86,13 @@ export const Context: React.FC<ContextProps> = ({ className }) => {
           {/* {buttons} */}
         </div>
         <div className="flex-grow w-full px-4">
-        <input className="mb-2 w-full bg-with placeholder:text-slate-400 text-slate-200 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow" 
+        <input className="mb-2 w-full bg-with placeholder:text-gray-400 text-gray-600 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow" 
             type="text"
             placeholder="Título da URL"
             value={urlTitle}
             onChange={(e: ChangeEvent<HTMLInputElement>) => setUrlTitle(e.target.value)} />
          
-         <input className="mb-2 w-full bg-with placeholder:text-slate-400 text-slate-200 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"  
+          <input className="mb-2 w-full bg-with placeholder:text-gray-400 text-gray-600 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"  
             type="text"
             placeholder="URL referência"
             value={urlRef}
@@ -104,17 +104,33 @@ export const Context: React.FC<ContextProps> = ({ className }) => {
             value={url}
             onChange={(e: ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)} />
 
-          <input className="mb-2  w-full bg-with placeholder:text-slate-400 text-slate-200 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"  
+          <input className="mb-2  w-full bg-with placeholder:text-gray-400 text-gray-600 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"  
             type="text"
-            placeholder="Tags"
+            placeholder="Tags separadas por virgula (Ex: tag1, tag2)"
             value={tags}
             onChange={(e: ChangeEvent<HTMLInputElement>) => setTags(e.target.value)} />
 
-          <input className="w-full bg-with placeholder:text-slate-400 text-slate-200 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"  
+          {/* <input className="w-full bg-with placeholder:text-gray-400 text-gray-600 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"  
             type="text"
             placeholder="Categoria"
             value={category}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => setCategory(e.target.value)} />
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setCategory(e.target.value)} /> */}
+
+          <select className="w-full bg-with placeholder:text-gray-400 text-gray-600 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+            value={category}
+            onChange={(e: ChangeEvent<HTMLSelectElement>) => setCategory(e.target.value)}>
+            <option value="">Selecione uma categoria</option>
+            <option value="ecampus">e-Campus</option>
+            <option value="sei">SEI</option>
+            <option value="containstitucional">Conta Institucional</option>
+            <option value="revista">Revista Eletrônica</option>
+            <option value="assinador">Assina@UFVJM (assinatura)</option>
+            <option value="eduroam">Eduroam (wifi)</option>
+            <option value="dadosabertos">Dados Abertos</option>
+            <option value="pagamentodigital">PAG@UFVJM (Pagamento Digital)</option>
+            <option value="relatoriosgerenciais">Metabase (relatórios)</option>
+            <option value="outros">Outros</option>
+          </select>
 
           <Button
             className="w-full my-2 uppercase active:scale-[98%] transition-transform duration-100"
