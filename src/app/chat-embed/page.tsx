@@ -9,7 +9,7 @@ import InstructionModal from "@/app/components/InstructionModal";
 import { AiFillGithub, AiOutlineInfoCircle } from "react-icons/ai";
 import { useSearchParams } from 'next/navigation';
 
-const Page: React.FC = () => {
+const ChatEmbedPage: React.FC = () => {
 
   const searchParams = useSearchParams();
   const category = searchParams.get('category') || '';
@@ -72,4 +72,4 @@ const Page: React.FC = () => {
   );
 };
 
-export default Page;
+export default ChatEmbedPage;

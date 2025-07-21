@@ -35,6 +35,7 @@ interface ExpandableChatProps extends React.HTMLAttributes<HTMLDivElement> {
   position?: ChatPosition;
   size?: ChatSize;
   icon?: React.ReactNode;
+  initialCategory?: string; // nova prop
 }
 
 const ExpandableChat: React.FC<ExpandableChatProps> = ({
@@ -43,6 +44,7 @@ const ExpandableChat: React.FC<ExpandableChatProps> = ({
   size = "md",
   icon,
   children,
+  initialCategory,
   ...props
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -65,7 +67,10 @@ const ExpandableChat: React.FC<ExpandableChatProps> = ({
           className,
         )}
       >
-        {children}
+        {/* Passa a categoria inicial como prop para o filho, se for um React element */}
+        {React.isValidElement(children)
+          ? React.cloneElement(children, { initialCategory })
+          : children}
         <Button
           variant="ghost"
           size="icon"

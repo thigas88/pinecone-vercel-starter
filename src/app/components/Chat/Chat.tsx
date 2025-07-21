@@ -55,6 +55,7 @@ interface ChatProps {
   handleSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void>;
   messages: Message[];
   status: string;
+  initialCategory?: string; // nova prop
 }
 
 /**
@@ -64,10 +65,10 @@ interface ChatProps {
  * @param {ChatProps} props - The props passed to the component.
  * @returns {JSX.Element} The rendered Chat component.
  */
-const Chat: React.FC<ChatProps> = ({ id }) => {
+const Chat: React.FC<ChatProps> = ({ id, initialCategory }) => {
   const [isGenerating, setIsGenerating] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
-  const [showCategoryPrompt, setShowCategoryPrompt] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(initialCategory as Category || null);
+  const [showCategoryPrompt, setShowCategoryPrompt] = useState(!initialCategory);
   /**
    * Destructuring the values returned from `useChat` hook.
    */
@@ -200,6 +201,26 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
       </div>
     </div>
   );
+
+  useEffect(() => {
+    if (initialCategory && !selectedCategory) {
+      setSelectedCategory(initialCategory as Category);
+      setShowCategoryPrompt(false);
+      setMessages((prev: Message[]) => [
+        ...prev,
+        {
+          role: 'user',
+          content: `Quero suporte para: ${initialCategory}`,
+          id: `${Date.now()}-user-category`
+        },
+        {
+          role: 'assistant',
+          content: `Ótimo, vou te ajudar com informações sobre: ${initialCategory}. Me fale qual é sua dúvida, e seja o mais claro possível, ok?`,
+          id: `${Date.now()}-assistant-category`
+        }
+      ]);
+    }
+  }, [initialCategory, selectedCategory, setMessages]);
 
   return (
     <div className="w-full max-w-2xl flex flex-col ">
