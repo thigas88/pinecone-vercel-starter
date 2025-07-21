@@ -25,6 +25,7 @@ import {
   Send,
   Volume2,
 } from "lucide-react";
+import { categories, Category } from "@/types/Category";
 
 const ChatAiIcons = [
   {
@@ -65,6 +66,8 @@ interface ChatProps {
  */
 const Chat: React.FC<ChatProps> = ({ id }) => {
   const [isGenerating, setIsGenerating] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+  const [showCategoryPrompt, setShowCategoryPrompt] = useState(true);
   /**
    * Destructuring the values returned from `useChat` hook.
    */
@@ -157,12 +160,52 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
     );
   };
 
+  // Exibe a mensagem de seleção de categoria após a mensagem inicial
+  const shouldShowCategoryPrompt = showCategoryPrompt && messages.length === 1 && !selectedCategory;
+
+  const handleCategorySelect = (category: Category) => {
+    setSelectedCategory(category);
+    setShowCategoryPrompt(false);
+    // Envia a escolha como mensagem do usuário para o histórico do chat
+    // O useChat não expõe diretamente um método para adicionar mensagem, então simulamos o envio
+    // Adicionando a mensagem como se fosse input do usuário
+    const fakeEvent = {
+      preventDefault: () => {},
+      target: { value: `Quero suporte para: ${category}` }
+    } as unknown as React.FormEvent<HTMLFormElement>;
+    // Atualiza o input e envia
+    handleInputChange({ target: { value: `Quero suporte para: ${category}` } } as ChangeEvent<HTMLInputElement>);
+    setTimeout(() => {
+      handleSubmit(fakeEvent);
+    }, 0);
+  };
+
+  const renderCategoryPrompt = () => (
+    <div className="flex flex-col items-start space-y-2 p-4 bg-muted rounded-lg mb-4">
+      <span className="font-semibold">Para começar, escolha o contexto que deseja suporte:</span>
+      <div className="flex flex-wrap gap-2 mt-2">
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            className={`px-3 py-1 rounded border text-sm font-medium transition-colors ${selectedCategory === cat ? 'bg-primary text-white' : 'bg-white text-primary border-primary hover:bg-primary/10'}`}
+            onClick={() => handleCategorySelect(cat)}
+            type="button"
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+
   return (
     <div className="w-full max-w-2xl flex flex-col ">
       <div className='p-4 border-b'>
         <p className="font-bold"></p>
       </div>
       <div className="space-y-4 p-4 flex-1 overflow-y-auto">
+        {/* Exibe a mensagem de seleção de categoria como uma mensagem do chat */}
+        {shouldShowCategoryPrompt && renderCategoryPrompt()}
         {hasMessages ? (
           renderMessages()
         ) : (
@@ -173,7 +216,7 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
         className="relative rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring" 
         onSubmit={handleSubmit} >
       <ChatInput
-          disabled={disableInput}
+          disabled={disableInput || shouldShowCategoryPrompt}
           value={input}
           onKeyDown={onKeyDown}
           onChange={(e) => handleInputChange(e)}
@@ -192,7 +235,7 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
             </Button>
 
             <Button
-              disabled={!input || isLoading}
+              disabled={!input || isLoading || shouldShowCategoryPrompt}
               type="submit"
               size="sm"
               className="ml-auto gap-1.5"

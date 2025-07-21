@@ -35,24 +35,6 @@ const Page: React.FC = () => {
     setGotMessages(false);
   };
 
-  // useEffect(() => {
-  //   const getContext = async () => {
-  //     const response = await fetch("/api/context", {
-  //       method: "POST",
-  //       body: JSON.stringify({
-  //         messages,
-  //       }),
-  //     });
-  //     const { context } = await response.json();
-  //     setContext(context.map((c: any) => c.id));
-  //   };
-  //   if (gotMessages && messages.length >= prevMessagesLengthRef.current) {
-  //     getContext();
-  //   }
-
-  //   prevMessagesLengthRef.current = messages.length;
-  // }, [messages, gotMessages]);
-
   return (
     <div className="flex flex-col justify-between h-screen p-2 mx-auto max-w-full">
       <Header className="my-5" />
