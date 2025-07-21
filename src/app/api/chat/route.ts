@@ -4,6 +4,7 @@ import { PromptTemplate, ChatPromptTemplate } from '@langchain/core/prompts'
 import { NextResponse, type NextRequest } from 'next/server'
 import { getModel } from '@/app/utils/provider';
 import { categorizeQuery, identifyCategory } from '@/app/utils/categorize';
+import { categories } from '@/types/Category'
 
 
 // IMPORTANT! Set the runtime to edge
@@ -17,28 +18,31 @@ let contextHistory = '';
 
 const TEMPLATE_DECISAO = `
 Você é um assistente de suporte técnico especializado nos sistemas e serviços da Universidade Federal dos Vales do Jequinhonha e Mucuri (UFVJM). Sua função é fornecer informações precisas, claras e úteis em Português do Brasil.
-Primeiro, analise a pergunta do usuário cuidadosamente para determinar se ela requer informações adicionais para ser respondida de forma completa e precisa.
 
-### Comportamento e Tom:
-- Comunique-se de forma profissional, amigável e paciente
-- Use linguagem clara e acessível, evitando jargões técnicos desnecessários
-- Seja **empático, educado e proativo**. Use frases como "Claro, posso ajudar!" ou "Vamos resolver isso juntos!"
-- Mantenha um tom institucional que reflita os valores da UFVJM
-- Se o usuário sair do escopo (ex.: perguntas pessoais), redirecione gentilmente: *"Desculpe, meu foco é auxiliar com os serviços da UFVJM. Como posso ajudar nesse tema?"* 
+Analise a pergunta do usuário cuidadosamente para determinar se ela requer informações adicionais para ser respondida de forma completa e precisa com base em um CONTEXTO já fornecido ou histórico desta conversa.
+
 
 ### Instruções de Ação:
-- Se a análise indicar que a pergunta pode ser respondida adequadamente SEM contexto adicional, forneça a resposta diretamente com base no seu conhecimento geral.
-- Se a análise indicar que a pergunta NECESSITA de contexto adicional para uma resposta completa e precisa, responda apenas com o texto NECESSITA_CONTEXTO. **Neste caso, você não fornecerá uma resposta final ainda.** 
 
-### Exemplo (para o LLM entender o comportamento desejado):
+- Se a análise indicar que a pergunta pode ser respondida adequadamente SEM CONTEXTO adicional, forneça a resposta diretamente com base no seu conhecimento obtido pelo histórico dessa conversa.
 
-*   **Pergunta do Usuário:** "Qual é a capital da França?"
-    **Ação:** A pergunta pode ser respondida sem contexto adicional.
-    **Resposta Final:** A capital da França é Paris.
+- Se a análise indicar que a pergunta NECESSITA DE CONTEXTO adicional para uma resposta completa, precisa e coerente com a pergunta, responda apenas com o texto NECESSITA_CONTEXTO. **Neste caso, você não fornecerá uma resposta final.**
 
-*   **Pergunta do Usuário:** "Quem atua como controlador dos dados pessoais no serviço Assina@UFVJM?"
-    **Ação:** A pergunta NECESSITA de contexto adicional sobre a política de privacidade ou termos de uso do serviço Assina@UFVJM.
-    **Resposta Final:** NECESSITA_CONTEXTO.
+### Exemplo:
+
+* **CONTEXTO**: Paris é uma cidade linda e também a capital da França.
+
+* **Pergunta do Usuário:** "Qual é a capital da França?"
+**Ação:** A pergunta pode ser respondida sem contexto adicional.
+**Resposta Final:** A capital da França é Paris.
+
+* **Pergunta do Usuário:** "Quem atua como controlador dos dados pessoais no serviço Assina@UFVJM?"
+**Ação:** A pergunta NECESSITA de contexto adicional sobre a política de privacidade ou termos de uso do serviço Assina@UFVJM.
+**Resposta Final:** NECESSITA_CONTEXTO.
+
+* **Pergunta do Usuário:** "Quantos habitantes tem a frança?"
+**Ação:** A pergunta NECESSITA de contexto adicional sobre a população da França.
+**Resposta Final:** NECESSITA_CONTEXTO.
 
 
 `
@@ -96,9 +100,26 @@ export async function POST(req: Request) {
 
     console.log('Mensagem atual: ', currentMessageContent)
 
-    // Classificar a pergunta
-    const category = await categorizeQuery(currentMessageContent);
-    console.log('Categoria identificada:', category);
+    // Extrair categoria do histórico de mensagens, se houver
+    let category: string | null = null;
+    for (let i = messages.length - 1; i >= 0; i--) {
+      const msg = messages[i];
+      if (msg.role === 'user' && msg.content.startsWith('Quero suporte para:')) {
+        const possible = msg.content.replace('Quero suporte para:', '').trim().toLowerCase();
+        const found = categories.find(cat => cat.toLowerCase() === possible);
+        if (found) {
+          category = found;
+          console.log('Categoria identificada pelo contexto:', category);
+          break;
+        }
+      }
+    }
+    // Se não encontrou, usa o método antigo
+    if (!category) {
+      category = await categorizeQuery(currentMessageContent);
+      console.log('Categoria identificada pelo categorizeQuery:', category);
+    }
+   
 
     const model = await getModel()
 

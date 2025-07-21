@@ -77,7 +77,8 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
     handleInputChange,
     handleSubmit,
     isLoading,
-    status
+    status,
+    setMessages
   } = useChat({
     // api: `/api/chat?id=${id}`,
     initialMessages: [
@@ -166,18 +167,20 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
   const handleCategorySelect = (category: Category) => {
     setSelectedCategory(category);
     setShowCategoryPrompt(false);
-    // Envia a escolha como mensagem do usuário para o histórico do chat
-    // O useChat não expõe diretamente um método para adicionar mensagem, então simulamos o envio
-    // Adicionando a mensagem como se fosse input do usuário
-    const fakeEvent = {
-      preventDefault: () => {},
-      target: { value: `Quero suporte para: ${category}` }
-    } as unknown as React.FormEvent<HTMLFormElement>;
-    // Atualiza o input e envia
-    handleInputChange({ target: { value: `Quero suporte para: ${category}` } } as ChangeEvent<HTMLInputElement>);
-    setTimeout(() => {
-      handleSubmit(fakeEvent);
-    }, 0);
+    // Adiciona mensagem do usuário e do assistente diretamente ao array de mensagens
+    setMessages((prev: Message[]) => [
+      ...prev,
+      {
+        role: 'user',
+        content: `Quero suporte para: ${category}`,
+        id: `${Date.now()}-user-category`
+      },
+      {
+        role: 'assistant',
+        content: `Ótimo, vou te ajudar com informações sobre: ${category}. Me fale qual é sua dúvida, e seja o mais claro possível, ok?`,
+        id: `${Date.now()}-assistant-category`
+      }
+    ]);
   };
 
   const renderCategoryPrompt = () => (
