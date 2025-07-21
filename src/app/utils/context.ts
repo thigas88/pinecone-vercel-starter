@@ -54,8 +54,7 @@ export const getContext = async (message: string, category: string, namespace: s
       return txt;
     }) : [];
 
-    console.log('chunks mais relevantes com score maior que '+ minScore +': ')
-    console.log(matches);
+    console.log('Total de chunks mais relevantes com score maior que '+ minScore +': ' + matches.length)
     qualifyingDocs.map((match) => {
       console.log( `CHUNCK ID: ${match.id} SCORE: ${match.score}`);
     });

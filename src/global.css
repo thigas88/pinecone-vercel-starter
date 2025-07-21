@@ -83,3 +83,12 @@
 .animate-pulse-once {
   animation: pulse 5s cubic-bezier(0, 0, 0.2, 1) 1;
 }
+
+ol > li{
+  margin: -30px 0;
+  padding: 0 0;
+}
+
+a{
+  text-decoration: underline;
+}

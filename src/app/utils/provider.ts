@@ -38,7 +38,8 @@ const ollamaProvider = async () => {
 const oprouterProvider = async () => {
   // OpenRouter API
   const openrouter = createOpenRouter({
-    apiKey: process.env.OPENROUTER_API_KEY
+    apiKey: process.env.OPENROUTER_API_KEY,
+    baseURL: 'https://openrouter.ai/api/v1',
   });
 
   return openrouter.chat(process.env.MODEL_NAME || 'anthropic/claude-3.5-sonnet');

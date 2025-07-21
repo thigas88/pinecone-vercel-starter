@@ -2,11 +2,13 @@
 import { getModel } from '@/app/utils/provider';
 import { generateText } from 'ai';
 
-type ContentCategory = 'ecampus' | 'sei' | 'conta-institucional' | 'revista' | 'glpi' | 'outros';
+type ContentCategory = 'ecampus' | 'dados-abertos' | 'relatorios-gerenciais' | 'sei' | 'assinador' | 'conta-institucional' | 'revista-eletronica' | 'pagamento-digital' | 'glpi' | 'eduroam' | 'outros';
 
 export async function categorizeQuery(query: string): Promise<ContentCategory> {
   const classifierPrompt = `
-    Classifique a pergunta do usuário em uma das categorias:
+    Classifique a pergunta do usuário em uma das categorias e responda apenas com a identificação da categoria.
+
+    As categorias são:
     - ecampus: plano de oferta de disciplina, disciplinas, exibir notas, sistema acadêmico, ecampus
     - glpi: perguntas sobre chamados, tickets, suporte técnico
     - sei: sobre processos administrativos, ofícios, documentos adminsitrativos, sei

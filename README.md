@@ -573,3 +573,9 @@ To display the latest test report locally, run:
 npm run test:show
 ```
 
+
+
+
+## Todo
+
+Avaliando o uso de Agentic RAG: refrasear queries do usuário, gerar diversas versões diferentes, criticar resultados gerados para cada versão de query, sintetizar resultados das múltiplas queries.

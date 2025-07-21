@@ -23,6 +23,7 @@ export const Context: React.FC<ContextProps> = ({ className }) => {
   const [chunkSize, setChunkSize] = useState(256);
   const [overlap, setOverlap] = useState(1);
   const [url, setUrl] = useState('');
+  const [urlRef, setUrlRef] = useState('');
   const [urlTitle, setUrlTitle] = useState('');
   const [tags, setTags] = useState('');
   const [category, setCategory] = useState('');
@@ -32,23 +33,6 @@ export const Context: React.FC<ContextProps> = ({ className }) => {
   const [resultPDF, setResultPDF] = useState<ResultPDF | null>(null);
   const [error, setError] = useState('');
 
-  const AddUrl = () => {
-    if( url ){
-      setEntries([...entries, {
-        url: url,
-        title: urlTitle,
-        tags: tags,
-        category: category,
-        loading: false,
-        seeded: false
-      }]);
-    }    
-    setUrl('')
-    setUrlTitle('')
-    setTags('')
-    setCategory('')
-  }
-
   const DropdownLabel: React.FC<
     React.PropsWithChildren<{ htmlFor: string }>
   > = ({ htmlFor, children }) => (
@@ -56,26 +40,6 @@ export const Context: React.FC<ContextProps> = ({ className }) => {
       {children}
     </label>
   );
-
-  // const buttons = entries.map((entry, key) => (
-  //   <div className="" key={`${key}-${entry.loading}`}>
-  //     <UrlButton
-  //       entry={entry}
-  //       onClick={() =>
-  //         crawlDocument(
-  //           entry.url,
-  //           setEntries,
-  //           setCards,
-  //           splittingMethod,
-  //           chunkSize,
-  //           overlap
-  //         )
-  //       }
-  //     />
-  //   </div>
-  // ));
-
-  
 
   const handleFileChange = async (e: any) => {
     setIsLoading(true)
@@ -128,9 +92,15 @@ export const Context: React.FC<ContextProps> = ({ className }) => {
             value={urlTitle}
             onChange={(e: ChangeEvent<HTMLInputElement>) => setUrlTitle(e.target.value)} />
          
+         <input className="mb-2 w-full bg-with placeholder:text-slate-400 text-slate-200 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"  
+            type="text"
+            placeholder="URL referência"
+            value={urlRef}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setUrlRef(e.target.value)} />
+
           <input className="mb-2 w-full bg-with placeholder:text-slate-400 text-slate-200 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"  
             type="text"
-            placeholder="Link da URL"
+            placeholder="URL para ingestar"
             value={url}
             onChange={(e: ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)} />
 

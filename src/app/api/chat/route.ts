@@ -60,10 +60,10 @@ Você é um assistente de suporte técnico especializado nos sistemas e serviço
 - Formate respostas usando markdown (títulos, listas, negritos) para fácil leitura
 
 ### Gerenciamento de Informações
-- Se a resposta estiver no contexto, forneça informações detalhadas e precisas
+- Se a resposta estiver no contexto fornecido, forneça informações detalhadas e precisas
 - Se o contexto incluir URLs, referencie-as no formato: [n] onde n é o número da referência, incluindo o link completo ao final da mensagem
 - **Nunca invente informações**. Se a resposta não estiver no contexto, diga:  
-     *"Sinto muito, mas não encontrei informações sobre isso em minha base. Recomendo entrar em contato com o suporte técnico [clicando aqui](https://glpi.ufvjm.edu.br/plugins/formcreator/front/formdisplay.php?id=106) para assistência personalizada."*  
+     *"Sinto muito, mas não encontrei informações sobre isso em minha base de informações. Tente reformular sua pergunta ou entre em contato com o suporte técnico [clicando aqui](https://glpi.ufvjm.edu.br/plugins/formcreator/front/formdisplay.php?id=106) para assistência personalizada."*  
 
 ### Encaminhamento e Suporte Adicional
 - Se o problema exigir intervenção humana ou não puder ser resolvido via chat, oriente o usuário a abrir um chamado no sistema GLPI: [Abrir chamado](https://glpi.ufvjm.edu.br/plugins/formcreator/front/formdisplay.php?id=106)
@@ -114,14 +114,12 @@ export async function POST(req: Request) {
     // Aqui o LLM tomará a decisão se precisa ou não de contexto.
     const { text } = await generateText({
       model: model,
-      system: TEMPLATE_DECISAO,
+      // system: TEMPLATE_DECISAO,
       // prompt: formattedChatDecisao.toString(),
       messages: mensagensDecisao,
     });
 
     const resultDecisao = text;
-
-    // return NextResponse.json({ resultDecisao }, { status: 200 })
 
     let finalResult;
 
@@ -157,17 +155,18 @@ export async function POST(req: Request) {
         console.log("Contexto não necessário. Usando a resposta do LLM diretamente.");
         // Cria um stream a partir da resposta do LLM para manter o formato de retorno
         
-        const prompt = ChatPromptTemplate.fromTemplate(TEMPLATE_DECISAO)
+        const prompt = ChatPromptTemplate.fromTemplate(TEMPLATE)
 
-        // const formattedChatPrompt = await prompt.invoke({
-        //     input: currentMessageContent,
-        // });
+        const formattedChatPrompt = await prompt.invoke({
+            context: contextHistory,
+            input: currentMessageContent,
+        });
 
         // Chama o LLM novamente, agora com o contexto incluído
         finalResult = streamText({
             model: model,
-            //prompt: formattedChatPrompt.toString()
-            messages: mensagensDecisao,
+            system: formattedChatPrompt.toString(),
+            messages: messages,
         });
 
     }
