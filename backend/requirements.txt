@@ -1,5 +1,5 @@
 fastapi
-uvicorn
+uvicorn[standard]
 pandas
 requests
 numpy
@@ -7,3 +7,21 @@ scikit-learn
 python-multipart
 pydantic
 xgboost
+matplotlib
+sqlalchemy
+psycopg2-binary
+tiktoken
+timescale-vector # -no-deps
+langchain-community
+langchain-huggingface
+python-dotenv
+aiofiles
+nltk
+sentence-transformers
+pypdf
+docx2txt
+unstructured
+unstructured[pdf]
+unstructured[docx]
+openai
+pgvector

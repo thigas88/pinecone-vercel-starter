@@ -10,3 +10,16 @@ services:
       - ./model:/app/model
     environment:
       - ENVIRONMENT=production
+  timescaledb:
+    image: timescale/timescaledb-ha:pg17
+    environment:
+      POSTGRES_USER: chatrag
+      POSTGRES_PASSWORD: chatrag
+      POSTGRES_DB: chatrag
+    ports:
+      - "5432:5432"
+    volumes:
+      - timescale_data:/var/lib/postgresql/data
+
+volumes:
+  timescale_data:

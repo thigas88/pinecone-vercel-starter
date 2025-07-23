@@ -1,0 +1,1092 @@
+2025-07-22 09:41:21,070 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:41:21,071 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 09:41:42,770 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:41:42,770 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 09:43:05,519 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:43:05,519 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 09:43:09,549 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:43:09,549 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 09:43:12,634 - config - ERROR - Failed to initialize vector store: TimescaleVector.__init__() missing 2 required positional arguments: 'service_url' and 'embedding'
+2025-07-22 09:43:22,145 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:43:22,145 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 09:43:26,286 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:43:26,286 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 09:43:29,325 - config - ERROR - Failed to initialize vector store: TimescaleVector.__init__() missing 2 required positional arguments: 'service_url' and 'embedding'
+2025-07-22 09:43:39,105 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:43:39,105 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 09:43:43,559 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:43:43,559 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 09:43:46,921 - config - ERROR - Failed to initialize vector store: TimescaleVector.__init__() missing 2 required positional arguments: 'service_url' and 'embedding'
+2025-07-22 09:45:55,487 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:45:55,488 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 09:45:59,651 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:45:59,652 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 09:46:02,919 - config - ERROR - Failed to initialize vector store: 'str' object has no attribute 'total_seconds'
+2025-07-22 09:46:12,537 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:46:12,537 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 09:46:16,713 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:46:16,713 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 09:46:19,901 - config - ERROR - Failed to initialize vector store: 'str' object has no attribute 'total_seconds'
+2025-07-22 09:47:44,488 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:47:44,488 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 09:47:48,824 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:47:48,824 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 09:47:51,957 - config - ERROR - Failed to initialize vector store: 'str' object has no attribute 'total_seconds'
+2025-07-22 09:48:01,506 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:48:01,506 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 09:48:05,630 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:48:05,631 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 09:48:09,065 - config - ERROR - Failed to initialize vector store: 'str' object has no attribute 'total_seconds'
+2025-07-22 09:48:18,964 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:48:18,964 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 09:48:23,343 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:48:23,343 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 09:48:26,450 - config - ERROR - Failed to initialize vector store: 'str' object has no attribute 'total_seconds'
+2025-07-22 09:54:44,919 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:54:44,920 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 09:54:49,453 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:54:49,453 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 09:54:52,695 - config - ERROR - Failed to initialize vector store: 'str' object has no attribute 'total_seconds'
+2025-07-22 09:55:03,208 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:55:03,208 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 09:55:07,619 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:55:07,619 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 09:55:10,819 - config - ERROR - Failed to initialize vector store: 'str' object has no attribute 'total_seconds'
+2025-07-22 09:55:25,561 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:55:25,561 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 09:55:30,269 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:55:30,269 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 09:55:33,521 - config - ERROR - Failed to initialize vector store: 'str' object has no attribute 'total_seconds'
+2025-07-22 09:56:05,233 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:56:05,233 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 09:56:09,724 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:56:09,725 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 09:56:12,854 - config - ERROR - Failed to initialize vector store: 'str' object has no attribute 'total_seconds'
+2025-07-22 09:56:24,510 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:56:24,510 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 09:56:29,024 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:56:29,025 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 09:56:32,188 - config - ERROR - Failed to initialize vector store: 'str' object has no attribute 'total_seconds'
+2025-07-22 09:56:42,252 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:56:42,252 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 09:56:46,195 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:56:46,195 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 09:56:49,490 - config - ERROR - Failed to initialize vector store: 'str' object has no attribute 'total_seconds'
+2025-07-22 09:57:24,092 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:57:24,092 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 09:57:28,172 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:57:28,173 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 09:57:31,426 - config - ERROR - Failed to initialize vector store: 'str' object has no attribute 'total_seconds'
+2025-07-22 09:57:41,891 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:57:41,892 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 09:57:45,996 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:57:45,996 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 09:57:49,123 - config - ERROR - Failed to initialize vector store: 'str' object has no attribute 'total_seconds'
+2025-07-22 09:57:58,625 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:57:58,625 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 09:58:03,048 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:58:03,049 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 09:58:06,431 - config - ERROR - Failed to initialize vector store: 'str' object has no attribute 'total_seconds'
+2025-07-22 09:58:33,868 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:58:33,868 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 09:58:37,909 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 09:58:37,909 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 09:58:41,027 - config - ERROR - Failed to initialize vector store: 'str' object has no attribute 'total_seconds'
+2025-07-22 10:00:04,646 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 10:00:04,646 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 10:00:09,181 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 10:00:09,181 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 10:00:12,325 - config - ERROR - Failed to initialize vector store: 'str' object has no attribute 'total_seconds'
+2025-07-22 10:02:08,582 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 10:02:08,583 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 10:02:13,471 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 10:02:13,471 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 10:02:16,671 - config - ERROR - Failed to initialize vector store: extension "vectorscale" is not available
+DETAIL:  Could not open extension control file "/usr/local/share/postgresql/extension/vectorscale.control": No such file or directory.
+HINT:  The extension must first be installed on the system where PostgreSQL is running.
+
+2025-07-22 10:23:50,380 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 10:23:50,381 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 10:23:54,735 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 10:23:54,736 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 10:23:57,967 - config - ERROR - Failed to initialize vector store: extension "vectorscale" is not available
+DETAIL:  Could not open extension control file "/usr/local/share/postgresql/extension/vectorscale.control": No such file or directory.
+HINT:  The extension must first be installed on the system where PostgreSQL is running.
+
+2025-07-22 10:25:28,242 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 10:25:28,242 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 10:25:32,466 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 10:25:32,466 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 10:25:35,843 - config - ERROR - Failed to initialize vector store: extension "vectorscale" is not available
+DETAIL:  Could not open extension control file "/usr/local/share/postgresql/extension/vectorscale.control": No such file or directory.
+HINT:  The extension must first be installed on the system where PostgreSQL is running.
+
+2025-07-22 10:52:24,063 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 10:52:24,064 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 10:52:28,534 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 10:52:28,534 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 10:52:31,811 - config - ERROR - Failed to initialize vector store: extension "vectorscale" is not available
+DETAIL:  Could not open extension control file "/usr/local/share/postgresql/extension/vectorscale.control": No such file or directory.
+HINT:  The extension must first be installed on the system where PostgreSQL is running.
+
+2025-07-22 10:52:41,105 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 10:52:41,106 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 10:52:45,397 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 10:52:45,397 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 10:52:48,656 - config - ERROR - Failed to initialize vector store: extension "vectorscale" is not available
+DETAIL:  Could not open extension control file "/usr/local/share/postgresql/extension/vectorscale.control": No such file or directory.
+HINT:  The extension must first be installed on the system where PostgreSQL is running.
+
+2025-07-22 10:52:58,443 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 10:52:58,444 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 10:53:02,644 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 10:53:02,644 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 10:53:05,774 - config - ERROR - Failed to initialize vector store: extension "vectorscale" is not available
+DETAIL:  Could not open extension control file "/usr/local/share/postgresql/extension/vectorscale.control": No such file or directory.
+HINT:  The extension must first be installed on the system where PostgreSQL is running.
+
+2025-07-22 11:00:54,149 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:00:54,150 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:00:58,686 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:00:58,686 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:01:01,872 - config - ERROR - Failed to initialize vector store: extension "vectorscale" is not available
+DETAIL:  Could not open extension control file "/usr/local/share/postgresql/extension/vectorscale.control": No such file or directory.
+HINT:  The extension must first be installed on the system where PostgreSQL is running.
+
+2025-07-22 11:04:47,284 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:04:47,284 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:04:51,636 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:04:51,636 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:04:54,758 - config - ERROR - Failed to initialize vector store: extension "vectorscale" is not available
+DETAIL:  Could not open extension control file "/usr/local/share/postgresql/extension/vectorscale.control": No such file or directory.
+HINT:  The extension must first be installed on the system where PostgreSQL is running.
+
+2025-07-22 11:05:05,129 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:05:05,129 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:05:09,253 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:05:09,253 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:05:12,489 - config - ERROR - Failed to initialize vector store: extension "vectorscale" is not available
+DETAIL:  Could not open extension control file "/usr/local/share/postgresql/extension/vectorscale.control": No such file or directory.
+HINT:  The extension must first be installed on the system where PostgreSQL is running.
+
+2025-07-22 11:05:21,945 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:05:21,946 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:05:26,135 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:05:26,136 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:05:29,374 - config - ERROR - Failed to initialize vector store: extension "vectorscale" is not available
+DETAIL:  Could not open extension control file "/usr/local/share/postgresql/extension/vectorscale.control": No such file or directory.
+HINT:  The extension must first be installed on the system where PostgreSQL is running.
+
+2025-07-22 11:05:39,271 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:05:39,271 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:05:43,364 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:05:43,364 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:05:46,801 - config - ERROR - Failed to initialize vector store: extension "vectorscale" is not available
+DETAIL:  Could not open extension control file "/usr/local/share/postgresql/extension/vectorscale.control": No such file or directory.
+HINT:  The extension must first be installed on the system where PostgreSQL is running.
+
+2025-07-22 11:14:56,472 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:14:56,473 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:15:00,754 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:15:00,754 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:15:04,020 - config - ERROR - Failed to initialize vector store: column "metadata" does not exist
+
+2025-07-22 11:22:05,683 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:22:05,683 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:22:10,104 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:22:10,104 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:22:13,345 - config - ERROR - Failed to initialize vector store: invalid partitioning function
+HINT:  A valid partitioning function for open (time) dimensions must be IMMUTABLE, take the column type as input, and return an integer or timestamp type.
+
+2025-07-22 11:28:59,505 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:28:59,506 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:29:04,196 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:29:04,197 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:29:07,422 - config - ERROR - Failed to initialize vector store: invalid partitioning function
+HINT:  A valid partitioning function for open (time) dimensions must be IMMUTABLE, take the column type as input, and return an integer or timestamp type.
+
+2025-07-22 11:34:10,154 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:34:10,154 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:34:14,466 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:34:14,466 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:34:17,585 - config - ERROR - Failed to initialize vector store: 'str' object has no attribute 'total_seconds'
+2025-07-22 11:35:28,299 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:35:28,299 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:35:32,967 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:35:32,968 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:35:36,188 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 11:39:17,155 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:39:17,156 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:39:21,594 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:39:21,594 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:39:24,807 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 11:39:34,623 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:39:34,624 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:39:38,940 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:39:38,940 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:39:42,357 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 11:39:50,658 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:39:50,659 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:39:55,111 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:39:55,112 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:39:58,279 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 11:40:07,768 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:40:07,768 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:40:11,929 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:40:11,929 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:40:15,907 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 11:42:15,228 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:42:15,228 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:42:19,647 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:42:19,647 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:42:22,821 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 11:42:45,197 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:42:45,197 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:42:49,298 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:42:49,298 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:42:52,770 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 11:43:01,097 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:43:01,097 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:43:05,164 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:43:05,164 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:43:08,568 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 11:43:26,417 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:43:26,417 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:43:30,677 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:43:30,677 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:43:34,088 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 11:43:42,551 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:43:42,551 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:43:46,523 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:43:46,523 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:43:49,699 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 11:43:58,250 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:43:58,250 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:44:02,503 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:44:02,503 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:44:05,742 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 11:44:14,273 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:44:14,273 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:44:18,997 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:44:18,997 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:44:22,239 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 11:44:36,381 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:44:36,381 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:44:40,748 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:44:40,749 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:44:44,081 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 11:44:53,623 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:44:53,624 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:44:58,134 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:44:58,134 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:45:01,326 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 11:48:02,350 - config - ERROR - Failed to start document ingestion: (psycopg2.errors.NotNullViolation) null value in column "url" of relation "documents" violates not-null constraint
+DETAIL:  Failing row contains (1, null, ML Introduction - character split, machine-learning,ai,tutorial, technology, character, 500, 50, null, processing, 2025-07-22 14:48:02.348128+00, 2025-07-22 14:48:02.348128+00, null, null).
+
+[SQL: INSERT INTO documents (url, title, tags, category, splitting_method, chunk_size, overlap, file_name, status, scheduled_at, last_indexed_at) VALUES (%(url)s, %(title)s, %(tags)s, %(category)s, %(splitting_method)s, %(chunk_size)s, %(overlap)s, %(file_name)s, %(status)s, %(scheduled_at)s, %(last_indexed_at)s) RETURNING documents.id, documents.created_at, documents.updated_at]
+[parameters: {'url': None, 'title': 'ML Introduction - character split', 'tags': 'machine-learning,ai,tutorial', 'category': 'technology', 'splitting_method': 'character', 'chunk_size': 500, 'overlap': 50, 'file_name': None, 'status': 'processing', 'scheduled_at': None, 'last_indexed_at': None}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2025-07-22 11:48:02,357 - config - ERROR - Failed to start document ingestion: (psycopg2.errors.NotNullViolation) null value in column "url" of relation "documents" violates not-null constraint
+DETAIL:  Failing row contains (2, null, ML Introduction - sentence split, machine-learning,ai,tutorial, technology, sentence, 500, 50, null, processing, 2025-07-22 14:48:02.355409+00, 2025-07-22 14:48:02.355409+00, null, null).
+
+[SQL: INSERT INTO documents (url, title, tags, category, splitting_method, chunk_size, overlap, file_name, status, scheduled_at, last_indexed_at) VALUES (%(url)s, %(title)s, %(tags)s, %(category)s, %(splitting_method)s, %(chunk_size)s, %(overlap)s, %(file_name)s, %(status)s, %(scheduled_at)s, %(last_indexed_at)s) RETURNING documents.id, documents.created_at, documents.updated_at]
+[parameters: {'url': None, 'title': 'ML Introduction - sentence split', 'tags': 'machine-learning,ai,tutorial', 'category': 'technology', 'splitting_method': 'sentence', 'chunk_size': 500, 'overlap': 50, 'file_name': None, 'status': 'processing', 'scheduled_at': None, 'last_indexed_at': None}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2025-07-22 11:48:02,364 - config - ERROR - Failed to start document ingestion: (psycopg2.errors.NotNullViolation) null value in column "url" of relation "documents" violates not-null constraint
+DETAIL:  Failing row contains (3, null, ML Introduction - semantic split, machine-learning,ai,tutorial, technology, semantic, 500, 50, null, processing, 2025-07-22 14:48:02.362459+00, 2025-07-22 14:48:02.362459+00, null, null).
+
+[SQL: INSERT INTO documents (url, title, tags, category, splitting_method, chunk_size, overlap, file_name, status, scheduled_at, last_indexed_at) VALUES (%(url)s, %(title)s, %(tags)s, %(category)s, %(splitting_method)s, %(chunk_size)s, %(overlap)s, %(file_name)s, %(status)s, %(scheduled_at)s, %(last_indexed_at)s) RETURNING documents.id, documents.created_at, documents.updated_at]
+[parameters: {'url': None, 'title': 'ML Introduction - semantic split', 'tags': 'machine-learning,ai,tutorial', 'category': 'technology', 'splitting_method': 'semantic', 'chunk_size': 500, 'overlap': 50, 'file_name': None, 'status': 'processing', 'scheduled_at': None, 'last_indexed_at': None}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2025-07-22 11:48:02,370 - config - ERROR - Failed to start document ingestion: (psycopg2.errors.NotNullViolation) null value in column "url" of relation "documents" violates not-null constraint
+DETAIL:  Failing row contains (4, null, ML Introduction - markdown split, machine-learning,ai,tutorial, technology, markdown, 500, 50, null, processing, 2025-07-22 14:48:02.369069+00, 2025-07-22 14:48:02.369069+00, null, null).
+
+[SQL: INSERT INTO documents (url, title, tags, category, splitting_method, chunk_size, overlap, file_name, status, scheduled_at, last_indexed_at) VALUES (%(url)s, %(title)s, %(tags)s, %(category)s, %(splitting_method)s, %(chunk_size)s, %(overlap)s, %(file_name)s, %(status)s, %(scheduled_at)s, %(last_indexed_at)s) RETURNING documents.id, documents.created_at, documents.updated_at]
+[parameters: {'url': None, 'title': 'ML Introduction - markdown split', 'tags': 'machine-learning,ai,tutorial', 'category': 'technology', 'splitting_method': 'markdown', 'chunk_size': 500, 'overlap': 50, 'file_name': None, 'status': 'processing', 'scheduled_at': None, 'last_indexed_at': None}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2025-07-22 11:48:02,610 - config - ERROR - Failed to add documents to vector store: column "contents" of relation "document_chunks" does not exist
+LINE 1: INSERT INTO "document_chunks" (id, metadata, contents, embed...
+                                                     ^
+
+2025-07-22 11:48:02,610 - config - ERROR - Failed to process file 5: column "contents" of relation "document_chunks" does not exist
+LINE 1: INSERT INTO "document_chunks" (id, metadata, contents, embed...
+                                                     ^
+
+2025-07-22 11:48:02,652 - config - ERROR - Failed to process file 6: No module named 'markdown'
+2025-07-22 11:48:07,104 - config - ERROR - Failed to add documents to vector store: column "contents" of relation "document_chunks" does not exist
+LINE 1: INSERT INTO "document_chunks" (id, metadata, contents, embed...
+                                                     ^
+
+2025-07-22 11:48:07,104 - config - ERROR - Failed to process file 7: column "contents" of relation "document_chunks" does not exist
+LINE 1: INSERT INTO "document_chunks" (id, metadata, contents, embed...
+                                                     ^
+
+2025-07-22 11:48:07,134 - config - ERROR - Failed to perform similarity search: column "contents" does not exist
+LINE 3:             id, metadata, contents, embedding, embedding <=>...
+                                  ^
+
+2025-07-22 11:48:07,134 - config - ERROR - Search failed: column "contents" does not exist
+LINE 3:             id, metadata, contents, embedding, embedding <=>...
+                                  ^
+
+2025-07-22 11:48:07,164 - config - ERROR - Failed to perform similarity search: column "contents" does not exist
+LINE 3:             id, metadata, contents, embedding, embedding <=>...
+                                  ^
+
+2025-07-22 11:48:07,164 - config - ERROR - Search failed: column "contents" does not exist
+LINE 3:             id, metadata, contents, embedding, embedding <=>...
+                                  ^
+
+2025-07-22 11:48:07,185 - config - ERROR - Failed to perform similarity search: column "contents" does not exist
+LINE 3:             id, metadata, contents, embedding, embedding <=>...
+                                  ^
+
+2025-07-22 11:48:07,185 - config - ERROR - Search failed: column "contents" does not exist
+LINE 3:             id, metadata, contents, embedding, embedding <=>...
+                                  ^
+
+2025-07-22 11:48:07,203 - config - ERROR - Failed to perform similarity search: column "contents" does not exist
+LINE 3:             id, metadata, contents, embedding, embedding <=>...
+                                  ^
+
+2025-07-22 11:48:07,204 - config - ERROR - Search failed: column "contents" does not exist
+LINE 3:             id, metadata, contents, embedding, embedding <=>...
+                                  ^
+
+2025-07-22 11:48:07,242 - config - ERROR - Failed to get collection stats: cannot convert dictionary update sequence element #0 to a sequence
+2025-07-22 11:48:07,242 - config - ERROR - Failed to get vector store stats: cannot convert dictionary update sequence element #0 to a sequence
+2025-07-22 11:48:07,257 - config - ERROR - Failed to start document ingestion: (psycopg2.errors.NotNullViolation) null value in column "url" of relation "documents" violates not-null constraint
+DETAIL:  Failing row contains (8, null, Reindex Test, null, test, character, 100, 200, null, processing, 2025-07-22 14:48:07.254741+00, 2025-07-22 14:48:07.254741+00, null, null).
+
+[SQL: INSERT INTO documents (url, title, tags, category, splitting_method, chunk_size, overlap, file_name, status, scheduled_at, last_indexed_at) VALUES (%(url)s, %(title)s, %(tags)s, %(category)s, %(splitting_method)s, %(chunk_size)s, %(overlap)s, %(file_name)s, %(status)s, %(scheduled_at)s, %(last_indexed_at)s) RETURNING documents.id, documents.created_at, documents.updated_at]
+[parameters: {'url': None, 'title': 'Reindex Test', 'tags': None, 'category': 'test', 'splitting_method': 'character', 'chunk_size': 100, 'overlap': 200, 'file_name': None, 'status': 'processing', 'scheduled_at': None, 'last_indexed_at': None}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2025-07-22 11:49:56,744 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:49:56,744 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:50:01,570 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:50:01,571 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:50:05,032 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 11:50:13,080 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:50:13,080 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:50:17,158 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:50:17,159 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:50:20,484 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 11:50:28,910 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:50:28,911 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:50:33,168 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:50:33,168 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:50:36,455 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 11:50:45,252 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:50:45,252 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:50:49,365 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:50:49,365 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:50:52,577 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 11:51:01,041 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:51:01,041 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:51:05,644 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:51:05,645 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:51:09,072 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 11:52:18,656 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:52:18,656 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:52:22,908 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:52:22,909 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:52:26,156 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 11:52:34,881 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:52:34,882 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:52:39,411 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:52:39,411 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:52:42,660 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 11:52:52,271 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:52:52,271 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:52:56,576 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:52:56,577 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:52:59,792 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 11:53:47,755 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:53:47,755 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 11:53:52,546 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 11:53:52,546 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 11:53:55,720 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 11:53:55,931 - config - ERROR - Failed to add documents to vector store: column "contents" of relation "document_chunks" does not exist
+LINE 1: INSERT INTO "document_chunks" (id, metadata, contents, embed...
+                                                     ^
+
+2025-07-22 11:53:55,931 - config - ERROR - Failed to process document 9: column "contents" of relation "document_chunks" does not exist
+LINE 1: INSERT INTO "document_chunks" (id, metadata, contents, embed...
+                                                     ^
+
+2025-07-22 11:53:58,065 - config - ERROR - Failed to add documents to vector store: column "contents" of relation "document_chunks" does not exist
+LINE 1: INSERT INTO "document_chunks" (id, metadata, contents, embed...
+                                                     ^
+
+2025-07-22 11:53:58,066 - config - ERROR - Failed to process document 10: column "contents" of relation "document_chunks" does not exist
+LINE 1: INSERT INTO "document_chunks" (id, metadata, contents, embed...
+                                                     ^
+
+2025-07-22 11:54:00,290 - config - ERROR - Failed to add documents to vector store: column "contents" of relation "document_chunks" does not exist
+LINE 1: INSERT INTO "document_chunks" (id, metadata, contents, embed...
+                                                     ^
+
+2025-07-22 11:54:00,290 - config - ERROR - Failed to process document 11: column "contents" of relation "document_chunks" does not exist
+LINE 1: INSERT INTO "document_chunks" (id, metadata, contents, embed...
+                                                     ^
+
+2025-07-22 11:54:02,402 - config - ERROR - Failed to add documents to vector store: column "contents" of relation "document_chunks" does not exist
+LINE 1: INSERT INTO "document_chunks" (id, metadata, contents, embed...
+                                                     ^
+
+2025-07-22 11:54:02,402 - config - ERROR - Failed to process document 12: column "contents" of relation "document_chunks" does not exist
+LINE 1: INSERT INTO "document_chunks" (id, metadata, contents, embed...
+                                                     ^
+
+2025-07-22 12:00:45,006 - config - ERROR - Failed to add documents to vector store: column "contents" of relation "document_chunks" does not exist
+LINE 1: INSERT INTO "document_chunks" (id, metadata, contents, embed...
+                                                     ^
+
+2025-07-22 12:00:45,007 - config - ERROR - Failed to process document 13: column "contents" of relation "document_chunks" does not exist
+LINE 1: INSERT INTO "document_chunks" (id, metadata, contents, embed...
+                                                     ^
+
+2025-07-22 12:00:47,093 - config - ERROR - Failed to add documents to vector store: column "contents" of relation "document_chunks" does not exist
+LINE 1: INSERT INTO "document_chunks" (id, metadata, contents, embed...
+                                                     ^
+
+2025-07-22 12:00:47,093 - config - ERROR - Failed to process document 14: column "contents" of relation "document_chunks" does not exist
+LINE 1: INSERT INTO "document_chunks" (id, metadata, contents, embed...
+                                                     ^
+
+2025-07-22 12:00:49,242 - config - ERROR - Failed to add documents to vector store: column "contents" of relation "document_chunks" does not exist
+LINE 1: INSERT INTO "document_chunks" (id, metadata, contents, embed...
+                                                     ^
+
+2025-07-22 12:00:49,242 - config - ERROR - Failed to process document 15: column "contents" of relation "document_chunks" does not exist
+LINE 1: INSERT INTO "document_chunks" (id, metadata, contents, embed...
+                                                     ^
+
+2025-07-22 12:00:51,353 - config - ERROR - Failed to add documents to vector store: column "contents" of relation "document_chunks" does not exist
+LINE 1: INSERT INTO "document_chunks" (id, metadata, contents, embed...
+                                                     ^
+
+2025-07-22 12:00:51,355 - config - ERROR - Failed to process document 16: column "contents" of relation "document_chunks" does not exist
+LINE 1: INSERT INTO "document_chunks" (id, metadata, contents, embed...
+                                                     ^
+
+2025-07-22 15:50:56,804 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 15:50:56,804 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 15:51:00,873 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 15:51:00,873 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 15:51:03,799 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 15:51:23,775 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 15:51:23,776 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 15:51:27,435 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 15:51:27,436 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 15:51:30,438 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 15:51:52,930 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 15:51:52,930 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 15:51:56,557 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 15:51:56,557 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 15:51:59,602 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 15:52:09,397 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 15:52:09,397 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 15:52:13,403 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 15:52:13,403 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 15:52:16,374 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 15:52:25,302 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 15:52:25,303 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 15:52:29,011 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 15:52:29,011 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 15:52:32,113 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 15:52:42,792 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 15:52:42,792 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 15:52:46,853 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 15:52:46,853 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 15:52:49,637 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 15:52:59,297 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 15:52:59,297 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 15:53:03,937 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 15:53:03,938 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 15:53:06,763 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 15:53:16,983 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 15:53:16,983 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 15:53:20,921 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 15:53:20,921 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 15:53:23,768 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 15:53:33,860 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 15:53:33,860 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 15:53:38,008 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 15:53:38,008 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 15:53:40,761 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 15:53:50,565 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 15:53:50,565 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 15:53:54,757 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 15:53:54,757 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 15:53:57,503 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 15:54:08,701 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 15:54:08,702 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 15:54:12,419 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 15:54:12,420 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 15:54:15,177 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 15:59:18,249 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 15:59:18,249 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 15:59:22,003 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 15:59:22,003 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 15:59:24,781 - config - INFO - Vector store initialized with collection: document_chunks
+2025-07-22 16:04:10,719 - config - ERROR - Failed to add documents to vector store: column "contents" of relation "document_chunks" does not exist
+LINE 1: INSERT INTO "document_chunks" (id, metadata, contents, embed...
+                                                     ^
+
+2025-07-22 16:04:10,720 - config - ERROR - Failed to process document 17: column "contents" of relation "document_chunks" does not exist
+LINE 1: INSERT INTO "document_chunks" (id, metadata, contents, embed...
+                                                     ^
+
+2025-07-22 16:04:12,911 - config - ERROR - Failed to add documents to vector store: column "contents" of relation "document_chunks" does not exist
+LINE 1: INSERT INTO "document_chunks" (id, metadata, contents, embed...
+                                                     ^
+
+2025-07-22 16:04:12,911 - config - ERROR - Failed to process document 18: column "contents" of relation "document_chunks" does not exist
+LINE 1: INSERT INTO "document_chunks" (id, metadata, contents, embed...
+                                                     ^
+
+2025-07-22 16:04:15,112 - config - ERROR - Failed to add documents to vector store: column "contents" of relation "document_chunks" does not exist
+LINE 1: INSERT INTO "document_chunks" (id, metadata, contents, embed...
+                                                     ^
+
+2025-07-22 16:04:15,112 - config - ERROR - Failed to process document 19: column "contents" of relation "document_chunks" does not exist
+LINE 1: INSERT INTO "document_chunks" (id, metadata, contents, embed...
+                                                     ^
+
+2025-07-22 16:04:17,222 - config - ERROR - Failed to add documents to vector store: column "contents" of relation "document_chunks" does not exist
+LINE 1: INSERT INTO "document_chunks" (id, metadata, contents, embed...
+                                                     ^
+
+2025-07-22 16:04:17,222 - config - ERROR - Failed to process document 20: column "contents" of relation "document_chunks" does not exist
+LINE 1: INSERT INTO "document_chunks" (id, metadata, contents, embed...
+                                                     ^
+
+2025-07-22 16:05:29,115 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:05:29,115 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 16:05:33,109 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:05:33,110 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 16:05:35,883 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-22 16:11:23,529 - config - ERROR - Failed to add documents to vector store: column "contents" of relation "document_chunks_vector" does not exist
+LINE 1: ...SERT INTO "document_chunks_vector" (id, metadata, contents, ...
+                                                             ^
+
+2025-07-22 16:11:23,530 - config - ERROR - Failed to process document 21: column "contents" of relation "document_chunks_vector" does not exist
+LINE 1: ...SERT INTO "document_chunks_vector" (id, metadata, contents, ...
+                                                             ^
+
+2025-07-22 16:11:25,696 - config - ERROR - Failed to add documents to vector store: column "contents" of relation "document_chunks_vector" does not exist
+LINE 1: ...SERT INTO "document_chunks_vector" (id, metadata, contents, ...
+                                                             ^
+
+2025-07-22 16:11:25,696 - config - ERROR - Failed to process document 22: column "contents" of relation "document_chunks_vector" does not exist
+LINE 1: ...SERT INTO "document_chunks_vector" (id, metadata, contents, ...
+                                                             ^
+
+2025-07-22 16:11:27,885 - config - ERROR - Failed to add documents to vector store: column "contents" of relation "document_chunks_vector" does not exist
+LINE 1: ...SERT INTO "document_chunks_vector" (id, metadata, contents, ...
+                                                             ^
+
+2025-07-22 16:11:27,885 - config - ERROR - Failed to process document 23: column "contents" of relation "document_chunks_vector" does not exist
+LINE 1: ...SERT INTO "document_chunks_vector" (id, metadata, contents, ...
+                                                             ^
+
+2025-07-22 16:11:29,996 - config - ERROR - Failed to add documents to vector store: column "contents" of relation "document_chunks_vector" does not exist
+LINE 1: ...SERT INTO "document_chunks_vector" (id, metadata, contents, ...
+                                                             ^
+
+2025-07-22 16:11:29,996 - config - ERROR - Failed to process document 24: column "contents" of relation "document_chunks_vector" does not exist
+LINE 1: ...SERT INTO "document_chunks_vector" (id, metadata, contents, ...
+                                                             ^
+
+2025-07-22 16:12:19,167 - config - INFO - Added batch of 1 chunks to vector store
+2025-07-22 16:12:19,179 - config - INFO - Document 25 processed successfully with 1 chunks
+2025-07-22 16:12:21,287 - config - INFO - Added batch of 5 chunks to vector store
+2025-07-22 16:12:21,293 - config - INFO - Document 26 processed successfully with 5 chunks
+2025-07-22 16:12:23,463 - config - INFO - Added batch of 5 chunks to vector store
+2025-07-22 16:12:23,470 - config - INFO - Document 27 processed successfully with 5 chunks
+2025-07-22 16:12:25,610 - config - INFO - Added batch of 13 chunks to vector store
+2025-07-22 16:12:25,617 - config - INFO - Document 28 processed successfully with 13 chunks
+2025-07-22 16:14:06,729 - config - INFO - Added batch of 1 chunks to vector store
+2025-07-22 16:14:06,736 - config - INFO - Document 29 processed successfully with 1 chunks
+2025-07-22 16:14:08,969 - config - INFO - Added batch of 5 chunks to vector store
+2025-07-22 16:14:08,975 - config - INFO - Document 30 processed successfully with 5 chunks
+2025-07-22 16:14:11,152 - config - INFO - Added batch of 5 chunks to vector store
+2025-07-22 16:14:11,160 - config - INFO - Document 31 processed successfully with 5 chunks
+2025-07-22 16:14:13,306 - config - INFO - Added batch of 13 chunks to vector store
+2025-07-22 16:14:13,313 - config - INFO - Document 32 processed successfully with 13 chunks
+2025-07-22 16:15:33,170 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:15:33,170 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 16:15:36,966 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:15:36,967 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 16:15:40,219 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-22 16:15:40,373 - config - INFO - Added batch of 1 chunks to vector store
+2025-07-22 16:15:40,385 - config - INFO - Document 33 processed successfully with 1 chunks
+2025-07-22 16:15:42,554 - config - INFO - Added batch of 5 chunks to vector store
+2025-07-22 16:15:42,562 - config - INFO - Document 34 processed successfully with 5 chunks
+2025-07-22 16:15:44,768 - config - INFO - Added batch of 5 chunks to vector store
+2025-07-22 16:15:44,776 - config - INFO - Document 35 processed successfully with 5 chunks
+2025-07-22 16:15:46,916 - config - INFO - Added batch of 13 chunks to vector store
+2025-07-22 16:15:46,924 - config - INFO - Document 36 processed successfully with 13 chunks
+2025-07-22 16:22:13,713 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:22:13,714 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 16:22:17,568 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:22:17,568 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 16:22:20,399 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-22 16:22:29,306 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:22:29,307 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 16:22:33,009 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:22:33,009 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 16:22:35,883 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-22 16:23:58,637 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:23:58,638 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 16:24:02,897 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:24:02,897 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 16:24:05,897 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-22 16:24:24,671 - config - INFO - Added batch of 1 chunks to vector store
+2025-07-22 16:24:24,683 - config - INFO - Document 37 processed successfully with 1 chunks
+2025-07-22 16:24:26,818 - config - INFO - Added batch of 5 chunks to vector store
+2025-07-22 16:24:26,826 - config - INFO - Document 38 processed successfully with 5 chunks
+2025-07-22 16:24:29,029 - config - INFO - Added batch of 5 chunks to vector store
+2025-07-22 16:24:29,036 - config - INFO - Document 39 processed successfully with 5 chunks
+2025-07-22 16:24:31,164 - config - INFO - Added batch of 13 chunks to vector store
+2025-07-22 16:24:31,171 - config - INFO - Document 40 processed successfully with 13 chunks
+2025-07-22 16:29:21,375 - config - INFO - Added batch of 1 chunks to vector store
+2025-07-22 16:29:21,383 - config - INFO - Document 41 processed successfully with 1 chunks
+2025-07-22 16:29:23,476 - config - INFO - Added batch of 5 chunks to vector store
+2025-07-22 16:29:23,483 - config - INFO - Document 42 processed successfully with 5 chunks
+2025-07-22 16:29:25,664 - config - INFO - Added batch of 5 chunks to vector store
+2025-07-22 16:29:25,672 - config - INFO - Document 43 processed successfully with 5 chunks
+2025-07-22 16:29:27,799 - config - INFO - Added batch of 13 chunks to vector store
+2025-07-22 16:29:27,806 - config - INFO - Document 44 processed successfully with 13 chunks
+2025-07-22 16:39:13,121 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:39:13,121 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 16:39:16,921 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:39:16,921 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 16:39:19,649 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-22 16:39:28,698 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:39:28,699 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 16:39:32,768 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:39:32,768 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 16:39:35,530 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-22 16:39:44,288 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:39:44,288 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 16:39:47,887 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:39:47,887 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 16:39:50,902 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-22 16:39:59,410 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:39:59,410 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 16:40:03,062 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:40:03,062 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 16:40:05,882 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-22 16:49:16,570 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:49:16,571 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 16:49:20,792 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:49:20,792 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 16:49:23,583 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-22 16:49:31,980 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:49:31,980 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 16:49:35,577 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:49:35,577 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 16:49:38,428 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-22 16:49:51,592 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:49:51,592 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 16:49:55,486 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:49:55,487 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 16:49:58,318 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-22 16:50:07,297 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:50:07,297 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 16:50:10,975 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:50:10,975 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 16:50:13,836 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-22 16:50:23,169 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:50:23,169 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 16:50:27,456 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:50:27,456 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 16:50:30,266 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-22 16:50:39,496 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:50:39,496 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 16:50:43,128 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:50:43,128 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 16:50:45,947 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-22 16:50:54,434 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:50:54,435 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 16:50:58,175 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:50:58,175 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 16:51:01,037 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-22 16:52:46,956 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:52:46,956 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 16:52:50,819 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:52:50,819 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 16:52:53,874 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-22 16:53:03,727 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:53:03,727 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 16:53:07,543 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:53:07,544 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 16:53:10,335 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-22 16:53:21,277 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:53:21,278 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 16:53:25,044 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:53:25,044 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 16:53:27,906 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-22 16:53:46,961 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:53:46,961 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 16:53:51,129 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:53:51,129 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 16:53:54,236 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-22 16:54:04,608 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:54:04,608 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 16:54:08,427 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:54:08,427 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 16:54:11,233 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-22 16:54:21,063 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:54:21,063 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 16:54:25,018 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:54:25,018 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 16:54:28,104 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-22 16:54:37,352 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:54:37,352 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 16:54:40,983 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:54:40,983 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 16:54:43,821 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-22 16:55:23,942 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:55:23,942 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 16:55:28,020 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:55:28,021 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 16:55:31,107 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-22 16:57:27,590 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:57:27,591 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 16:57:31,585 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:57:31,586 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 16:57:34,399 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-22 16:58:24,585 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:58:24,586 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 16:58:28,427 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:58:28,427 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 16:58:31,237 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-22 16:59:16,831 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:59:16,832 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 16:59:20,938 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:59:20,938 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 16:59:23,791 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-22 16:59:33,702 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:59:33,702 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-22 16:59:37,400 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-22 16:59:37,400 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-22 16:59:40,309 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 07:19:27,846 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 07:19:27,846 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 07:19:31,778 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 07:19:31,778 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 07:19:34,613 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 14:58:31,196 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 14:58:31,196 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 14:58:35,973 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 14:58:35,973 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 14:58:39,145 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:00:17,334 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:00:17,334 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:00:21,484 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:00:21,484 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:00:24,645 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:00:32,229 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:00:32,230 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:00:36,402 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:00:36,402 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:00:39,605 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:01:02,969 - config - ERROR - Failed to get collection stats: cannot convert dictionary update sequence element #0 to a sequence
+2025-07-23 15:01:02,969 - config - ERROR - Failed to get vector store stats: cannot convert dictionary update sequence element #0 to a sequence
+2025-07-23 15:06:44,029 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:06:44,029 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:06:48,189 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:06:48,189 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:06:51,345 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:07:16,648 - config - ERROR - Failed to get collection stats: cannot convert dictionary update sequence element #0 to a sequence
+2025-07-23 15:07:16,649 - config - ERROR - Failed to get vector store stats: cannot convert dictionary update sequence element #0 to a sequence
+2025-07-23 15:08:32,372 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:08:32,373 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:08:36,688 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:08:36,689 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:08:40,042 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:08:48,404 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:08:48,404 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:08:52,783 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:08:52,783 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:08:55,935 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:09:05,652 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:09:05,653 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:09:09,845 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:09:09,846 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:09:13,069 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:09:23,817 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:09:23,817 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:09:28,298 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:09:28,299 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:09:31,511 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:09:40,142 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:09:40,142 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:09:44,619 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:09:44,619 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:09:47,888 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:09:57,291 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:09:57,291 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:10:02,614 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:10:02,615 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:10:05,877 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:10:14,188 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:10:14,189 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:10:18,262 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:10:18,262 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:10:21,376 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:10:30,192 - config - ERROR - Failed to get collection stats: 'int' object is not iterable
+2025-07-23 15:10:30,192 - config - ERROR - Failed to get vector store stats: 'int' object is not iterable
+2025-07-23 15:11:12,952 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:11:12,952 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:11:17,413 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:11:17,413 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:11:20,905 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:11:29,918 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:11:29,918 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:11:34,047 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:11:34,047 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:11:37,972 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:11:45,505 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:11:45,505 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:11:50,069 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:11:50,069 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:11:53,445 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:12:01,098 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:12:01,099 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:12:05,495 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:12:05,495 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:12:09,311 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:12:53,745 - config - ERROR - Failed to get collection stats: cannot convert dictionary update sequence element #0 to a sequence
+2025-07-23 15:12:53,745 - config - ERROR - Failed to get vector store stats: cannot convert dictionary update sequence element #0 to a sequence
+2025-07-23 15:13:33,554 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:13:33,554 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:13:38,003 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:13:38,003 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:13:41,563 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:13:49,089 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:13:49,089 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:13:53,284 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:13:53,284 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:13:56,511 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:14:05,578 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:14:05,578 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:14:10,232 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:14:10,232 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:14:13,451 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:14:20,846 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:14:20,846 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:14:25,226 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:14:25,226 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:14:28,469 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:14:36,183 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:14:36,183 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:14:40,215 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:14:40,215 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:14:43,353 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:15:29,796 - config - ERROR - Failed to get collection stats: 'int' object is not iterable
+2025-07-23 15:15:29,796 - config - ERROR - Failed to get vector store stats: 'int' object is not iterable
+2025-07-23 15:18:58,331 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:18:58,331 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:19:03,302 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:19:03,302 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:19:06,610 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:19:16,369 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:19:16,369 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:19:20,520 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:19:20,521 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:19:23,754 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:19:32,827 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:19:32,827 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:19:36,943 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:19:36,943 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:19:40,319 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:19:49,027 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:19:49,027 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:19:53,232 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:19:53,232 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:19:56,477 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:35:48,584 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:35:48,584 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:35:52,806 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:35:52,806 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:35:55,575 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:36:03,728 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:36:03,728 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:36:07,242 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:36:07,242 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:36:09,953 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:39:21,399 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:39:21,399 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:39:24,877 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:39:24,877 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:39:27,873 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:39:35,656 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:39:35,656 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:39:39,183 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:39:39,183 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:39:41,962 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:39:49,702 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:39:49,702 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:39:53,285 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:39:53,285 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:39:56,307 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:40:04,138 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:40:04,138 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:40:08,040 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:40:08,040 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:40:11,042 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:43:15,581 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:43:15,581 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:43:19,452 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:43:19,452 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:43:22,266 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:44:55,873 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:44:55,873 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:44:59,545 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:44:59,545 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:45:02,390 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:45:10,199 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:45:10,199 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:45:14,437 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:45:14,437 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:45:17,531 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:45:27,583 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:45:27,584 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:45:31,962 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:45:31,962 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:45:34,969 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:45:56,191 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:45:56,192 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:45:59,978 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:45:59,978 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:46:02,870 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 15:50:22,945 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:50:22,945 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 15:50:26,990 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 15:50:26,991 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 15:50:30,036 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 16:04:46,749 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 16:04:46,750 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 16:04:50,531 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 16:04:50,531 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 16:04:53,460 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 16:05:10,910 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 16:05:10,910 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 16:05:15,638 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 16:05:15,638 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 16:05:18,764 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 16:05:28,494 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 16:05:28,495 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 16:05:32,204 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 16:05:32,204 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 16:05:35,040 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 16:05:43,790 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 16:05:43,790 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 16:05:47,522 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 16:05:47,522 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 16:05:50,556 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 16:25:20,847 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 16:25:20,848 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 16:25:26,501 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 16:25:26,501 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 16:25:32,961 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 16:26:00,793 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 16:26:00,794 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 16:26:06,476 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 16:26:06,476 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 16:26:09,675 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 16:29:20,892 - config - INFO - Filter query: None
+2025-07-23 16:31:48,399 - config - INFO - Filter query: None
+2025-07-23 16:41:03,976 - config - INFO - Filter query: None
+2025-07-23 16:41:58,868 - config - INFO - Filter query: None
+2025-07-23 16:43:11,790 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 16:43:11,790 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 16:43:18,119 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 16:43:18,119 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 16:43:22,511 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 16:43:38,828 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 16:43:38,828 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 16:43:42,889 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 16:43:42,889 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 16:43:45,781 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 16:43:45,870 - config - INFO - Filter query: None
+2025-07-23 16:44:07,867 - config - INFO - Filter query: None
+2025-07-23 16:45:18,494 - config - INFO - Filter query: None
+2025-07-23 16:49:04,615 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 16:49:04,615 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 16:49:12,753 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 16:49:12,761 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 16:49:19,011 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 16:49:55,035 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 16:49:55,035 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 16:50:00,575 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 16:50:00,575 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 16:50:02,874 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 16:51:25,245 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 16:51:25,245 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 16:51:34,294 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 16:51:34,295 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 16:51:41,690 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 17:08:57,679 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 17:08:57,680 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 17:09:03,149 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 17:09:03,150 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 17:09:05,727 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 17:10:08,035 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 17:10:08,035 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 17:10:12,646 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 17:10:12,647 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 17:10:16,288 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 17:10:44,311 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 17:10:44,311 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 17:10:49,606 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 17:10:49,607 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 17:10:52,451 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 17:11:20,659 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 17:11:20,659 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 17:11:26,178 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 17:11:26,178 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 17:11:29,675 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 17:11:57,390 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 17:11:57,390 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 17:12:02,094 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 17:12:02,094 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 17:12:04,615 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 17:12:06,317 - config - ERROR - Failed to add documents to vector store: 'id'
+2025-07-23 17:12:06,318 - config - ERROR - Failed to process document 45: 'id'
+2025-07-23 17:12:08,629 - config - ERROR - Failed to add documents to vector store: 'id'
+2025-07-23 17:12:08,629 - config - ERROR - Failed to process document 46: 'id'
+2025-07-23 17:12:22,685 - config - ERROR - Failed to add documents to vector store: 'id'
+2025-07-23 17:12:22,686 - config - ERROR - Failed to process document 47: 'id'
+2025-07-23 17:12:24,965 - config - ERROR - Failed to add documents to vector store: 'id'
+2025-07-23 17:12:24,965 - config - ERROR - Failed to process document 48: 'id'
+2025-07-23 17:16:11,477 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 17:16:11,478 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 17:16:18,192 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 17:16:18,192 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 17:16:21,808 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 17:16:31,505 - config - INFO - Added batch of 1 chunks to vector store
+2025-07-23 17:16:31,561 - config - INFO - Document 49 processed successfully with 1 chunks
+2025-07-23 17:16:33,928 - config - INFO - Added batch of 5 chunks to vector store
+2025-07-23 17:16:33,958 - config - INFO - Document 50 processed successfully with 5 chunks
+2025-07-23 17:16:40,273 - config - INFO - Added batch of 5 chunks to vector store
+2025-07-23 17:16:40,288 - config - INFO - Document 51 processed successfully with 5 chunks
+2025-07-23 17:16:43,040 - config - INFO - Added batch of 13 chunks to vector store
+2025-07-23 17:16:43,056 - config - INFO - Document 52 processed successfully with 13 chunks
+2025-07-23 17:35:20,647 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 17:35:20,649 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 17:35:26,095 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 17:35:26,095 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 17:35:29,273 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 17:36:02,288 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 17:36:02,289 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 17:36:09,675 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 17:36:09,675 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 17:36:12,323 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 17:37:49,142 - config - INFO - Filter query: None
+2025-07-23 17:38:16,488 - config - INFO - Filter query: None
+2025-07-23 17:38:53,735 - config - INFO - Filter query: None

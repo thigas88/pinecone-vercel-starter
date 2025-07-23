@@ -1,10 +1,12 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, Body
+from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, Body, BackgroundTasks
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, validator
 import pandas as pd
 import numpy as np
 import pickle
 import os
+import json
+from sqlalchemy.dialects.postgresql import JSONB
 from typing import Dict, List, Any, Optional, Union
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.pipeline import Pipeline
@@ -25,15 +27,139 @@ import time
 import threading
 import sqlite3
 import logging
+from datetime import datetime
+import tempfile
+import aiofiles
+from pathlib import Path
 
 from config import logger
 from monitor import ConceptDriftDetector
 
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, Session
+from models import Base, Document, IngestHistory, DocumentChunk
+from typing import List
+from pydantic import BaseModel, ConfigDict
+
+from dotenv import find_dotenv, load_dotenv
+
+# Import new modules
+from document_processor import DocumentProcessor, SplittingConfig
+from vector_store import VectorStoreManager
+
+DATABASE_URL = os.getenv('DATABASE_URL', 'postgresql://chatrag:chatrag@localhost:5432/chatrag')
+engine = create_engine(DATABASE_URL)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+# Cria as tabelas se não existirem
+Base.metadata.create_all(bind=engine)
+
 app = FastAPI(
-    title="API de Classificação de Perguntas",
-    description="API para treinamento e classificação de perguntas em categorias",
+    title="API de ChatRAG",
+    description="API para disponibilização de funcionalidades",
     version="1.0.0"
 )
+
+# Dependency para obter sessão do banco
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+# Pydantic models for document ingestion
+class DocumentIngestRequest(BaseModel):
+    """Request model for document ingestion with complete content."""
+    content: Optional[str] = Field(None, description="Document content as text")
+    url: Optional[str] = Field(None, description="URL of the document source")
+    title: str = Field(..., description="Document title")
+    category: Optional[str] = Field(None, description="Document category")
+    tags: Optional[List[str]] = Field(default_factory=list, description="Document tags")
+    keywords: Optional[List[str]] = Field(default_factory=list, description="Document keywords")
+    
+    # Splitting configuration
+    splitting_method: str = Field("character", description="Splitting method: character, sentence, semantic, markdown")
+    chunk_size: int = Field(1000, description="Target chunk size in characters")
+    chunk_overlap: int = Field(200, description="Overlap between chunks")
+    semantic_threshold: float = Field(0.5, description="Similarity threshold for semantic splitting")
+    
+    # File metadata
+    file_type: Optional[str] = Field(None, description="File type: pdf, doc, web, markdown")
+    
+    @validator('splitting_method')
+    def validate_splitting_method(cls, v):
+        valid_methods = ["character", "sentence", "semantic", "markdown"]
+        if v not in valid_methods:
+            raise ValueError(f"Invalid splitting method. Must be one of: {valid_methods}")
+        return v
+    
+    @validator('chunk_size')
+    def validate_chunk_size(cls, v):
+        if v < 100 or v > 10000:
+            raise ValueError("Chunk size must be between 100 and 10000")
+        return v
+
+class DocumentIngestResponse(BaseModel):
+    """Response model for document ingestion."""
+    document_id: int
+    status: str
+    message: str
+    chunks_created: int
+    ingest_history_id: int
+
+# Pydantic para entrada/saída
+class DocumentCreate(BaseModel):
+    url: str
+    title: Optional[str] = None
+    tags: Optional[str] = None
+    category: Optional[str] = None
+    splitting_method: Optional[str] = None
+    chunk_size: Optional[int] = None
+    overlap: Optional[int] = None
+    file_name: Optional[str] = None
+    scheduled_at: Optional[str] = None  # ISO8601 string
+
+class DocumentOut(BaseModel):
+    id: int
+    url: str
+    title: Optional[str] = None
+    tags: Optional[str] = None
+    category: Optional[str] = None
+    splitting_method: Optional[str] = None
+    chunk_size: Optional[int] = None
+    overlap: Optional[int] = None
+    file_name: Optional[str] = None
+    status: Optional[str] = 'agendado'
+    
+    # Use 'datetime' para os campos de data. FastAPI cuidará da serialização.
+    created_at: datetime
+    updated_at: datetime
+    
+    # Use 'Optional[datetime]' para datas que podem ser nulas.
+    scheduled_at: Optional[datetime] = None
+    last_indexed_at: Optional[datetime] = None
+
+    # Configuração importante para permitir que o Pydantic leia os dados
+    # diretamente de um objeto ORM (como seus modelos SQLAlchemy).
+    # Em versões mais antigas do Pydantic, isso era feito com 'class Config: orm_mode = True'
+    model_config = ConfigDict(from_attributes=True)
+
+
+class IngestHistoryOut(BaseModel):
+    id: int
+    document_id: int
+    started_at: datetime
+    finished_at: Optional[datetime] = None
+    status: str
+    message: Optional[str] = None
+    chunks_indexed: Optional[int] = None
+    error: Optional[str] = None
+    model_config = ConfigDict(from_attributes=True)
+
+# Initialize document processor and vector store
+document_processor = DocumentProcessor()
+vector_store_manager = VectorStoreManager()
 
 # Definindo caminhos para os arquivos de modelo
 MODEL_PATH = 'model/'
@@ -71,6 +197,26 @@ class TrainingResponse(BaseModel):
     classification_report_suporte: Dict[str, Any]
     best_params_categoria: Dict[str, Any]
     best_params_suporte: Dict[str, Any]
+
+class ChunkIn(BaseModel):
+    chunk_index: int
+    chunk_text: str
+    hash: str = None
+
+class ChunksIngestRequest(BaseModel):
+    ingest_history_id: int = None  # opcional, se quiser associar ao histórico
+    chunks: List[ChunkIn]
+
+class ChunkOut(BaseModel):
+    id: int
+    document_id: int
+    ingest_history_id: Optional[int] = None
+    meta: Optional[Dict[str, Any]] = None
+    chunk_index: int
+    chunk_text: str
+    hash: str
+    created_at: datetime
+    model_config = ConfigDict(from_attributes=True)
 
 def remove_accents(text):
         """Remove acentos de um texto."""
@@ -115,6 +261,14 @@ def preprocess_text(text: str) -> str:
     return ' '.join(tokens)
 
 
+@app.get("/health")
+async def health_check():
+    """
+    Verifica se a API está funcionando.
+    
+    Retorna o status da API.
+    """
+    return {"status": "OK"}
 
 @app.post("/train", response_model=TrainingResponse)
 async def train_model(file: UploadFile = File(...)):
@@ -501,14 +655,473 @@ async def classify_question(question_request: QuestionRequest):
             raise e
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/health")
-async def health_check():
+@app.post('/admin/documents/{document_id}/chunks')
+def add_chunks(document_id: int, req: ChunksIngestRequest, db: Session = Depends(get_db)):
+    doc = db.query(Document).filter(Document.id == document_id).first()
+    if not doc:
+        raise HTTPException(status_code=404, detail='Documento não encontrado')
+    for chunk in req.chunks:
+        db_chunk = DocumentChunk(
+            document_id=document_id,
+            ingest_history_id=req.ingest_history_id,
+            chunk_index=chunk.chunk_index,
+            chunk_text=chunk.chunk_text,
+            hash=chunk.hash
+        )
+        db.add(db_chunk)
+    db.commit()
+    return {"message": f"{len(req.chunks)} chunks adicionados ao documento {document_id}."}
+
+@app.get('/admin/documents/{document_id}/chunks', response_model=List[ChunkOut])
+def get_chunks(document_id: int, db: Session = Depends(get_db)):
+    chunks = db.query(DocumentChunk).filter(DocumentChunk.document_id == document_id).order_by(DocumentChunk.chunk_index).all()
+    return chunks
+
+@app.post('/admin/documents', response_model=DocumentOut)
+def create_document(doc: DocumentCreate, db: Session = Depends(get_db)):
+    db_doc = Document(
+        url=doc.url,
+        title=doc.title,
+        tags=doc.tags,
+        category=doc.category,
+        splitting_method=doc.splitting_method,
+        chunk_size=doc.chunk_size,
+        overlap=doc.overlap,
+        file_name=doc.file_name,
+        scheduled_at=doc.scheduled_at
+    )
+    db.add(db_doc)
+    db.commit()
+    db.refresh(db_doc)
+    return db_doc
+
+@app.get('/admin/documents', response_model=List[DocumentOut])
+def list_documents(db: Session = Depends(get_db)):
+    docs = db.query(Document).order_by(Document.created_at.desc()).all()
+    print(docs)
+    return docs
+
+@app.get('/admin/documents/{doc_id}/history', response_model=List[IngestHistoryOut])
+def get_document_history(doc_id: int, db: Session = Depends(get_db)):
+    history = db.query(IngestHistory).filter(IngestHistory.document_id == doc_id).order_by(IngestHistory.started_at.desc()).all()
+    return history
+
+@app.post('/admin/documents/{doc_id}/reindex')
+def reindex_document(doc_id: int, db: Session = Depends(get_db)):
+    # Aqui entraria a lógica de reindexação: apagar chunks antigos do Pinecone, reindexar, atualizar status e histórico
+    # Exemplo de atualização de status:
+    doc = db.query(Document).filter(Document.id == doc_id).first()
+    if not doc:
+        raise HTTPException(status_code=404, detail='Documento não encontrado')
+    doc.status = 'processando'
+    db.commit()
+    # Chamar rotina de reindexação (assíncrona ou não)
+    # Após finalizar, atualizar status e inserir registro em ingest_history
+    return {"message": f"Reindexação do documento {doc_id} agendada/iniciada."}
+
+@app.post('/admin/ingest/document', response_model=DocumentIngestResponse)
+async def ingest_document(
+    request: DocumentIngestRequest,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db)
+):
     """
-    Verifica se a API está funcionando.
+    Ingest a complete document with automatic text splitting and vector storage.
     
-    Retorna o status da API.
+    This endpoint accepts a complete document and processes it according to the
+    specified splitting parameters. The document is split into chunks, enriched
+    with metadata, and stored in the vector database.
     """
-    return {"status": "OK"}
+    try:
+        # Create document record
+        db_doc = Document(
+            url=request.url,
+            title=request.title,
+            tags=",".join(request.tags) if request.tags else None,
+            category=request.category,
+            splitting_method=request.splitting_method,
+            chunk_size=request.chunk_size,
+            overlap=request.chunk_overlap,
+            file_name=None,
+            status="processing"
+        )
+        db.add(db_doc)
+        db.commit()
+        db.refresh(db_doc)
+        
+        # Create ingest history record
+        ingest_history = IngestHistory(
+            document_id=db_doc.id,
+            status="processing",
+            message="Document ingestion started"
+        )
+        db.add(ingest_history)
+        db.commit()
+        db.refresh(ingest_history)
+        
+        # Process document in background
+        background_tasks.add_task(
+            process_document_async,
+            db_doc.id,
+            ingest_history.id,
+            request,
+            db
+        )
+        
+        return DocumentIngestResponse(
+            document_id=db_doc.id,
+            status="processing",
+            message="Document ingestion started",
+            chunks_created=0,
+            ingest_history_id=ingest_history.id
+        )
+        
+    except Exception as e:
+        logger.error(f"Failed to start document ingestion: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post('/admin/ingest/file', response_model=DocumentIngestResponse)
+async def ingest_file(
+    file: UploadFile = File(...),
+    title: str = None,
+    category: str = None,
+    tags: List[str] = [],
+    splitting_method: str = "character",
+    chunk_size: int = 1000,
+    chunk_overlap: int = 200,
+    semantic_threshold: float = 0.5,
+    background_tasks: BackgroundTasks = None,
+    db: Session = Depends(get_db)
+):
+    """
+    Ingest a file (PDF, DOCX, TXT, HTML, MD) with automatic text splitting.
+    
+    Upload a file and it will be processed according to the specified splitting
+    parameters. Supported formats: PDF, DOCX, TXT, HTML, Markdown.
+    """
+    try:
+        # Validate file type
+        file_extension = Path(file.filename).suffix.lower()
+        supported_types = {'.pdf': 'pdf', '.docx': 'docx', '.txt': 'txt', 
+                          '.html': 'html', '.md': 'markdown', '.markdown': 'markdown'}
+        
+        if file_extension not in supported_types:
+            raise HTTPException(
+                status_code=400, 
+                detail=f"Unsupported file type. Supported: {list(supported_types.keys())}"
+            )
+        
+        file_type = supported_types[file_extension]
+        
+        # Save uploaded file temporarily
+        temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=file_extension)
+        content = await file.read()
+        temp_file.write(content)
+        temp_file.close()
+        
+        # Create document record
+        db_doc = Document(
+            url=f"file://{file.filename}",
+            title=title or file.filename,
+            tags=",".join(tags) if tags else None,
+            category=category,
+            splitting_method=splitting_method,
+            chunk_size=chunk_size,
+            overlap=chunk_overlap,
+            file_name=file.filename,
+            status="processing"
+        )
+        db.add(db_doc)
+        db.commit()
+        db.refresh(db_doc)
+        
+        # Create ingest history record
+        ingest_history = IngestHistory(
+            document_id=db_doc.id,
+            status="processing",
+            message="File ingestion started"
+        )
+        db.add(ingest_history)
+        db.commit()
+        db.refresh(ingest_history)
+        
+        # Process file in background
+        background_tasks.add_task(
+            process_file_async,
+            db_doc.id,
+            ingest_history.id,
+            temp_file.name,
+            file_type,
+            {
+                "title": title or file.filename,
+                "category": category,
+                "tags": tags,
+                "splitting_method": splitting_method,
+                "chunk_size": chunk_size,
+                "chunk_overlap": chunk_overlap,
+                "semantic_threshold": semantic_threshold
+            },
+            db
+        )
+        
+        return DocumentIngestResponse(
+            document_id=db_doc.id,
+            status="processing",
+            message="File ingestion started",
+            chunks_created=0,
+            ingest_history_id=ingest_history.id
+        )
+        
+    except Exception as e:
+        logger.error(f"Failed to start file ingestion: {e}")
+        if hasattr(e, 'status_code'):
+            raise e
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+async def process_document_async(
+    document_id: int,
+    ingest_history_id: int,
+    request: DocumentIngestRequest,
+    db: Session
+):
+    """Process document asynchronously."""
+    try:
+        # Create splitting configuration
+        config = SplittingConfig(
+            method=request.splitting_method,
+            chunk_size=request.chunk_size,
+            chunk_overlap=request.chunk_overlap,
+            semantic_threshold=request.semantic_threshold
+        )
+        
+        # Prepare metadata
+        metadata = {
+            "title": request.title,
+            "category": request.category,
+            "tags": request.tags,
+            "keywords": request.keywords,
+            "url": request.url,
+            "type": request.file_type or "text"
+        }
+        
+        # Process document
+        chunks = document_processor.process_document(
+            content=request.content,
+            config=config,
+            metadata=metadata
+        )
+        
+        # Store chunks in database
+        for chunk in chunks:
+            db_chunk = DocumentChunk(
+                document_id=document_id,
+                ingest_history_id=ingest_history_id,
+                meta=metadata,
+                chunk_index=chunk["index"],
+                chunk_text=chunk["text"],
+                hash=chunk["hash"]
+            )
+            db.add(db_chunk)
+        
+        db.commit()
+        
+        # Add chunks to vector store
+        chunk_ids = vector_store_manager.add_documents(
+            chunks=chunks,
+            document_id=document_id
+        )
+        
+        # Update document status
+        doc = db.query(Document).filter(Document.id == document_id).first()
+        doc.status = "indexed"
+        doc.last_indexed_at = datetime.utcnow()
+        
+        # Update ingest history
+        history = db.query(IngestHistory).filter(IngestHistory.id == ingest_history_id).first()
+        history.status = "completed"
+        history.finished_at = datetime.utcnow()
+        history.chunks_indexed = len(chunks)
+        history.message = f"Successfully indexed {len(chunks)} chunks"
+        
+        db.commit()
+        
+        logger.info(f"Document {document_id} processed successfully with {len(chunks)} chunks")
+        
+    except Exception as e:
+        logger.error(f"Failed to process document {document_id}: {e}")
+        
+        # Update status on error
+        doc = db.query(Document).filter(Document.id == document_id).first()
+        if doc:
+            doc.status = "error"
+        
+        history = db.query(IngestHistory).filter(IngestHistory.id == ingest_history_id).first()
+        if history:
+            history.status = "error"
+            history.finished_at = datetime.utcnow()
+            history.error = str(e)
+        
+        db.commit()
+
+async def process_file_async(
+    document_id: int,
+    ingest_history_id: int,
+    file_path: str,
+    file_type: str,
+    params: Dict[str, Any],
+    db: Session
+):
+    """Process file asynchronously."""
+    try:
+        # Create splitting configuration
+        config = SplittingConfig(
+            method=params["splitting_method"],
+            chunk_size=params["chunk_size"],
+            chunk_overlap=params["chunk_overlap"],
+            semantic_threshold=params["semantic_threshold"]
+        )
+        
+        # Prepare metadata
+        metadata = {
+            "title": params["title"],
+            "category": params["category"],
+            "tags": params["tags"],
+            "type": file_type
+        }
+        
+        # Process file
+        chunks = document_processor.process_file(
+            file_path=file_path,
+            file_type=file_type,
+            config=config,
+            metadata=metadata
+        )
+        
+        # Store chunks in database
+        for chunk in chunks:
+            db_chunk = DocumentChunk(
+                document_id=document_id,
+                ingest_history_id=ingest_history_id,
+                chunk_index=chunk["index"],
+                chunk_text=chunk["text"],
+                hash=chunk["hash"]
+            )
+            db.add(db_chunk)
+        
+        db.commit()
+        
+        # Add chunks to vector store
+        chunk_ids = vector_store_manager.add_documents(
+            chunks=chunks,
+            document_id=document_id
+        )
+        
+        # Update document status
+        doc = db.query(Document).filter(Document.id == document_id).first()
+        doc.status = "indexed"
+        doc.last_indexed_at = datetime.utcnow()
+        
+        # Update ingest history
+        history = db.query(IngestHistory).filter(IngestHistory.id == ingest_history_id).first()
+        history.status = "completed"
+        history.finished_at = datetime.utcnow()
+        history.chunks_indexed = len(chunks)
+        history.message = f"Successfully indexed {len(chunks)} chunks"
+        
+        db.commit()
+        
+        # Clean up temporary file
+        os.unlink(file_path)
+        
+        logger.info(f"File {document_id} processed successfully with {len(chunks)} chunks")
+        
+    except Exception as e:
+        logger.error(f"Failed to process file {document_id}: {e}")
+        
+        # Update status on error
+        doc = db.query(Document).filter(Document.id == document_id).first()
+        if doc:
+            doc.status = "error"
+        
+        history = db.query(IngestHistory).filter(IngestHistory.id == ingest_history_id).first()
+        if history:
+            history.status = "error"
+            history.finished_at = datetime.utcnow()
+            history.error = str(e)
+        
+        db.commit()
+        
+        # Clean up temporary file
+        if os.path.exists(file_path):
+            os.unlink(file_path)
+
+@app.get('/search')
+async def search_documents(
+    query: str,
+    k: int = 5,
+    category: Optional[str] = None,
+    tags: Optional[str] = None,
+    score_threshold: Optional[float] = None
+):
+    """
+    Search for documents using vector similarity.
+    
+    Args:
+        query: Search query
+        k: Number of results to return
+        category: Filter by category
+        tags: Filter by tags separed by comman
+        score_threshold: Minimum similarity score
+    """
+    try:
+        # Build filters
+        filters = {}
+        if category:
+            filters["category"] = category
+        if tags:
+            # Converte a string de tags separadas por vírgula em uma lista,
+            # removendo espaços em branco extras de cada tag.
+            processed_tags = [tag.strip() for tag in tags.split(',')]
+            filters["tags"] = processed_tags
+        
+        # Perform search
+        results = vector_store_manager.similarity_search(
+            query=query,
+            k=k,
+            filter_dict=filters,
+            score_threshold=score_threshold
+        )
+        
+        # Format results
+        formatted_results = []
+        for doc, score in results:
+            formatted_results.append({
+                "content": doc.page_content,
+                "metadata": doc.metadata,
+                "score": 1 - float(abs(score)) # Reverse the sign of the number to calculate the distance from 1 
+            })
+        
+        return {
+            "query": query,
+            "results": formatted_results,
+            "count": len(formatted_results)
+        }
+        
+    except Exception as e:
+        logger.error(f"Search failed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get('/admin/vector-store/stats')
+async def get_vector_store_stats():
+    """Get statistics about the vector store."""
+    try:
+        stats = vector_store_manager.get_collection_stats()
+        print(stats)
+        return stats
+    except Exception as e:
+        logger.error(f"Failed to get vector store stats: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == '__main__':
     import uvicorn
