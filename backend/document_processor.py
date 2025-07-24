@@ -236,9 +236,9 @@ class MarkdownSplitter(DocumentSplitter):
         return splitter.split_text(text)
 
 
-class TextChunker(DocumentSplitter):
+class TextSemanticChunker(DocumentSplitter):
     def __init__(self, model_name='rufimelo/bert-large-portuguese-cased-sts'):
-        """Initialize the TextChunker with a specified sentence transformer model."""
+        """Initialize the TextSemanticChunker with a specified sentence transformer model."""
         self.model = SentenceTransformer(model_name)
 
     # def split(self, text: str, config: SplittingConfig) -> List[str]:
@@ -273,7 +273,7 @@ class TextChunker(DocumentSplitter):
         # Merge small chunks for better coherence
         chunk_embeddings = self.model.encode(initial_chunks)
         final_chunks = self._merge_small_chunks(initial_chunks, chunk_embeddings, min_chunk_size)
-        print('Chunks generateds on TextChunker()')
+        print('Chunks generateds on TextSemanticChunker()')
         
         return final_chunks
 
@@ -360,7 +360,7 @@ class DocumentProcessor:
             "sentence": SentenceSplitter(),
             "semantic": SemanticSplitter(),
             "markdown": MarkdownSplitter(),
-            "text": TextChunker()
+            "textsemantic": TextSemanticChunker()
         }
     
     def load_document(self, file_path: str, file_type: str) -> str:

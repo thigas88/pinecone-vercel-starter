@@ -1,5 +1,6 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, Body, BackgroundTasks
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field, validator
 import pandas as pd
 import numpy as np
@@ -60,6 +61,15 @@ app = FastAPI(
     version="1.0.0"
 )
 
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000", "http://localhost:3001", "*"],  # In production, specify exact origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # Dependency para obter sessão do banco
 def get_db():
     db = SessionLocal()
@@ -79,7 +89,7 @@ class DocumentIngestRequest(BaseModel):
     keywords: Optional[List[str]] = Field(default_factory=list, description="Document keywords")
     
     # Splitting configuration
-    splitting_method: str = Field("character", description="Splitting method: character, sentence, semantic, markdown")
+    splitting_method: str = Field("character", description="Splitting method: character, sentence, semantic, textsemantic, markdown")
     chunk_size: int = Field(1000, description="Target chunk size in characters")
     chunk_overlap: int = Field(200, description="Overlap between chunks")
     semantic_threshold: float = Field(0.5, description="Similarity threshold for semantic splitting")
@@ -89,7 +99,7 @@ class DocumentIngestRequest(BaseModel):
     
     @validator('splitting_method')
     def validate_splitting_method(cls, v):
-        valid_methods = ["character", "sentence", "semantic", "markdown"]
+        valid_methods = ["character", "sentence", "semantic", "markdown", "textsemantic"]
         if v not in valid_methods:
             raise ValueError(f"Invalid splitting method. Must be one of: {valid_methods}")
         return v
@@ -655,45 +665,45 @@ async def classify_question(question_request: QuestionRequest):
             raise e
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post('/admin/documents/{document_id}/chunks')
-def add_chunks(document_id: int, req: ChunksIngestRequest, db: Session = Depends(get_db)):
-    doc = db.query(Document).filter(Document.id == document_id).first()
-    if not doc:
-        raise HTTPException(status_code=404, detail='Documento não encontrado')
-    for chunk in req.chunks:
-        db_chunk = DocumentChunk(
-            document_id=document_id,
-            ingest_history_id=req.ingest_history_id,
-            chunk_index=chunk.chunk_index,
-            chunk_text=chunk.chunk_text,
-            hash=chunk.hash
-        )
-        db.add(db_chunk)
-    db.commit()
-    return {"message": f"{len(req.chunks)} chunks adicionados ao documento {document_id}."}
+# @app.post('/admin/documents/{document_id}/chunks')
+# def add_chunks(document_id: int, req: ChunksIngestRequest, db: Session = Depends(get_db)):
+#     doc = db.query(Document).filter(Document.id == document_id).first()
+#     if not doc:
+#         raise HTTPException(status_code=404, detail='Documento não encontrado')
+#     for chunk in req.chunks:
+#         db_chunk = DocumentChunk(
+#             document_id=document_id,
+#             ingest_history_id=req.ingest_history_id,
+#             chunk_index=chunk.chunk_index,
+#             chunk_text=chunk.chunk_text,
+#             hash=chunk.hash
+#         )
+#         db.add(db_chunk)
+#     db.commit()
+#     return {"message": f"{len(req.chunks)} chunks adicionados ao documento {document_id}."}
 
 @app.get('/admin/documents/{document_id}/chunks', response_model=List[ChunkOut])
 def get_chunks(document_id: int, db: Session = Depends(get_db)):
     chunks = db.query(DocumentChunk).filter(DocumentChunk.document_id == document_id).order_by(DocumentChunk.chunk_index).all()
     return chunks
 
-@app.post('/admin/documents', response_model=DocumentOut)
-def create_document(doc: DocumentCreate, db: Session = Depends(get_db)):
-    db_doc = Document(
-        url=doc.url,
-        title=doc.title,
-        tags=doc.tags,
-        category=doc.category,
-        splitting_method=doc.splitting_method,
-        chunk_size=doc.chunk_size,
-        overlap=doc.overlap,
-        file_name=doc.file_name,
-        scheduled_at=doc.scheduled_at
-    )
-    db.add(db_doc)
-    db.commit()
-    db.refresh(db_doc)
-    return db_doc
+# @app.post('/admin/documents', response_model=DocumentOut)
+# def create_document(doc: DocumentCreate, db: Session = Depends(get_db)):
+#     db_doc = Document(
+#         url=doc.url,
+#         title=doc.title,
+#         tags=doc.tags,
+#         category=doc.category,
+#         splitting_method=doc.splitting_method,
+#         chunk_size=doc.chunk_size,
+#         overlap=doc.overlap,
+#         file_name=doc.file_name,
+#         scheduled_at=doc.scheduled_at
+#     )
+#     db.add(db_doc)
+#     db.commit()
+#     db.refresh(db_doc)
+#     return db_doc
 
 @app.get('/admin/documents', response_model=List[DocumentOut])
 def list_documents(db: Session = Depends(get_db)):
@@ -706,18 +716,18 @@ def get_document_history(doc_id: int, db: Session = Depends(get_db)):
     history = db.query(IngestHistory).filter(IngestHistory.document_id == doc_id).order_by(IngestHistory.started_at.desc()).all()
     return history
 
-@app.post('/admin/documents/{doc_id}/reindex')
-def reindex_document(doc_id: int, db: Session = Depends(get_db)):
-    # Aqui entraria a lógica de reindexação: apagar chunks antigos do Pinecone, reindexar, atualizar status e histórico
-    # Exemplo de atualização de status:
-    doc = db.query(Document).filter(Document.id == doc_id).first()
-    if not doc:
-        raise HTTPException(status_code=404, detail='Documento não encontrado')
-    doc.status = 'processando'
-    db.commit()
-    # Chamar rotina de reindexação (assíncrona ou não)
-    # Após finalizar, atualizar status e inserir registro em ingest_history
-    return {"message": f"Reindexação do documento {doc_id} agendada/iniciada."}
+# @app.post('/admin/documents/{doc_id}/reindex')
+# def reindex_document(doc_id: int, db: Session = Depends(get_db)):
+#     # Aqui entraria a lógica de reindexação: apagar chunks antigos do Pinecone, reindexar, atualizar status e histórico
+#     # Exemplo de atualização de status:
+#     doc = db.query(Document).filter(Document.id == doc_id).first()
+#     if not doc:
+#         raise HTTPException(status_code=404, detail='Documento não encontrado')
+#     doc.status = 'processando'
+#     db.commit()
+#     # Chamar rotina de reindexação (assíncrona ou não)
+#     # Após finalizar, atualizar status e inserir registro em ingest_history
+#     return {"message": f"Reindexação do documento {doc_id} agendada/iniciada."}
 
 @app.post('/admin/ingest/document', response_model=DocumentIngestResponse)
 async def ingest_document(
@@ -1122,6 +1132,174 @@ async def get_vector_store_stats():
         return stats
     except Exception as e:
         logger.error(f"Failed to get vector store stats: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post('/admin/documents/{doc_id}/reindex')
+async def reindex_document(
+    doc_id: int,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db)
+):
+    """
+    Reindex a document by fetching content from its URL.
+    Only works for documents with valid web URLs.
+    """
+    try:
+        # Get document
+        doc = db.query(Document).filter(Document.id == doc_id).first()
+        if not doc:
+            raise HTTPException(status_code=404, detail='Document not found')
+        
+        # Check if URL is valid
+        if not doc.url or not (doc.url.startswith('http://') or doc.url.startswith('https://')):
+            raise HTTPException(status_code=400, detail='Document does not have a valid web URL')
+        
+        # Update status
+        doc.status = 'processing'
+        db.commit()
+        
+        # Create ingest history record
+        ingest_history = IngestHistory(
+            document_id=doc.id,
+            status="processing",
+            message="Reindexing started"
+        )
+        db.add(ingest_history)
+        db.commit()
+        db.refresh(ingest_history)
+        
+        # Fetch content from URL
+        import requests
+        from bs4 import BeautifulSoup
+        
+        try:
+            response = requests.get(doc.url, timeout=30)
+            response.raise_for_status()
+            
+            # Parse HTML content
+            soup = BeautifulSoup(response.text, 'html.parser')
+            
+            # Remove script and style elements
+            for script in soup(["script", "style"]):
+                script.decompose()
+            
+            # Get text content
+            text = soup.get_text()
+            
+            # Clean up text
+            lines = (line.strip() for line in text.splitlines())
+            chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
+            content = ' '.join(chunk for chunk in chunks if chunk)
+            
+        except Exception as e:
+            logger.error(f"Failed to fetch content from URL: {e}")
+            doc.status = 'error'
+            ingest_history.status = 'error'
+            ingest_history.error = str(e)
+            ingest_history.finished_at = datetime.utcnow()
+            db.commit()
+            raise HTTPException(status_code=500, detail=f"Failed to fetch content: {str(e)}")
+        
+        # Delete old chunks from vector store
+        deleted_chunks = vector_store_manager.delete_document_chunks(doc.id)
+        logger.info(f"Deleted {deleted_chunks} old chunks for document {doc.id}")
+        
+        # Delete old chunks from database
+        db.query(DocumentChunk).filter(DocumentChunk.document_id == doc.id).delete()
+        db.commit()
+        
+        # Process document in background
+        background_tasks.add_task(
+            process_document_async,
+            doc.id,
+            ingest_history.id,
+            DocumentIngestRequest(
+                content=content,
+                url=doc.url,
+                title=doc.title or f"Document {doc.id}",
+                category=doc.category,
+                tags=doc.tags.split(',') if doc.tags else [],
+                splitting_method=doc.splitting_method or "character",
+                chunk_size=doc.chunk_size or 1000,
+                chunk_overlap=doc.overlap or 200,
+                file_type="web"
+            ),
+            db
+        )
+        
+        return {
+            "message": f"Reindexing of document {doc.id} started",
+            "document_id": doc.id,
+            "ingest_history_id": ingest_history.id
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Failed to reindex document: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get('/admin/documents/{doc_id}/fetch-content')
+async def fetch_document_content(doc_id: int, db: Session = Depends(get_db)):
+    """
+    Fetch and preview content from a document's URL without processing.
+    Useful for testing if URL is accessible.
+    """
+    try:
+        # Get document
+        doc = db.query(Document).filter(Document.id == doc_id).first()
+        if not doc:
+            raise HTTPException(status_code=404, detail='Document not found')
+        
+        # Check if URL is valid
+        if not doc.url or not (doc.url.startswith('http://') or doc.url.startswith('https://')):
+            raise HTTPException(status_code=400, detail='Document does not have a valid web URL')
+        
+        # Fetch content from URL
+        import requests
+        from bs4 import BeautifulSoup
+        
+        response = requests.get(doc.url, timeout=30)
+        response.raise_for_status()
+        
+        # Parse HTML content
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        # Remove script and style elements
+        for script in soup(["script", "style"]):
+            script.decompose()
+        
+        # Get text content
+        text = soup.get_text()
+        
+        # Clean up text
+        lines = (line.strip() for line in text.splitlines())
+        chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
+        content = ' '.join(chunk for chunk in chunks if chunk)
+        
+        # Get title from page if not set
+        title = doc.title
+        if not title and soup.title:
+            title = soup.title.string
+        
+        return {
+            "document_id": doc.id,
+            "url": doc.url,
+            "title": title,
+            "content_preview": content[:1000] + "..." if len(content) > 1000 else content,
+            "content_length": len(content),
+            "status": "success"
+        }
+        
+    except requests.RequestException as e:
+        return {
+            "document_id": doc_id,
+            "url": doc.url if 'doc' in locals() else None,
+            "status": "error",
+            "error": f"Failed to fetch URL: {str(e)}"
+        }
+    except Exception as e:
+        logger.error(f"Failed to fetch document content: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == '__main__':

@@ -26,3 +26,4 @@ unstructured[docx]
 openai
 pgvector
 markdown
+beautifulsoup4
