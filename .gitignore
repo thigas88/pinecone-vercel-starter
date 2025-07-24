@@ -49,3 +49,4 @@ question_classifier_api/__pycache__/app.cpython-312.pyc
 */performance_reports*
 .idx/
 .vscode/
+backend/__pycache__/app.cpython-312.pyc
