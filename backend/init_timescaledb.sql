@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS document_chunks (
 CREATE TABLE IF NOT EXISTS document_chunks_vector (
     id UUID NOT NULL DEFAULT gen_random_uuid(),
     contents TEXT NOT NULL,
-    embedding vector(384), -- Dimension for all-MiniLM-L6-v2 model  default 1536
+    embedding vector(1536), -- Dimension for all-MiniLM-L6-v2 model  default 1536
     metadata JSONB,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW(),

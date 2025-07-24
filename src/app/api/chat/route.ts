@@ -44,6 +44,8 @@ Analise a pergunta do usuário cuidadosamente para determinar se ela requer info
 **Ação:** A pergunta NECESSITA de contexto adicional sobre a população da França.
 **Resposta Final:** NECESSITA_CONTEXTO.
 
+### CONTEXTO
+{message_history}
 
 `
 
@@ -119,13 +121,17 @@ export async function POST(req: Request) {
       category = await categorizeQuery(currentMessageContent);
       console.log('Categoria identificada pelo categorizeQuery:', category);
     }
-   
 
     const model = await getModel()
 
+    const prompt = ChatPromptTemplate.fromTemplate(TEMPLATE_DECISAO)
+    const formattedChatPrompt = await prompt.invoke({
+        message_history: messages
+    });
+
     let mensagensDecisao: CoreMessage[] = [
       { role: 'system', 
-        content: TEMPLATE_DECISAO 
+        content: formattedChatPrompt.toString() 
       },
       { role: 'user', 
         content: currentMessageContent 
@@ -158,18 +164,15 @@ export async function POST(req: Request) {
 
         const formattedChatPrompt = await prompt.invoke({
             context: context,
-            //chat_history: formattedPreviousMessages.join('\n'),
             input: currentMessageContent,
         });
 
         // Chama o LLM novamente, agora com o contexto incluído
         finalResult = streamText({
             model: model,
-            // prompt: formattedChatPrompt.toString()
             system: formattedChatPrompt.toString(),
             messages: messages
         });
-
     }
      else {
         // Se o LLM não indicou a necessidade de contexto, a resposta dele é a resposta final
@@ -189,7 +192,6 @@ export async function POST(req: Request) {
             system: formattedChatPrompt.toString(),
             messages: messages,
         });
-
     }
 
     return finalResult.toDataStreamResponse();

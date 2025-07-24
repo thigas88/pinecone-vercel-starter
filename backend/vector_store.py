@@ -10,9 +10,10 @@ import uuid
 
 from langchain_community.vectorstores import TimescaleVector
 from langchain_community.embeddings import OpenAIEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain.schema import Document as LangChainDocument
-from langchain.vectorstores.pgvector import DistanceStrategy
+from langchain_community.vectorstores.pgvector import DistanceStrategy
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import Session
 import numpy as np
@@ -34,7 +35,7 @@ class VectorStoreManager:
         
         Args:
             connection_string: PostgreSQL connection string
-            embedding_model: Type of embedding model to use ("openai" or "huggingface")
+            embedding_model: Type of embedding model to use ("google" or "huggingface")
             collection_name: Name of the collection/table for vectors
         """
         self.connection_string = connection_string or os.getenv(
@@ -43,12 +44,19 @@ class VectorStoreManager:
         )
         
         # Initialize embeddings
-        if embedding_model == "openai":
-            self.embeddings = OpenAIEmbeddings()
+        if embedding_model == "google":
+            os.environ["GOOGLE_API_KEY"] = os.getenv('GOOGLE_GENERATIVE_AI_API_KEY')
+            model_embedding_name = os.getenv('MODEL_EMBEDDINGS_NAME', "text-embedding-004")
+            self.embeddings = GoogleGenerativeAIEmbeddings(model=model_embedding_name)
         else:
+            model_name = "rufimelo/bert-large-portuguese-cased-sts"  # melhor e mais pesado
+            model_kwargs = {'device': 'cpu'}
+            encode_kwargs = {'normalize_embeddings': False}
             # Use a smaller model for local embeddings
             self.embeddings = HuggingFaceEmbeddings(
-                model_name="sentence-transformers/all-MiniLM-L6-v2"
+                model_name=model_name,
+                model_kwargs=model_kwargs,
+                encode_kwargs=encode_kwargs
             )
         
         self.collection_name = collection_name
@@ -242,7 +250,8 @@ class VectorStoreManager:
                 )
             if score_threshold:                
                 # Filter by score threshold
-                results = [(doc, score) for doc, score in results if score >= score_threshold]
+                results = [(doc, score) for doc, score in results if 1 - score >= score_threshold]
+                print(f"Filter by score threshold {score_threshold}")
                         
             return results
             

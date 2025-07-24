@@ -1090,3 +1090,513 @@ LINE 1: ...SERT INTO "document_chunks_vector" (id, metadata, contents, ...
 2025-07-23 17:37:49,142 - config - INFO - Filter query: None
 2025-07-23 17:38:16,488 - config - INFO - Filter query: None
 2025-07-23 17:38:53,735 - config - INFO - Filter query: None
+2025-07-23 17:59:43,262 - config - ERROR - Failed to process file 53: No module named 'markdown'
+2025-07-23 18:03:26,211 - config - INFO - Added batch of 6 chunks to vector store
+2025-07-23 18:03:26,245 - config - INFO - File 54 processed successfully with 6 chunks
+2025-07-23 18:08:43,255 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 18:08:43,255 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 18:08:47,406 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 18:08:47,410 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 18:08:49,740 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 18:11:23,392 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 18:11:23,393 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 18:11:29,508 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 18:11:29,509 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 18:11:32,018 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 18:13:09,252 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 18:13:09,253 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 18:13:14,035 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 18:13:14,036 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 18:13:16,384 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 18:13:16,797 - config - INFO - Added batch of 1 chunks to vector store
+2025-07-23 18:13:16,840 - config - INFO - Document 55 processed successfully with 1 chunks
+2025-07-23 18:13:19,504 - config - INFO - Added batch of 5 chunks to vector store
+2025-07-23 18:13:19,530 - config - INFO - Document 56 processed successfully with 5 chunks
+2025-07-23 18:13:22,433 - config - INFO - Added batch of 5 chunks to vector store
+2025-07-23 18:13:22,452 - config - INFO - Document 57 processed successfully with 5 chunks
+2025-07-23 18:13:24,828 - config - INFO - Added batch of 13 chunks to vector store
+2025-07-23 18:13:24,842 - config - INFO - Document 58 processed successfully with 13 chunks
+2025-07-23 18:13:42,558 - config - INFO - Added batch of 6 chunks to vector store
+2025-07-23 18:13:42,571 - config - INFO - File 59 processed successfully with 6 chunks
+2025-07-23 18:14:49,713 - config - INFO - Filter query: None
+2025-07-23 18:14:55,303 - config - INFO - Filter query: None
+2025-07-23 18:17:21,672 - config - INFO - Added batch of 6 chunks to vector store
+2025-07-23 18:17:21,690 - config - INFO - File 60 processed successfully with 6 chunks
+2025-07-23 18:17:47,043 - config - INFO - Filter query: None
+2025-07-23 18:41:46,446 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 18:41:46,447 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 18:41:52,567 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 18:41:52,568 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 18:41:55,815 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 18:42:21,942 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 18:42:21,943 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 18:42:28,532 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
+2025-07-23 18:42:52,769 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 18:43:23,937 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 18:43:23,937 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 18:43:29,984 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: neuralmind/bert-base-portuguese-cased
+2025-07-23 18:43:30,214 - sentence_transformers.SentenceTransformer - WARNING - No sentence-transformers model found with name neuralmind/bert-base-portuguese-cased. Creating a new one with mean pooling.
+2025-07-23 18:44:26,151 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 18:44:26,151 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 18:44:34,369 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: neuralmind/bert-base-portuguese-cased
+2025-07-23 18:44:34,550 - sentence_transformers.SentenceTransformer - WARNING - No sentence-transformers model found with name neuralmind/bert-base-portuguese-cased. Creating a new one with mean pooling.
+2025-07-23 18:47:11,556 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 18:47:11,559 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 18:47:17,594 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 18:47:17,594 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 18:47:20,652 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 18:47:48,954 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 18:47:48,955 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 18:47:54,054 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 18:47:54,054 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-07-23 18:47:56,946 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 18:50:40,098 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 18:50:40,099 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 18:50:45,840 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: neuralmind/bert-base-portuguese-cased
+2025-07-23 18:50:45,997 - sentence_transformers.SentenceTransformer - WARNING - No sentence-transformers model found with name neuralmind/bert-base-portuguese-cased. Creating a new one with mean pooling.
+2025-07-23 18:51:35,349 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 18:51:35,350 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 18:51:40,684 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: neuralmind/bert-base-portuguese-cased
+2025-07-23 18:51:40,838 - sentence_transformers.SentenceTransformer - WARNING - No sentence-transformers model found with name neuralmind/bert-base-portuguese-cased. Creating a new one with mean pooling.
+2025-07-23 18:53:52,653 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 18:53:52,653 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 18:53:56,584 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-23 18:54:19,398 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 18:54:57,768 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 18:54:57,769 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-23 18:55:08,595 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-23 18:55:21,125 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-23 18:55:58,300 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-23 18:55:58,301 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2025-07-23 18:56:03,558 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-23 18:56:06,792 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 07:18:35,401 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 07:18:35,402 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:18:46,849 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:18:52,679 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 07:20:40,379 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 07:20:40,379 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:20:47,573 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:20:53,821 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 07:23:24,287 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 07:23:24,287 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:23:30,882 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:23:34,983 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 07:23:57,086 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 07:23:57,087 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:24:03,816 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:24:09,124 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 07:29:12,068 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 07:29:12,069 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:29:21,724 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:29:26,653 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 07:30:07,131 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 07:30:07,132 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:30:19,332 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:30:24,709 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 07:30:55,180 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 07:30:55,180 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:31:01,331 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:31:05,476 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 07:35:05,806 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 07:35:05,807 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:35:15,959 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:35:20,734 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 07:35:46,842 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 07:35:46,842 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:35:55,205 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:35:59,862 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 07:36:37,593 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 07:36:37,593 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:36:48,808 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:36:53,756 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 07:37:41,501 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 07:37:41,503 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:37:51,688 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:37:58,485 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 07:46:02,576 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 07:46:02,577 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:46:09,375 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:46:13,224 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 07:48:03,634 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 07:48:03,635 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:48:13,492 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:48:17,592 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 07:48:47,804 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 07:48:47,804 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:48:55,441 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:48:59,867 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 07:49:17,417 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 07:49:17,417 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:49:24,768 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:49:29,660 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 07:50:27,771 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 07:50:27,771 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:50:42,321 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 07:50:48,182 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 07:51:29,559 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 07:51:29,561 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: Raubachm/sentence-transformers-semantic-chunker 
+2025-07-24 07:51:29,561 - sentence_transformers.SentenceTransformer - WARNING - No sentence-transformers model found with name Raubachm/sentence-transformers-semantic-chunker . Creating a new one with mean pooling.
+2025-07-24 07:52:47,680 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 07:52:47,680 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: Raubachm/sentence-transformers-semantic-chunker
+2025-07-24 07:52:47,916 - sentence_transformers.SentenceTransformer - WARNING - No sentence-transformers model found with name Raubachm/sentence-transformers-semantic-chunker. Creating a new one with mean pooling.
+2025-07-24 07:59:11,413 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 07:59:11,414 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: neuralmind/bert-base-portuguese-cased
+2025-07-24 07:59:11,638 - sentence_transformers.SentenceTransformer - WARNING - No sentence-transformers model found with name neuralmind/bert-base-portuguese-cased. Creating a new one with mean pooling.
+2025-07-24 08:01:35,762 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 08:01:35,762 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v1
+2025-07-24 08:01:55,743 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 08:02:01,781 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 08:04:31,613 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 08:04:31,613 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v1
+2025-07-24 08:04:38,225 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 08:04:45,952 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 08:08:02,585 - config - INFO - Added batch of 7 chunks to vector store
+2025-07-24 08:08:02,617 - config - INFO - File 61 processed successfully with 7 chunks
+2025-07-24 08:09:52,114 - config - INFO - Filter query: None
+2025-07-24 08:21:43,959 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 08:21:43,960 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 08:22:07,481 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 08:22:07,494 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 08:22:11,108 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 08:24:53,374 - config - INFO - Added batch of 7 chunks to vector store
+2025-07-24 08:24:53,430 - config - INFO - File 62 processed successfully with 7 chunks
+2025-07-24 08:26:57,768 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 08:26:57,768 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 08:27:04,288 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 08:27:04,317 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 08:27:09,123 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 08:27:57,441 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 08:27:57,441 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 08:28:05,403 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 08:28:05,449 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 08:28:12,224 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 08:30:30,630 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 08:30:30,630 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 08:30:36,711 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 08:30:36,752 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 08:30:42,265 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 08:31:13,730 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 08:31:13,731 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 08:31:28,690 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 08:31:28,714 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 08:31:34,556 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 08:32:28,181 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 08:32:28,182 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 08:32:34,798 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 08:32:34,830 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 08:32:40,338 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 08:33:08,132 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 08:33:08,133 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 08:33:13,762 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 08:33:13,785 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 08:33:18,992 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 08:33:44,265 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 08:33:44,267 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 08:33:56,870 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 08:33:56,891 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 08:34:02,587 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 08:34:47,903 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 08:34:47,903 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 08:34:53,984 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 08:34:54,004 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 08:34:59,222 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 08:35:22,367 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 08:35:22,367 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 08:35:27,180 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 08:35:51,542 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 08:35:51,544 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 08:35:57,524 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 08:35:57,551 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 08:35:57,553 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: Raubachm/sentence-transformers-semantic-chunker
+2025-07-24 08:35:57,716 - sentence_transformers.SentenceTransformer - WARNING - No sentence-transformers model found with name Raubachm/sentence-transformers-semantic-chunker. Creating a new one with mean pooling.
+2025-07-24 08:37:08,440 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 08:37:08,440 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 08:37:12,219 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 08:37:12,254 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 08:37:12,254 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 08:37:14,553 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 08:37:14,575 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 08:37:18,553 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 08:39:39,311 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 08:39:39,311 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: serafim-900m-portuguese-pt-sentence-encoder-ir
+2025-07-24 08:39:39,505 - sentence_transformers.SentenceTransformer - WARNING - No sentence-transformers model found with name sentence-transformers/serafim-900m-portuguese-pt-sentence-encoder-ir. Creating a new one with mean pooling.
+2025-07-24 08:41:13,526 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 08:41:13,527 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: PORTULAN/serafim-900m-portuguese-pt-sentence-encoder-ir
+2025-07-24 08:42:41,056 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 08:42:41,057 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 08:42:45,126 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 08:42:45,161 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 08:42:50,844 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 08:50:54,804 - config - INFO - Added batch of 7 chunks to vector store
+2025-07-24 08:50:54,872 - config - INFO - File 63 processed successfully with 7 chunks
+2025-07-24 08:52:35,954 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 08:52:35,954 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: PORTULAN/serafim-900m-portuguese-pt-sentence-encoder-ir
+2025-07-24 08:52:43,383 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 08:52:43,383 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 08:52:47,500 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 08:52:47,519 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 08:52:53,529 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 08:53:25,960 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 08:53:25,960 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 08:53:34,048 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 08:53:34,092 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 08:53:34,092 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 08:53:37,056 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 08:53:37,087 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+2025-07-24 08:53:41,742 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 08:55:39,370 - config - INFO - Added batch of 3 chunks to vector store
+2025-07-24 08:55:39,404 - config - INFO - File 64 processed successfully with 3 chunks
+2025-07-24 08:57:29,465 - config - INFO - Filter query: None
+2025-07-24 09:00:29,176 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 09:00:29,177 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 09:00:35,309 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 09:00:35,328 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 09:00:35,328 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 09:00:37,997 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 09:00:38,020 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 09:00:41,155 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 09:00:41,295 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 09:01:03,277 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 09:01:03,278 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 09:01:08,246 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 09:01:08,261 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 09:01:08,261 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 09:01:11,888 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 09:01:11,973 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 09:01:15,511 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 09:01:15,731 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 09:07:05,979 - config - ERROR - Failed to add documents to vector store: expected 384 dimensions, not 1024
+
+2025-07-24 09:07:05,983 - config - ERROR - Failed to process file 65: expected 384 dimensions, not 1024
+
+2025-07-24 09:09:19,343 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 09:09:19,343 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 09:09:27,505 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 09:09:27,523 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 09:09:27,523 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 09:09:30,309 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 09:09:30,329 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 09:09:33,533 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 09:09:33,718 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 09:12:00,063 - config - ERROR - Failed to add documents to vector store: expected 1536 dimensions, not 1024
+
+2025-07-24 09:12:00,063 - config - ERROR - Failed to process file 66: expected 1536 dimensions, not 1024
+
+2025-07-24 09:14:39,338 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 09:14:39,338 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 09:14:47,800 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 09:14:47,821 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 09:14:47,822 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 09:14:50,768 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 09:14:50,785 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 09:14:53,722 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 09:14:53,842 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 09:18:11,289 - config - INFO - Added batch of 3 chunks to vector store
+2025-07-24 09:18:11,315 - config - INFO - File 67 processed successfully with 3 chunks
+2025-07-24 09:34:49,638 - config - INFO - Added batch of 32 chunks to vector store
+2025-07-24 09:34:49,804 - config - INFO - File 68 processed successfully with 32 chunks
+2025-07-24 09:37:19,868 - config - INFO - Filter query: {'$and': [{'metadata': {'category': {'$eq': 'ensinograduacao'}}}]}
+2025-07-24 10:04:47,671 - config - INFO - Filter query: {'$and': [{'metadata': {'category': {'$eq': 'ensinograduacao'}}}]}
+2025-07-24 10:05:07,867 - config - INFO - Filter query: None
+2025-07-24 10:30:50,648 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:30:50,649 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:30:55,116 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:30:55,124 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:30:55,124 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: PORTULAN/serafim-900m-portuguese-pt-sentence-encoder-ir
+2025-07-24 10:30:58,461 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:31:00,756 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:31:00,867 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 10:31:59,671 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:31:59,674 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:32:04,657 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:32:04,668 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:32:04,668 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: PORTULAN/serafim-900m-portuguese-pt-sentence-encoder-ir
+2025-07-24 10:32:07,435 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: PORTULAN/serafim-900m-portuguese-pt-sentence-encoder-ir
+2025-07-24 10:32:10,135 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 10:34:19,999 - config - INFO - Added batch of 4 chunks to vector store
+2025-07-24 10:34:20,010 - config - INFO - File 69 processed successfully with 4 chunks
+2025-07-24 10:34:52,743 - config - INFO - Filter query: None
+2025-07-24 10:36:20,429 - config - INFO - Filter query: None
+2025-07-24 10:36:51,325 - config - INFO - Filter query: None
+2025-07-24 10:37:44,508 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:37:44,508 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:37:48,989 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:37:48,995 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:37:48,995 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: PORTULAN/serafim-900m-portuguese-pt-sentence-encoder-ir
+2025-07-24 10:37:52,080 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: PORTULAN/serafim-900m-portuguese-pt-sentence-encoder-ir
+2025-07-24 10:37:54,736 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 10:38:04,440 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:38:04,440 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:38:08,176 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:38:08,184 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:38:08,184 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: PORTULAN/serafim-900m-portuguese-pt-sentence-encoder-ir
+2025-07-24 10:38:11,538 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: PORTULAN/serafim-900m-portuguese-pt-sentence-encoder-ir
+2025-07-24 10:38:14,281 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 10:38:23,121 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:38:23,122 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:38:26,384 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:38:26,391 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:38:26,391 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: PORTULAN/serafim-900m-portuguese-pt-sentence-encoder-ir
+2025-07-24 10:38:29,190 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: PORTULAN/serafim-900m-portuguese-pt-sentence-encoder-ir
+2025-07-24 10:38:31,743 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 10:38:40,131 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:38:40,131 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:38:43,683 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:38:43,694 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:38:43,694 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: PORTULAN/serafim-900m-portuguese-pt-sentence-encoder-ir
+2025-07-24 10:38:46,693 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: PORTULAN/serafim-900m-portuguese-pt-sentence-encoder-ir
+2025-07-24 10:38:49,423 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 10:38:58,582 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:38:58,582 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:39:02,389 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:39:02,396 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:39:02,396 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:39:04,858 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:39:04,866 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:39:07,217 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:39:07,290 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 10:39:15,762 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:39:15,762 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:39:19,133 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:39:19,140 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:39:19,140 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:39:21,684 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:39:21,692 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:39:23,992 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:39:24,041 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 10:39:32,504 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:39:32,504 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:39:35,965 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:39:35,976 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:39:35,976 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:39:38,443 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:39:38,449 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:39:40,986 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:39:41,039 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 10:40:07,668 - config - INFO - Added batch of 3 chunks to vector store
+2025-07-24 10:40:07,683 - config - INFO - File 70 processed successfully with 3 chunks
+2025-07-24 10:40:20,164 - config - INFO - Filter query: None
+2025-07-24 10:40:32,554 - config - INFO - Filter query: {'$and': [{'metadata': {'category': {'$eq': 'sei'}}}]}
+2025-07-24 10:40:45,109 - config - INFO - Filter query: {'$and': [{'metadata': {'category': {'$eq': 'containstitucional'}}}]}
+2025-07-24 10:40:51,937 - config - INFO - Filter query: None
+2025-07-24 10:41:06,666 - config - INFO - Filter query: None
+2025-07-24 10:41:32,891 - config - INFO - Filter query: None
+2025-07-24 10:42:11,667 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:42:11,668 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:42:15,563 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:42:15,572 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:42:15,572 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:42:17,991 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:42:18,001 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:42:20,379 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:42:20,430 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 10:42:29,792 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:42:29,792 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:42:33,367 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:42:33,375 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:42:33,375 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:42:35,717 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:42:35,724 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:42:38,130 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:42:38,190 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 10:42:47,614 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:42:47,615 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:42:51,220 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:42:51,225 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:42:51,225 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:42:53,756 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:42:53,762 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:42:56,093 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:42:56,148 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 10:43:07,983 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:43:07,983 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:43:11,437 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:43:11,442 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:43:11,442 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:43:13,737 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:43:13,743 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:43:16,349 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:43:16,403 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 10:55:43,858 - config - INFO - Filter query: None
+2025-07-24 10:57:24,246 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:57:24,246 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:57:28,150 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:57:28,456 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:57:28,456 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:57:30,681 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:57:30,686 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:57:32,894 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:57:32,975 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 10:57:59,215 - config - INFO - Filter query: None
+2025-07-24 10:59:02,708 - config - INFO - Filter query: None
+2025-07-24 10:59:42,054 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:59:42,054 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:59:46,506 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:59:46,514 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 10:59:46,514 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:59:48,773 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:59:48,781 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 10:59:51,003 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 10:59:51,053 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 11:00:14,117 - config - INFO - Filter query: None
+2025-07-24 11:01:02,118 - config - INFO - Filter query: None
+2025-07-24 11:06:22,251 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 11:06:22,251 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 11:06:26,264 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 11:06:26,273 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 11:06:26,273 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 11:06:28,500 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 11:06:28,510 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 11:06:30,839 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 11:06:30,913 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 11:06:41,420 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 11:06:41,420 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 11:06:45,033 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 11:06:45,040 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 11:06:45,040 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 11:06:47,273 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 11:06:47,279 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 11:06:49,612 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 11:06:49,673 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 11:06:57,724 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 11:06:57,724 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 11:07:01,113 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 11:07:01,120 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 11:07:01,120 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 11:07:03,410 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 11:07:03,416 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 11:07:06,127 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 11:07:06,183 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 11:07:15,427 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 11:07:15,427 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 11:07:18,860 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 11:07:18,866 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 11:07:18,867 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 11:07:21,156 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 11:07:21,163 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 11:07:23,400 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 11:07:23,448 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 11:08:42,573 - config - INFO - Filter query: None
+2025-07-24 11:09:38,594 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 11:09:38,594 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 11:09:42,052 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 11:09:42,059 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-07-24 11:09:42,059 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 11:09:44,335 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 11:09:44,341 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: rufimelo/bert-large-portuguese-cased-sts
+2025-07-24 11:09:46,554 - huggingface_hub.repocard_data - WARNING - Invalid model-index. Not loading eval results into CardData.
+2025-07-24 11:09:46,609 - config - INFO - Vector store initialized with collection: document_chunks_vector
+2025-07-24 11:10:10,627 - config - INFO - Filter query: None
+2025-07-24 11:10:36,122 - config - INFO - Filter query: None
+2025-07-24 11:10:56,381 - config - INFO - Filter query: None
+2025-07-24 11:36:21,469 - config - INFO - Filter query: None
+2025-07-24 11:36:35,527 - config - INFO - Filter query: None
+2025-07-24 13:56:20,162 - config - INFO - Filter query: {'$and': [{'metadata': {'category': {'$eq': 'containstitucional'}}}]}
+2025-07-24 13:59:27,378 - config - INFO - Filter query: None
+2025-07-24 13:59:59,222 - config - INFO - Filter query: {'$and': [{'metadata': {'category': {'$eq': 'containstitucional'}}}]}
+2025-07-24 14:14:34,713 - config - INFO - Filter query: None
+2025-07-24 14:16:59,210 - config - INFO - Filter query: {'$and': [{'metadata': {'category': {'$eq': 'containstitucional'}}}]}
+2025-07-24 14:20:17,889 - config - INFO - Added batch of 3 chunks to vector store
+2025-07-24 14:20:17,918 - config - INFO - File 71 processed successfully with 3 chunks
+2025-07-24 14:20:39,932 - config - INFO - Filter query: None

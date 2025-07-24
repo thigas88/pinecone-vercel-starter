@@ -1003,6 +1003,7 @@ async def process_file_async(
             db_chunk = DocumentChunk(
                 document_id=document_id,
                 ingest_history_id=ingest_history_id,
+                meta=metadata,
                 chunk_index=chunk["index"],
                 chunk_text=chunk["text"],
                 hash=chunk["hash"]

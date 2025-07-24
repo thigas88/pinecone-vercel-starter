@@ -25,3 +25,4 @@ unstructured[pdf]
 unstructured[docx]
 openai
 pgvector
+markdown
