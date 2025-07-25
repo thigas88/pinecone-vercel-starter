@@ -27,3 +27,4 @@ openai
 pgvector
 markdown
 beautifulsoup4
+apscheduler

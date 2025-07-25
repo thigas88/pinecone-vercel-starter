@@ -13,7 +13,10 @@ import {
   FileText,
   RefreshCw,
   Play,
-  Pause
+  Pause,
+  Repeat,
+  CalendarDays,
+  Timer
 } from "lucide-react";
 
 interface Schedule {
@@ -21,13 +24,16 @@ interface Schedule {
   document_id: number;
   scheduled_for: string;
   status: string;
+  recurrence_type: string | null;
+  recurrence_interval: number | null;
+  recurrence_days_of_week: string[] | null;
+  recurrence_day_of_month: number | null;
+  recurrence_time: string | null;
+  next_execution: string | null;
+  last_execution: string | null;
+  is_active: string;
   created_at: string;
-  document?: {
-    id: number;
-    title: string | null;
-    url: string;
-    category: string | null;
-  };
+  updated_at: string;
 }
 
 interface Document {
@@ -36,8 +42,28 @@ interface Document {
   title: string | null;
   category: string | null;
   status: string;
-  scheduled_at: string | null;
 }
+
+interface ScheduleForm {
+  document_id: number | null;
+  scheduled_for: string;
+  scheduled_time: string;
+  recurrence_type: string;
+  recurrence_interval: number;
+  recurrence_days_of_week: string[];
+  recurrence_day_of_month: number;
+  recurrence_time: string;
+}
+
+const DAYS_OF_WEEK = [
+  { value: 'monday', label: 'Segunda' },
+  { value: 'tuesday', label: 'Terça' },
+  { value: 'wednesday', label: 'Quarta' },
+  { value: 'thursday', label: 'Quinta' },
+  { value: 'friday', label: 'Sexta' },
+  { value: 'saturday', label: 'Sábado' },
+  { value: 'sunday', label: 'Domingo' }
+];
 
 export default function SchedulesPage() {
   const [schedules, setSchedules] = useState<Schedule[]>([]);
@@ -45,12 +71,20 @@ export default function SchedulesPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
-  const [selectedSchedule, setSelectedSchedule] = useState<Schedule | null>(null);
-  const [filterStatus, setFilterStatus] = useState<string>("all");
+  const [editingSchedule, setEditingSchedule] = useState<Schedule | null>(null);
+  const [formData, setFormData] = useState<ScheduleForm>({
+    document_id: null,
+    scheduled_for: new Date().toISOString().split('T')[0],
+    scheduled_time: "09:00",
+    recurrence_type: "none",
+    recurrence_interval: 1,
+    recurrence_days_of_week: [],
+    recurrence_day_of_month: 1,
+    recurrence_time: "09:00"
+  });
 
   useEffect(() => {
     fetchData();
-    // Auto-refresh every 30 seconds
     const interval = setInterval(fetchData, 30000);
     return () => clearInterval(interval);
   }, []);
@@ -59,31 +93,21 @@ export default function SchedulesPage() {
     try {
       setLoading(true);
       
-      // Fetch documents
+      // Fetch schedules
+      const schedulesRes = await fetch("http://localhost:8000/admin/schedules");
+      if (!schedulesRes.ok) throw new Error("Failed to fetch schedules");
+      const schedulesData = await schedulesRes.json();
+      setSchedules(schedulesData);
+      
+      // Fetch documents (only web documents)
       const docsRes = await fetch("http://localhost:8000/admin/documents");
       if (!docsRes.ok) throw new Error("Failed to fetch documents");
       const docsData = await docsRes.json();
-      setDocuments(docsData);
+      const webDocs = docsData.filter((doc: Document) => 
+        doc.url && (doc.url.startsWith('http://') || doc.url.startsWith('https://'))
+      );
+      setDocuments(webDocs);
       
-      // Filter scheduled documents
-      const scheduledDocs = docsData.filter((doc: Document) => doc.scheduled_at);
-      
-      // Create schedule objects from scheduled documents
-      const scheduleData: Schedule[] = scheduledDocs.map((doc: Document) => ({
-        id: doc.id,
-        document_id: doc.id,
-        scheduled_for: doc.scheduled_at!,
-        status: doc.status,
-        created_at: doc.scheduled_at!,
-        document: {
-          id: doc.id,
-          title: doc.title,
-          url: doc.url,
-          category: doc.category
-        }
-      }));
-      
-      setSchedules(scheduleData);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
@@ -91,30 +115,151 @@ export default function SchedulesPage() {
     }
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.document_id) return;
+
+    try {
+      const scheduledDateTime = new Date(`${formData.scheduled_for}T${formData.scheduled_time}`);
+      
+      const payload = {
+        document_id: formData.document_id,
+        scheduled_for: scheduledDateTime.toISOString(),
+        recurrence_type: formData.recurrence_type === 'none' ? null : formData.recurrence_type,
+        recurrence_interval: formData.recurrence_type === 'custom' ? formData.recurrence_interval : null,
+        recurrence_days_of_week: formData.recurrence_type === 'weekly' ? formData.recurrence_days_of_week : null,
+        recurrence_day_of_month: formData.recurrence_type === 'monthly' ? formData.recurrence_day_of_month : null,
+        recurrence_time: formData.recurrence_type !== 'none' ? formData.recurrence_time : null
+      };
+
+      const url = editingSchedule 
+        ? `http://localhost:8000/admin/schedules/${editingSchedule.id}`
+        : "http://localhost:8000/admin/schedules";
+      
+      const method = editingSchedule ? "PUT" : "POST";
+
+      const response = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || "Failed to save schedule");
+      }
+
+      alert(`Agendamento ${editingSchedule ? 'atualizado' : 'criado'} com sucesso!`);
+      resetForm();
+      fetchData();
+    } catch (err) {
+      alert(`Erro ao salvar agendamento: ${err instanceof Error ? err.message : "Unknown error"}`);
+    }
+  };
+
+  const handleExecuteNow = async (schedule: Schedule) => {
+    if (!confirm("Executar este agendamento agora?")) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:8000/admin/schedules/${schedule.id}/execute`, {
+        method: "POST",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to execute schedule");
+      }
+
+      alert("Execução iniciada com sucesso!");
+      fetchData();
+    } catch (err) {
+      alert(`Erro ao executar: ${err instanceof Error ? err.message : "Unknown error"}`);
+    }
+  };
+
+  const handleDelete = async (schedule: Schedule) => {
+    if (!confirm("Tem certeza que deseja desativar este agendamento?")) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:8000/admin/schedules/${schedule.id}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete schedule");
+      }
+
+      alert("Agendamento desativado com sucesso!");
+      fetchData();
+    } catch (err) {
+      alert(`Erro ao desativar: ${err instanceof Error ? err.message : "Unknown error"}`);
+    }
+  };
+
+  const handleEdit = (schedule: Schedule) => {
+    const scheduledDate = new Date(schedule.scheduled_for);
+    
+    setEditingSchedule(schedule);
+    setFormData({
+      document_id: schedule.document_id,
+      scheduled_for: scheduledDate.toISOString().split('T')[0],
+      scheduled_time: scheduledDate.toTimeString().slice(0, 5),
+      recurrence_type: schedule.recurrence_type || 'none',
+      recurrence_interval: schedule.recurrence_interval || 1,
+      recurrence_days_of_week: schedule.recurrence_days_of_week || [],
+      recurrence_day_of_month: schedule.recurrence_day_of_month || 1,
+      recurrence_time: schedule.recurrence_time || "09:00"
+    });
+    setShowAddModal(true);
+  };
+
+  const resetForm = () => {
+    setFormData({
+      document_id: null,
+      scheduled_for: new Date().toISOString().split('T')[0],
+      scheduled_time: "09:00",
+      recurrence_type: "none",
+      recurrence_interval: 1,
+      recurrence_days_of_week: [],
+      recurrence_day_of_month: 1,
+      recurrence_time: "09:00"
+    });
+    setEditingSchedule(null);
+    setShowAddModal(false);
+  };
+
   const formatDate = (dateString: string | null) => {
     if (!dateString) return "N/A";
     return new Date(dateString).toLocaleString("pt-BR");
   };
 
-  const getTimeUntil = (dateString: string) => {
-    const scheduled = new Date(dateString);
-    const now = new Date();
-    const diff = scheduled.getTime() - now.getTime();
+  const getRecurrenceText = (schedule: Schedule) => {
+    if (!schedule.recurrence_type) return "Execução única";
     
-    if (diff < 0) return "Atrasado";
-    
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    
-    if (days > 0) return `${days}d ${hours}h`;
-    if (hours > 0) return `${hours}h ${minutes}m`;
-    return `${minutes}m`;
+    switch (schedule.recurrence_type) {
+      case 'daily':
+        return `Diariamente às ${schedule.recurrence_time}`;
+      case 'weekly':
+        const days = schedule.recurrence_days_of_week?.map(d => 
+          DAYS_OF_WEEK.find(dw => dw.value === d)?.label
+        ).join(', ');
+        return `Semanalmente (${days}) às ${schedule.recurrence_time}`;
+      case 'monthly':
+        return `Mensalmente no dia ${schedule.recurrence_day_of_month} às ${schedule.recurrence_time}`;
+      case 'custom':
+        return `A cada ${schedule.recurrence_interval} dias às ${schedule.recurrence_time}`;
+      default:
+        return schedule.recurrence_type;
+    }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case "indexed":
       case "completed":
         return <CheckCircle className="w-5 h-5 text-green-500" />;
       case "processing":
@@ -128,76 +273,9 @@ export default function SchedulesPage() {
     }
   };
 
-  const getStatusBadge = (status: string) => {
-    const statusClasses = {
-      indexed: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
-      completed: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
-      processing: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200",
-      error: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200",
-      agendado: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
-    };
-
-    return (
-      <span className={`px-2 py-1 text-xs rounded-full ${statusClasses[status as keyof typeof statusClasses] || "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200"}`}>
-        {status}
-      </span>
-    );
+  const getDocumentById = (docId: number) => {
+    return documents.find(d => d.id === docId);
   };
-
-  const handleExecuteNow = async (schedule: Schedule) => {
-    if (!confirm(`Executar o processamento de "${schedule.document?.title || schedule.document?.url}" agora?`)) {
-      return;
-    }
-
-    try {
-      // Trigger immediate processing
-      const response = await fetch("http://localhost:8000/admin/ingest/document", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          url: schedule.document?.url,
-          title: schedule.document?.title,
-          category: schedule.document?.category,
-          splitting_method: "character",
-          chunk_size: 1000,
-          chunk_overlap: 200,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to execute processing");
-      }
-
-      alert("Processamento iniciado com sucesso!");
-      fetchData();
-    } catch (err) {
-      alert(`Erro ao executar: ${err instanceof Error ? err.message : "Unknown error"}`);
-    }
-  };
-
-  // Filter schedules
-  const filteredSchedules = schedules.filter(schedule => {
-    return filterStatus === "all" || schedule.status === filterStatus;
-  });
-
-  // Group schedules by date
-  const groupedSchedules = filteredSchedules.reduce((groups, schedule) => {
-    const date = new Date(schedule.scheduled_for).toLocaleDateString("pt-BR");
-    if (!groups[date]) {
-      groups[date] = [];
-    }
-    groups[date].push(schedule);
-    return groups;
-  }, {} as { [key: string]: Schedule[] });
-
-  // Sort dates
-  const sortedDates = Object.keys(groupedSchedules).sort((a, b) => {
-    const dateA = new Date(a.split('/').reverse().join('-'));
-    const dateB = new Date(b.split('/').reverse().join('-'));
-    return dateA.getTime() - dateB.getTime();
-  });
 
   if (loading && schedules.length === 0) {
     return (
@@ -251,270 +329,324 @@ export default function SchedulesPage() {
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Pendentes</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Ativos</p>
               <p className="text-2xl font-bold text-gray-800 dark:text-white">
-                {schedules.filter(s => s.status === "agendado").length}
-              </p>
-            </div>
-            <Clock className="w-8 h-8 text-blue-500" />
-          </div>
-        </div>
-        
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Processando</p>
-              <p className="text-2xl font-bold text-gray-800 dark:text-white">
-                {schedules.filter(s => s.status === "processing").length}
-              </p>
-            </div>
-            <RefreshCw className="w-8 h-8 text-yellow-500" />
-          </div>
-        </div>
-        
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Concluídos</p>
-              <p className="text-2xl font-bold text-gray-800 dark:text-white">
-                {schedules.filter(s => s.status === "indexed" || s.status === "completed").length}
+                {schedules.filter(s => s.is_active === 'true').length}
               </p>
             </div>
             <CheckCircle className="w-8 h-8 text-green-500" />
           </div>
         </div>
-      </div>
-
-      {/* Filter */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 mb-6">
-        <div className="flex items-center space-x-4">
-          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-            Filtrar por status:
-          </label>
-          <select
-            value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value)}
-            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-          >
-            <option value="all">Todos</option>
-            <option value="agendado">Agendados</option>
-            <option value="processing">Processando</option>
-            <option value="indexed">Concluídos</option>
-            <option value="error">Erros</option>
-          </select>
+        
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Recorrentes</p>
+              <p className="text-2xl font-bold text-gray-800 dark:text-white">
+                {schedules.filter(s => s.recurrence_type !== null).length}
+              </p>
+            </div>
+            <Repeat className="w-8 h-8 text-blue-500" />
+          </div>
+        </div>
+        
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Únicos</p>
+              <p className="text-2xl font-bold text-gray-800 dark:text-white">
+                {schedules.filter(s => s.recurrence_type === null).length}
+              </p>
+            </div>
+            <Timer className="w-8 h-8 text-purple-500" />
+          </div>
         </div>
       </div>
 
-      {/* Schedule Timeline */}
-      {sortedDates.length === 0 ? (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-8 text-center">
-          <Calendar className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-          <p className="text-gray-500 dark:text-gray-400">
-            Nenhum agendamento encontrado
-          </p>
-        </div>
-      ) : (
-        <div className="space-y-6">
-          {sortedDates.map(date => (
-            <div key={date}>
-              <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4 flex items-center">
-                <Calendar className="w-5 h-5 mr-2" />
-                {date}
-              </h3>
-              
-              <div className="space-y-4">
-                {groupedSchedules[date].map(schedule => (
-                  <div key={schedule.id} className="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-shadow">
-                    <div className="p-6">
-                      <div className="flex items-start justify-between">
-                        <div className="flex items-start space-x-4">
-                          {getStatusIcon(schedule.status)}
-                          <div className="flex-1">
-                            <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-1">
-                              {schedule.document?.title || `Documento #${schedule.document_id}`}
-                            </h4>
-                            <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                              {schedule.document?.url}
-                            </p>
-                            
-                            <div className="flex items-center space-x-4 text-sm">
-                              <div className="flex items-center text-gray-600 dark:text-gray-400">
-                                <Clock className="w-4 h-4 mr-1" />
-                                {formatDate(schedule.scheduled_for)}
-                              </div>
-                              {schedule.status === "agendado" && (
-                                <div className="flex items-center text-blue-600 dark:text-blue-400">
-                                  <AlertCircle className="w-4 h-4 mr-1" />
-                                  Em {getTimeUntil(schedule.scheduled_for)}
-                                </div>
-                              )}
-                              {schedule.document?.category && (
-                                <div className="flex items-center text-gray-600 dark:text-gray-400">
-                                  <FileText className="w-4 h-4 mr-1" />
-                                  {schedule.document.category}
-                                </div>
-                              )}
+      {/* Schedules List */}
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+        {schedules.length === 0 ? (
+          <div className="p-8 text-center">
+            <Calendar className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+            <p className="text-gray-500 dark:text-gray-400">
+              Nenhum agendamento encontrado
+            </p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+              <thead className="bg-gray-50 dark:bg-gray-700">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                    Documento
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                    Próxima Execução
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                    Recorrência
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                    Última Execução
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                    Status
+                  </th>
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                    Ações
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                {schedules.map((schedule) => {
+                  const document = getDocumentById(schedule.document_id);
+                  return (
+                    <tr key={schedule.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center">
+                          <FileText className="w-5 h-5 text-gray-400 mr-3" />
+                          <div>
+                            <div className="text-sm font-medium text-gray-900 dark:text-white">
+                              {document?.title || `Documento #${schedule.document_id}`}
+                            </div>
+                            <div className="text-sm text-gray-500 dark:text-gray-400">
+                              {document?.category || "Sem categoria"}
                             </div>
                           </div>
                         </div>
-                        
-                        <div className="flex items-center space-x-2">
-                          {getStatusBadge(schedule.status)}
-                          {schedule.status === "agendado" && (
-                            <button
-                              onClick={() => handleExecuteNow(schedule)}
-                              className="p-2 text-blue-600 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
-                              title="Executar agora"
-                            >
-                              <Play className="w-5 h-5" />
-                            </button>
-                          )}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900 dark:text-white">
+                          {formatDate(schedule.next_execution || schedule.scheduled_for)}
                         </div>
-                      </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center text-sm text-gray-900 dark:text-white">
+                          {schedule.recurrence_type && <Repeat className="w-4 h-4 mr-2" />}
+                          {getRecurrenceText(schedule)}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                        {formatDate(schedule.last_execution)}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center">
+                          {getStatusIcon(schedule.status)}
+                          <span className="ml-2 text-sm text-gray-900 dark:text-white">
+                            {schedule.is_active ? 'Ativo' : 'Inativo'}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <div className="flex items-center justify-end space-x-2">
+                          <button
+                            onClick={() => handleEdit(schedule)}
+                            className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+                            title="Editar"
+                          >
+                            <Edit className="w-5 h-5" />
+                          </button>
+                          <button
+                            onClick={() => handleExecuteNow(schedule)}
+                            className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300"
+                            title="Executar agora"
+                          >
+                            <Play className="w-5 h-5" />
+                          </button>
+                          <button
+                            onClick={() => handleDelete(schedule)}
+                            className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
+                            title="Desativar"
+                          >
+                            <Trash2 className="w-5 h-5" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+
+      {/* Add/Edit Schedule Modal */}
+      {showAddModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-hidden">
+            <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+              <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
+                {editingSchedule ? "Editar Agendamento" : "Novo Agendamento"}
+              </h2>
+            </div>
+            
+            <form onSubmit={handleSubmit} className="p-6 overflow-y-auto max-h-[70vh]">
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Documento (apenas documentos web)
+                  </label>
+                  <select
+                    value={formData.document_id || ""}
+                    onChange={(e) => setFormData({ ...formData, document_id: parseInt(e.target.value) })}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    required
+                  >
+                    <option value="">Selecione um documento</option>
+                    {documents.map(doc => (
+                      <option key={doc.id} value={doc.id}>
+                        {doc.title || doc.url} {doc.category && `(${doc.category})`}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Data Inicial
+                    </label>
+                    <input
+                      type="date"
+                      value={formData.scheduled_for}
+                      onChange={(e) => setFormData({ ...formData, scheduled_for: e.target.value })}
+                      min={new Date().toISOString().split('T')[0]}
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                      required
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Hora Inicial
+                    </label>
+                    <input
+                      type="time"
+                      value={formData.scheduled_time}
+                      onChange={(e) => setFormData({ ...formData, scheduled_time: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                      required
+                    />
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Tipo de Recorrência
+                  </label>
+                  <select
+                    value={formData.recurrence_type}
+                    onChange={(e) => setFormData({ ...formData, recurrence_type: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  >
+                    <option value="none">Execução Única</option>
+                    <option value="daily">Diariamente</option>
+                    <option value="weekly">Semanalmente</option>
+                    <option value="monthly">Mensalmente</option>
+                    <option value="custom">Personalizado</option>
+                  </select>
+                </div>
+                
+                {formData.recurrence_type !== 'none' && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Hora da Recorrência
+                    </label>
+                    <input
+                      type="time"
+                      value={formData.recurrence_time}
+                      onChange={(e) => setFormData({ ...formData, recurrence_time: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    />
+                  </div>
+                )}
+                
+                {formData.recurrence_type === 'weekly' && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Dias da Semana
+                    </label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {DAYS_OF_WEEK.map(day => (
+                        <label key={day.value} className="flex items-center">
+                          <input
+                            type="checkbox"
+                            value={day.value}
+                            checked={formData.recurrence_days_of_week.includes(day.value)}
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                setFormData({
+                                  ...formData,
+                                  recurrence_days_of_week: [...formData.recurrence_days_of_week, day.value]
+                                });
+                              } else {
+                                setFormData({
+                                  ...formData,
+                                  recurrence_days_of_week: formData.recurrence_days_of_week.filter(d => d !== day.value)
+                                });
+                              }
+                            }}
+                            className="mr-2"
+                          />
+                          {day.label}
+                        </label>
+                      ))}
                     </div>
                   </div>
-                ))}
+                )}
+                
+                {formData.recurrence_type === 'monthly' && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Dia do Mês
+                    </label>
+                    <input
+                      type="number"
+                      value={formData.recurrence_day_of_month}
+                      onChange={(e) => setFormData({ ...formData, recurrence_day_of_month: parseInt(e.target.value) })}
+                      min="1"
+                      max="31"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    />
+                  </div>
+                )}
+                
+                {formData.recurrence_type === 'custom' && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Intervalo em Dias
+                    </label>
+                    <input
+                      type="number"
+                      value={formData.recurrence_interval}
+                      onChange={(e) => setFormData({ ...formData, recurrence_interval: parseInt(e.target.value) })}
+                      min="1"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    />
+                  </div>
+                )}
               </div>
-            </div>
-          ))}
+              
+              <div className="mt-6 flex justify-end space-x-3">
+                <button
+                  type="button"
+                  onClick={resetForm}
+                  className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  {editingSchedule ? "Atualizar" : "Criar"} Agendamento
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       )}
-
-      {/* Add Schedule Modal */}
-      {showAddModal && (
-        <AddScheduleModal 
-          documents={documents.filter(d => !d.scheduled_at)}
-          onClose={() => setShowAddModal(false)}
-          onSuccess={() => {
-            setShowAddModal(false);
-            fetchData();
-          }}
-        />
-      )}
-    </div>
-  );
-}
-
-// Add Schedule Modal Component
-function AddScheduleModal({ 
-  documents, 
-  onClose, 
-  onSuccess 
-}: { 
-  documents: Document[]; 
-  onClose: () => void; 
-  onSuccess: () => void;
-}) {
-  const [selectedDoc, setSelectedDoc] = useState<number | null>(null);
-  const [scheduledDate, setScheduledDate] = useState("");
-  const [scheduledTime, setScheduledTime] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!selectedDoc || !scheduledDate || !scheduledTime) return;
-
-    setLoading(true);
-    setError(null);
-
-    try {
-      // Combine date and time
-      const scheduledAt = new Date(`${scheduledDate}T${scheduledTime}`).toISOString();
-      
-      // Here you would typically update the document with the scheduled time
-      // For now, we'll just show a success message
-      alert(`Agendamento criado para ${scheduledAt}`);
-      onSuccess();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white dark:bg-gray-800 rounded-lg max-w-md w-full">
-        <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
-            Novo Agendamento
-          </h2>
-        </div>
-        
-        <form onSubmit={handleSubmit} className="p-6">
-          {error && (
-            <div className="mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
-              <p className="text-red-800 dark:text-red-200">{error}</p>
-            </div>
-          )}
-          
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Documento
-              </label>
-              <select
-                value={selectedDoc || ""}
-                onChange={(e) => setSelectedDoc(parseInt(e.target.value))}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                required
-              >
-                <option value="">Selecione um documento</option>
-                {documents.map(doc => (
-                  <option key={doc.id} value={doc.id}>
-                    {doc.title || doc.url}
-                  </option>
-                ))}
-              </select>
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Data
-              </label>
-              <input
-                type="date"
-                value={scheduledDate}
-                onChange={(e) => setScheduledDate(e.target.value)}
-                min={new Date().toISOString().split('T')[0]}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                required
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Hora
-              </label>
-              <input
-                type="time"
-                value={scheduledTime}
-                onChange={(e) => setScheduledTime(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                required
-              />
-            </div>
-          </div>
-          
-          <div className="mt-6 flex justify-end space-x-3">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
-            >
-              Cancelar
-            </button>
-            <button
-              type="submit"
-              disabled={loading}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
-            >
-              {loading ? "Criando..." : "Criar Agendamento"}
-            </button>
-          </div>
-        </form>
-      </div>
     </div>
   );
 }

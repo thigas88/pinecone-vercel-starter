@@ -47,8 +47,16 @@ interface IngestHistory {
   error: string | null;
 }
 
+interface Category {
+  id: number;
+  name: string;
+  description: string | null;
+  color: string | null;
+}
+
 export default function DocumentsPage() {
   const [documents, setDocuments] = useState<Document[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [selectedDoc, setSelectedDoc] = useState<Document | null>(null);
   const [history, setHistory] = useState<IngestHistory[]>([]);
   const [loading, setLoading] = useState(true);
@@ -60,22 +68,32 @@ export default function DocumentsPage() {
   const [filterCategory, setFilterCategory] = useState<string>("all");
 
   useEffect(() => {
-    fetchDocuments();
+    fetchData();
   }, []);
 
-  const fetchDocuments = async () => {
+  const fetchData = async () => {
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:8000/admin/documents");
-      if (!res.ok) throw new Error("Failed to fetch documents");
-      const data = await res.json();
-      setDocuments(data);
+      
+      // Fetch documents
+      const docsRes = await fetch("http://localhost:8000/admin/documents");
+      if (!docsRes.ok) throw new Error("Failed to fetch documents");
+      const docsData = await docsRes.json();
+      setDocuments(docsData);
+      
+      // Fetch categories
+      const catRes = await fetch("http://localhost:8000/admin/categories");
+      if (!catRes.ok) throw new Error("Failed to fetch categories");
+      const catData = await catRes.json();
+      setCategories(catData);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
       setLoading(false);
     }
   };
+
+  const fetchDocuments = fetchData;
 
   const fetchHistory = async (docId: number) => {
     try {
@@ -187,9 +205,6 @@ export default function DocumentsPage() {
     return matchesSearch && matchesStatus && matchesCategory;
   });
 
-  // Get unique categories
-  const categories = Array.from(new Set(documents.map(d => d.category).filter(Boolean)));
-
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -262,8 +277,8 @@ export default function DocumentsPage() {
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
             >
               <option value="all">Todas</option>
-              {categories.map(cat => cat && (
-                <option key={cat} value={cat}>{cat}</option>
+              {categories.map(cat => (
+                <option key={cat.id} value={cat.name}>{cat.name}</option>
               ))}
             </select>
           </div>
@@ -444,12 +459,13 @@ export default function DocumentsPage() {
 
       {/* Add Document Modal */}
       {showAddModal && (
-        <AddDocumentModal 
+        <AddDocumentModal
           onClose={() => setShowAddModal(false)}
           onSuccess={() => {
             setShowAddModal(false);
             fetchDocuments();
           }}
+          categories={categories}
         />
       )}
     </div>
@@ -457,7 +473,15 @@ export default function DocumentsPage() {
 }
 
 // Add Document Modal Component
-function AddDocumentModal({ onClose, onSuccess }: { onClose: () => void; onSuccess: () => void }) {
+function AddDocumentModal({
+  onClose,
+  onSuccess,
+  categories
+}: {
+  onClose: () => void;
+  onSuccess: () => void;
+  categories: Category[];
+}) {
   const [formData, setFormData] = useState({
     url: "",
     title: "",
@@ -471,6 +495,7 @@ function AddDocumentModal({ onClose, onSuccess }: { onClose: () => void; onSucce
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [processingStarted, setProcessingStarted] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -493,8 +518,16 @@ function AddDocumentModal({ onClose, onSuccess }: { onClose: () => void; onSucce
         throw new Error("Failed to add document");
       }
 
-      alert("Documento adicionado com sucesso!");
-      onSuccess();
+      const result = await response.json();
+      setProcessingStarted(true);
+      
+      // Show success message with processing info
+      alert(`Documento adicionado com sucesso!\n\nID: ${result.document_id}\nStatus: ${result.status}\n\nO processamento está sendo executado em background.`);
+      
+      // Close modal after a short delay
+      setTimeout(() => {
+        onSuccess();
+      }, 2000);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
@@ -549,12 +582,16 @@ function AddDocumentModal({ onClose, onSuccess }: { onClose: () => void; onSucce
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Categoria
               </label>
-              <input
-                type="text"
+              <select
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-              />
+              >
+                <option value="">Selecione uma categoria</option>
+                {categories.map(cat => (
+                  <option key={cat.id} value={cat.name}>{cat.name}</option>
+                ))}
+              </select>
             </div>
             
             <div>
@@ -631,17 +668,27 @@ function AddDocumentModal({ onClose, onSuccess }: { onClose: () => void; onSucce
             </div>
           </div>
           
+          {processingStarted && (
+            <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+              <p className="text-blue-800 dark:text-blue-200 flex items-center">
+                <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                Processamento iniciado em background...
+              </p>
+            </div>
+          )}
+          
           <div className="mt-6 flex justify-end space-x-3">
             <button
               type="button"
               onClick={onClose}
               className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+              disabled={loading}
             >
               Cancelar
             </button>
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || processingStarted}
               className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
             >
               {loading ? "Adicionando..." : "Adicionar Documento"}

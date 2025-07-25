@@ -28,7 +28,7 @@ import time
 import threading
 import sqlite3
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 import tempfile
 import aiofiles
 from pathlib import Path
@@ -38,9 +38,13 @@ from monitor import ConceptDriftDetector
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
-from models import Base, Document, IngestHistory, DocumentChunk
+from models import Base, Document, IngestHistory, DocumentChunk, IngestSchedule, Category
 from typing import List
 from pydantic import BaseModel, ConfigDict
+from datetime import time
+import asyncio
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from apscheduler.triggers.cron import CronTrigger
 
 from dotenv import find_dotenv, load_dotenv
 
@@ -64,7 +68,13 @@ app = FastAPI(
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:3001", "*"],  # In production, specify exact origins
+    allow_origins=[
+        "http://localhost:3000", 
+        "http://localhost:3001", 
+        "http://10.0.100.118:3001", 
+        "http://10.0.100.11:3001",
+        "*"
+    ],  # In production, specify exact origins
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -226,6 +236,47 @@ class ChunkOut(BaseModel):
     chunk_text: str
     hash: str
     created_at: datetime
+    model_config = ConfigDict(from_attributes=True)
+
+class CategoryCreate(BaseModel):
+    name: str
+    description: Optional[str] = None
+    color: Optional[str] = None
+
+class CategoryOut(BaseModel):
+    id: int
+    name: str
+    description: Optional[str] = None
+    color: Optional[str] = None
+    is_active: str
+    created_at: datetime
+    updated_at: datetime
+    model_config = ConfigDict(from_attributes=True)
+
+class ScheduleCreate(BaseModel):
+    document_id: int
+    scheduled_for: datetime
+    recurrence_type: Optional[str] = None  # 'daily', 'weekly', 'monthly', 'custom'
+    recurrence_interval: Optional[int] = None
+    recurrence_days_of_week: Optional[List[str]] = None
+    recurrence_day_of_month: Optional[int] = None
+    recurrence_time: Optional[str] = None
+
+class ScheduleOut(BaseModel):
+    id: int
+    document_id: int
+    scheduled_for: datetime
+    status: str
+    recurrence_type: Optional[str] = None
+    recurrence_interval: Optional[int] = None
+    recurrence_days_of_week: Optional[List[str]] = None
+    recurrence_day_of_month: Optional[int] = None
+    recurrence_time: Optional[str] = None
+    next_execution: Optional[datetime] = None
+    last_execution: Optional[datetime] = None
+    is_active: bool
+    created_at: datetime
+    updated_at: datetime
     model_config = ConfigDict(from_attributes=True)
 
 def remove_accents(text):
@@ -665,45 +716,11 @@ async def classify_question(question_request: QuestionRequest):
             raise e
         raise HTTPException(status_code=500, detail=str(e))
 
-# @app.post('/admin/documents/{document_id}/chunks')
-# def add_chunks(document_id: int, req: ChunksIngestRequest, db: Session = Depends(get_db)):
-#     doc = db.query(Document).filter(Document.id == document_id).first()
-#     if not doc:
-#         raise HTTPException(status_code=404, detail='Documento não encontrado')
-#     for chunk in req.chunks:
-#         db_chunk = DocumentChunk(
-#             document_id=document_id,
-#             ingest_history_id=req.ingest_history_id,
-#             chunk_index=chunk.chunk_index,
-#             chunk_text=chunk.chunk_text,
-#             hash=chunk.hash
-#         )
-#         db.add(db_chunk)
-#     db.commit()
-#     return {"message": f"{len(req.chunks)} chunks adicionados ao documento {document_id}."}
 
 @app.get('/admin/documents/{document_id}/chunks', response_model=List[ChunkOut])
 def get_chunks(document_id: int, db: Session = Depends(get_db)):
     chunks = db.query(DocumentChunk).filter(DocumentChunk.document_id == document_id).order_by(DocumentChunk.chunk_index).all()
     return chunks
-
-# @app.post('/admin/documents', response_model=DocumentOut)
-# def create_document(doc: DocumentCreate, db: Session = Depends(get_db)):
-#     db_doc = Document(
-#         url=doc.url,
-#         title=doc.title,
-#         tags=doc.tags,
-#         category=doc.category,
-#         splitting_method=doc.splitting_method,
-#         chunk_size=doc.chunk_size,
-#         overlap=doc.overlap,
-#         file_name=doc.file_name,
-#         scheduled_at=doc.scheduled_at
-#     )
-#     db.add(db_doc)
-#     db.commit()
-#     db.refresh(db_doc)
-#     return db_doc
 
 @app.get('/admin/documents', response_model=List[DocumentOut])
 def list_documents(db: Session = Depends(get_db)):
@@ -715,19 +732,6 @@ def list_documents(db: Session = Depends(get_db)):
 def get_document_history(doc_id: int, db: Session = Depends(get_db)):
     history = db.query(IngestHistory).filter(IngestHistory.document_id == doc_id).order_by(IngestHistory.started_at.desc()).all()
     return history
-
-# @app.post('/admin/documents/{doc_id}/reindex')
-# def reindex_document(doc_id: int, db: Session = Depends(get_db)):
-#     # Aqui entraria a lógica de reindexação: apagar chunks antigos do Pinecone, reindexar, atualizar status e histórico
-#     # Exemplo de atualização de status:
-#     doc = db.query(Document).filter(Document.id == doc_id).first()
-#     if not doc:
-#         raise HTTPException(status_code=404, detail='Documento não encontrado')
-#     doc.status = 'processando'
-#     db.commit()
-#     # Chamar rotina de reindexação (assíncrona ou não)
-#     # Após finalizar, atualizar status e inserir registro em ingest_history
-#     return {"message": f"Reindexação do documento {doc_id} agendada/iniciada."}
 
 @app.post('/admin/ingest/document', response_model=DocumentIngestResponse)
 async def ingest_document(
@@ -1301,6 +1305,303 @@ async def fetch_document_content(doc_id: int, db: Session = Depends(get_db)):
     except Exception as e:
         logger.error(f"Failed to fetch document content: {e}")
         raise HTTPException(status_code=500, detail=str(e))
+
+# Category Management Endpoints
+@app.get('/admin/categories', response_model=List[CategoryOut])
+def list_categories(db: Session = Depends(get_db)):
+    """List all categories."""
+    categories = db.query(Category).filter(Category.is_active == 'true').order_by(Category.name).all()
+    return categories
+
+@app.post('/admin/categories', response_model=CategoryOut)
+def create_category(category: CategoryCreate, db: Session = Depends(get_db)):
+    """Create a new category."""
+    db_category = Category(
+        name=category.name,
+        description=category.description,
+        color=category.color
+    )
+    db.add(db_category)
+    try:
+        db.commit()
+        db.refresh(db_category)
+        return db_category
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=400, detail=f"Category already exists or error: {str(e)}")
+
+@app.put('/admin/categories/{category_id}', response_model=CategoryOut)
+def update_category(category_id: int, category: CategoryCreate, db: Session = Depends(get_db)):
+    """Update a category."""
+    db_category = db.query(Category).filter(Category.id == category_id).first()
+    if not db_category:
+        raise HTTPException(status_code=404, detail="Category not found")
+    
+    db_category.name = category.name
+    db_category.description = category.description
+    db_category.color = category.color
+    
+    try:
+        db.commit()
+        db.refresh(db_category)
+        return db_category
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=400, detail=str(e))
+
+@app.delete('/admin/categories/{category_id}')
+def delete_category(category_id: int, db: Session = Depends(get_db)):
+    """Soft delete a category."""
+    db_category = db.query(Category).filter(Category.id == category_id).first()
+    if not db_category:
+        raise HTTPException(status_code=404, detail="Category not found")
+    
+    db_category.is_active = 'false'
+    db.commit()
+    return {"message": "Category deleted successfully"}
+
+# Schedule Management Endpoints
+@app.get('/admin/schedules', response_model=List[ScheduleOut])
+def list_schedules(db: Session = Depends(get_db)):
+    """List all schedules."""
+    schedules = db.query(IngestSchedule).filter(IngestSchedule.is_active == 'true').order_by(IngestSchedule.scheduled_for.desc()).all()
+    return schedules
+
+@app.post('/admin/schedules', response_model=ScheduleOut)
+async def create_schedule(
+    schedule: ScheduleCreate,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db)
+):
+    """Create a new schedule for document processing."""
+    # Verify document exists and is web-based
+    document = db.query(Document).filter(Document.id == schedule.document_id).first()
+    if not document:
+        raise HTTPException(status_code=404, detail="Document not found")
+    
+    if not document.url or not (document.url.startswith('http://') or document.url.startswith('https://')):
+        raise HTTPException(status_code=400, detail="Only web documents can be scheduled")
+    
+    days_of_week = schedule.recurrence_days_of_week
+
+    if schedule.recurrence_type != 'weekly':
+        days_of_week = None
+
+    print(f"days_of_week: {days_of_week}")
+
+    # Create schedule
+    db_schedule = IngestSchedule(
+        document_id=schedule.document_id,
+        scheduled_for=schedule.scheduled_for,
+        recurrence_type=schedule.recurrence_type,
+        recurrence_interval=schedule.recurrence_interval,
+        recurrence_days_of_week=schedule.recurrence_days_of_week,
+        recurrence_time=schedule.recurrence_time,
+        recurrence_day_of_month=schedule.recurrence_day_of_month,
+        next_execution=schedule.scheduled_for,
+        is_active=True
+    )
+    
+    db.add(db_schedule)
+    db.commit()
+    db.refresh(db_schedule)
+    
+    # Schedule the task
+    if schedule.scheduled_for <= datetime.now(timezone.utc):
+        # Execute immediately
+        background_tasks.add_task(execute_scheduled_reindex, db_schedule.id)
+    
+    return db_schedule
+
+@app.put('/admin/schedules/{schedule_id}', response_model=ScheduleOut)
+def update_schedule(
+    schedule_id: int,
+    schedule: ScheduleCreate,
+    db: Session = Depends(get_db)
+):
+    """Update a schedule."""
+    db_schedule = db.query(IngestSchedule).filter(IngestSchedule.id == schedule_id).first()
+    if not db_schedule:
+        raise HTTPException(status_code=404, detail="Schedule not found")
+    
+    db_schedule.scheduled_for = schedule.scheduled_for
+    db_schedule.recurrence_type = schedule.recurrence_type
+    db_schedule.recurrence_interval = schedule.recurrence_interval
+    db_schedule.recurrence_days_of_week = schedule.recurrence_days_of_week
+    db_schedule.recurrence_time = schedule.recurrence_time
+    db_schedule.recurrence_day_of_month = schedule.recurrence_day_of_month
+    db_schedule.next_execution = schedule.scheduled_for
+    
+    db.commit()
+    db.refresh(db_schedule)
+    return db_schedule
+
+@app.delete('/admin/schedules/{schedule_id}')
+def delete_schedule(schedule_id: int, db: Session = Depends(get_db)):
+    """Deactivate a schedule."""
+    db_schedule = db.query(IngestSchedule).filter(IngestSchedule.id == schedule_id).first()
+    if not db_schedule:
+        raise HTTPException(status_code=404, detail="Schedule not found")
+    
+    db_schedule.is_active = 'false'
+    db.commit()
+    return {"message": "Schedule deactivated successfully"}
+
+@app.post('/admin/schedules/{schedule_id}/execute')
+async def execute_schedule_now(
+    schedule_id: int,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db)
+):
+    """Execute a scheduled task immediately."""
+    db_schedule = db.query(IngestSchedule).filter(IngestSchedule.id == schedule_id).first()
+    if not db_schedule:
+        raise HTTPException(status_code=404, detail="Schedule not found")
+    
+    background_tasks.add_task(execute_scheduled_reindex, schedule_id)
+    return {"message": "Schedule execution started"}
+
+# Background task for scheduled reindexing
+async def execute_scheduled_reindex(schedule_id: int):
+    """Execute a scheduled reindex task."""
+    db = SessionLocal()
+    try:
+        schedule = db.query(IngestSchedule).filter(IngestSchedule.id == schedule_id).first()
+        logger.info(f"Run schedule for schedule_id: {schedule.id}")
+        if not schedule or schedule.is_active != True:
+            return
+        
+        document = schedule.document
+        if not document:
+            return
+        
+        # Update schedule status
+        schedule.status = 'processing'
+        schedule.last_execution = datetime.utcnow()
+        db.commit()
+        
+        # Create ingest history
+        ingest_history = IngestHistory(
+            document_id=document.id,
+            status="processing",
+            message="Scheduled reindexing started"
+        )
+        db.add(ingest_history)
+        db.commit()
+        
+        try:
+            # Fetch content from URL
+            import requests
+            from bs4 import BeautifulSoup
+            
+            response = requests.get(document.url, timeout=30)
+            response.raise_for_status()
+            
+            soup = BeautifulSoup(response.text, 'html.parser')
+            for script in soup(["script", "style"]):
+                script.decompose()
+            
+            text = soup.get_text()
+            lines = (line.strip() for line in text.splitlines())
+            chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
+            content = ' '.join(chunk for chunk in chunks if chunk)
+            
+            # Delete old chunks
+            vector_store_manager.delete_document_chunks(document.id)
+            db.query(DocumentChunk).filter(DocumentChunk.document_id == document.id).delete()
+            db.commit()
+            
+            # Process document
+            await process_document_async(
+                document.id,
+                ingest_history.id,
+                DocumentIngestRequest(
+                    content=content,
+                    url=document.url,
+                    title=document.title or f"Document {document.id}",
+                    category=document.category,
+                    tags=document.tags.split(',') if document.tags else [],
+                    splitting_method=document.splitting_method or "character",
+                    chunk_size=document.chunk_size or 1000,
+                    chunk_overlap=document.overlap or 200,
+                    file_type="web"
+                ),
+                db
+            )
+            
+            # Update schedule status
+            schedule.status = 'completed'
+            
+            # Calculate next execution if recurrent
+            if schedule.recurrence_type:
+                schedule.next_execution = calculate_next_execution(schedule)
+            
+            db.commit()
+            
+        except Exception as e:
+            logger.error(f"Failed to execute scheduled reindex: {e}")
+            schedule.status = 'error'
+            ingest_history.status = 'error'
+            ingest_history.error = str(e)
+            ingest_history.finished_at = datetime.utcnow()
+            db.commit()
+            
+    finally:
+        db.close()
+
+def calculate_next_execution(schedule: IngestSchedule) -> datetime:
+    """Calculate the next execution time based on recurrence settings."""
+    from datetime import timedelta
+    
+    current_time = datetime.utcnow()
+    
+    if schedule.recurrence_type == 'daily':
+        return current_time + timedelta(days=1)
+    elif schedule.recurrence_type == 'weekly':
+        return current_time + timedelta(weeks=1)
+    elif schedule.recurrence_type == 'monthly':
+        # Add one month (approximate)
+        return current_time + timedelta(days=30)
+    elif schedule.recurrence_type == 'custom' and schedule.recurrence_interval:
+        return current_time + timedelta(days=schedule.recurrence_interval)
+    else:
+        return None
+
+# Initialize scheduler for recurring tasks
+scheduler = AsyncIOScheduler()
+
+async def check_scheduled_tasks():
+    """Check for scheduled tasks that need to be executed."""
+    db = SessionLocal()
+    try:
+        # Find schedules that need to be executed
+        now = datetime.utcnow()
+        schedules = db.query(IngestSchedule).filter(
+            IngestSchedule.is_active == 'true',
+            IngestSchedule.next_execution <= now,
+            IngestSchedule.status != 'processing'
+        ).all()
+        
+        for schedule in schedules:
+            await execute_scheduled_reindex(schedule.id)
+            
+    except Exception as e:
+        logger.error(f"Error checking scheduled tasks: {e}")
+    finally:
+        db.close()
+
+# Schedule the task checker to run every minute
+scheduler.add_job(check_scheduled_tasks, 'interval', minutes=1)
+
+@app.on_event("startup")
+async def startup_event():
+    """Start the scheduler on app startup."""
+    scheduler.start()
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    """Shutdown the scheduler on app shutdown."""
+    scheduler.shutdown()
 
 if __name__ == '__main__':
     import uvicorn

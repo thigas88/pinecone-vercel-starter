@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey
+from sqlalchemy import Boolean, Column, Integer, String, Text, DateTime, Time, ForeignKey
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy.sql import func
@@ -42,7 +42,16 @@ class IngestSchedule(Base):
     document_id = Column(Integer, ForeignKey('documents.id', ondelete='CASCADE'))
     scheduled_for = Column(DateTime(timezone=True), nullable=False)
     status = Column(String, default='agendado')
+    recurrence_type = Column(String)  # 'daily', 'weekly', 'monthly', 'custom'
+    recurrence_interval = Column(Integer)  # interval in days for custom recurrence
+    recurrence_days_of_week = Column(JSONB, nullable=True)  # for weekly: ['monday', 'tuesday', etc]
+    recurrence_day_of_month = Column(Integer)  # for monthly: 1-31
+    recurrence_time = Column(String, nullable=True)  # time of day for recurrence
+    next_execution = Column(DateTime(timezone=True))
+    last_execution = Column(DateTime(timezone=True))
+    is_active = Column(Boolean, default=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
     document = relationship('Document', back_populates='schedules')
 
 class DocumentChunk(Base):
@@ -59,3 +68,13 @@ class DocumentChunk(Base):
     # Relationships
     document = relationship('Document', backref='chunks')
     ingest_history = relationship('IngestHistory', backref='chunks')
+
+class Category(Base):
+    __tablename__ = 'categories'
+    id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False, unique=True)
+    description = Column(Text)
+    color = Column(String)  # hex color for UI
+    is_active = Column(String, default='true')
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())

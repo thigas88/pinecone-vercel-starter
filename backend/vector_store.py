@@ -224,21 +224,23 @@ class VectorStoreManager:
         """
         try:
             # Build filter for TimescaleVector
-            filter_conditions = []
+            # Ref https://python.langchain.com/docs/integrations/vectorstores/pgvector/
+
+           
+            filter_query = None
             if filter_dict:
+                # Constrói um dicionário com todos os filtros
+                # A chave é o campo nos metadados, o valor é a condição
+                filters = {}
                 for key, value in filter_dict.items():
+                    # @todo filter by tags not functional
                     if isinstance(value, list):
-                        # Handle list values (e.g., tags)
-                        filter_conditions.append({
-                            "metadata": {key: {"$in": value}}
-                        })
+                        filters[key] = {"$in": value}
                     else:
-                        filter_conditions.append({
-                            "metadata": {key: {"$eq": value}}
-                        })
-            
-            # Combine filters
-            filter_query = {"$and": filter_conditions} if filter_conditions else None
+                        filters[key] = value
+                
+                # A estrutura final do filtro para a biblioteca PGVector
+                filter_query = filters
             
             logger.info(f"Filter query: {filter_query}")
 
@@ -250,6 +252,8 @@ class VectorStoreManager:
                 )
             if score_threshold:                
                 # Filter by score threshold
+                # similarity_search_with_score retorna uma distância, onde 0 é mais similar.
+                # 1 - score, converte a distância de cosseno em uma similaridade, onde 1 é mais similar.
                 results = [(doc, score) for doc, score in results if 1 - score >= score_threshold]
                 print(f"Filter by score threshold {score_threshold}")
                         

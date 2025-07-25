@@ -43,8 +43,42 @@ CREATE TABLE IF NOT EXISTS ingest_schedule (
     document_id INTEGER REFERENCES documents(id) ON DELETE CASCADE,
     scheduled_for TIMESTAMPTZ NOT NULL,
     status TEXT NOT NULL DEFAULT 'agendado',
-    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    recurrence_type TEXT, -- 'daily', 'weekly', 'monthly', 'custom'
+    recurrence_interval INTEGER, -- interval in days for custom recurrence
+    recurrence_days_of_week JSONB, -- for weekly: ['monday', 'tuesday', etc]
+    recurrence_day_of_month INTEGER, -- for monthly: 1-31
+    recurrence_time TIME, -- time of day for recurrence
+    next_execution TIMESTAMPTZ,
+    last_execution TIMESTAMPTZ,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+-- Tabela de categorias
+CREATE TABLE IF NOT EXISTS categories (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE,
+    description TEXT,
+    color TEXT, -- hex color for UI
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Insert default categories
+INSERT INTO categories (name, description, color) VALUES
+    ('assinatura', 'Documentos relacionados a assinaturas digitais', '#3B82F6'),
+    ('ecampus', 'Sistema e-Campus', '#10B981'),
+    ('pag', 'Pagamentos e financeiro', '#F59E0B'),
+    ('sei', 'Sistema SEI', '#8B5CF6'),
+    ('revista', 'Revistas e publicações', '#EC4899'),
+    ('wifi', 'Rede e conectividade', '#06B6D4'),
+    ('mautic', 'Sistema Mautic', '#6366F1'),
+    ('metabase', 'Analytics e BI', '#84CC16'),
+    ('evoto', 'Sistema de votação', '#F97316'),
+    ('outros', 'Outros documentos', '#6B7280')
+ON CONFLICT (name) DO NOTHING;
 
 -- Tabela de chunks/textos extraídos
 CREATE TABLE IF NOT EXISTS document_chunks (
@@ -80,7 +114,10 @@ SELECT create_hypertable(
 CREATE INDEX IF NOT EXISTS idx_documents_status ON documents(status);
 CREATE INDEX IF NOT EXISTS idx_documents_category ON documents(category);
 CREATE INDEX IF NOT EXISTS idx_ingest_schedule_status ON ingest_schedule(status);
+CREATE INDEX IF NOT EXISTS idx_ingest_schedule_next_execution ON ingest_schedule(next_execution) WHERE is_active = TRUE;
+CREATE INDEX IF NOT EXISTS idx_ingest_schedule_document_id ON ingest_schedule(document_id);
 CREATE INDEX IF NOT EXISTS idx_ingest_history_document_id ON ingest_history(document_id);
+CREATE INDEX IF NOT EXISTS idx_categories_name ON categories(name);
 
 -- Indexes for document chunks
 CREATE INDEX IF NOT EXISTS idx_document_chunks_document_id ON document_chunks(document_id);
@@ -113,3 +150,9 @@ CREATE TRIGGER update_documents_updated_at BEFORE UPDATE
 
 CREATE TRIGGER update_document_chunks_vector_updated_at BEFORE UPDATE
     ON document_chunks_vector FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
+
+CREATE TRIGGER update_ingest_schedule_updated_at BEFORE UPDATE
+    ON ingest_schedule FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
+
+CREATE TRIGGER update_categories_updated_at BEFORE UPDATE
+    ON categories FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();

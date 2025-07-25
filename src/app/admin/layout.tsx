@@ -4,10 +4,11 @@ import {
   FileText, 
   Activity, 
   Calendar, 
-  BarChart3, 
+  BarChart3,
   Settings,
   Home,
-  Search
+  Search,
+  Tag
 } from "lucide-react";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -22,6 +23,7 @@ const navItems = [
   { href: "/admin/documents", label: "Documentos", icon: FileText },
   { href: "/admin/processing", label: "Processamentos", icon: Activity },
   { href: "/admin/schedules", label: "Agendamentos", icon: Calendar },
+  { href: "/admin/categories", label: "Categorias", icon: Tag },
   { href: "/admin/statistics", label: "Estatísticas", icon: BarChart3 },
   { href: "/admin/search", label: "Buscar", icon: Search },
 ];
