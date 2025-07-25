@@ -3283,3 +3283,15 @@ LINE 1: ...SERT INTO "document_chunks_vector" (id, metadata, contents, ...
 2025-07-25 15:13:41,292 - apscheduler.executors.default - INFO - Job "check_scheduled_tasks (trigger: interval[0:01:00], next run at: 2025-07-25 15:14:41 -03)" executed successfully
 2025-07-25 15:14:41,290 - apscheduler.executors.default - INFO - Running job "check_scheduled_tasks (trigger: interval[0:01:00], next run at: 2025-07-25 15:15:41 -03)" (scheduled at 2025-07-25 15:14:41.289572-03:00)
 2025-07-25 15:14:41,294 - apscheduler.executors.default - INFO - Job "check_scheduled_tasks (trigger: interval[0:01:00], next run at: 2025-07-25 15:15:41 -03)" executed successfully
+2025-07-25 15:15:41,290 - apscheduler.executors.default - INFO - Running job "check_scheduled_tasks (trigger: interval[0:01:00], next run at: 2025-07-25 15:16:41 -03)" (scheduled at 2025-07-25 15:15:41.289572-03:00)
+2025-07-25 15:15:41,293 - apscheduler.executors.default - INFO - Job "check_scheduled_tasks (trigger: interval[0:01:00], next run at: 2025-07-25 15:16:41 -03)" executed successfully
+2025-07-25 15:16:41,290 - apscheduler.executors.default - INFO - Running job "check_scheduled_tasks (trigger: interval[0:01:00], next run at: 2025-07-25 15:17:41 -03)" (scheduled at 2025-07-25 15:16:41.289572-03:00)
+2025-07-25 15:16:41,293 - apscheduler.executors.default - INFO - Job "check_scheduled_tasks (trigger: interval[0:01:00], next run at: 2025-07-25 15:17:41 -03)" executed successfully
+2025-07-25 15:17:41,289 - apscheduler.executors.default - INFO - Running job "check_scheduled_tasks (trigger: interval[0:01:00], next run at: 2025-07-25 15:18:41 -03)" (scheduled at 2025-07-25 15:17:41.289572-03:00)
+2025-07-25 15:17:41,293 - apscheduler.executors.default - INFO - Job "check_scheduled_tasks (trigger: interval[0:01:00], next run at: 2025-07-25 15:18:41 -03)" executed successfully
+2025-07-25 15:18:41,290 - apscheduler.executors.default - INFO - Running job "check_scheduled_tasks (trigger: interval[0:01:00], next run at: 2025-07-25 15:19:41 -03)" (scheduled at 2025-07-25 15:18:41.289572-03:00)
+2025-07-25 15:18:41,293 - apscheduler.executors.default - INFO - Job "check_scheduled_tasks (trigger: interval[0:01:00], next run at: 2025-07-25 15:19:41 -03)" executed successfully
+2025-07-25 15:19:41,289 - apscheduler.executors.default - INFO - Running job "check_scheduled_tasks (trigger: interval[0:01:00], next run at: 2025-07-25 15:20:41 -03)" (scheduled at 2025-07-25 15:19:41.289572-03:00)
+2025-07-25 15:19:41,292 - apscheduler.executors.default - INFO - Job "check_scheduled_tasks (trigger: interval[0:01:00], next run at: 2025-07-25 15:20:41 -03)" executed successfully
+2025-07-25 15:20:41,290 - apscheduler.executors.default - INFO - Running job "check_scheduled_tasks (trigger: interval[0:01:00], next run at: 2025-07-25 15:21:41 -03)" (scheduled at 2025-07-25 15:20:41.289572-03:00)
+2025-07-25 15:20:41,293 - apscheduler.executors.default - INFO - Job "check_scheduled_tasks (trigger: interval[0:01:00], next run at: 2025-07-25 15:21:41 -03)" executed successfully

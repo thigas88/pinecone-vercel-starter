@@ -353,7 +353,7 @@ export default function SearchPage() {
         <div className="text-center py-12">
           <Search className="w-16 h-16 text-gray-400 mx-auto mb-4" />
           <p className="text-xl text-gray-600 dark:text-gray-400">
-            Nenhum resultado encontrado para "{query}"
+            Nenhum resultado encontrado para &quot;{query}&quot;
           </p>
           <p className="text-sm text-gray-500 dark:text-gray-500 mt-2">
             Tente usar termos diferentes ou ajustar os filtros
